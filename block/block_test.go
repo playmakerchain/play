@@ -15,14 +15,13 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
-	. "github.com/vechain/thor/block"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain/play/tx"
 )
 
 func TestBlock(t *testing.T) {
 
-	tx1 := new(tx.Builder).Clause(tx.NewClause(&thor.Address{})).Clause(tx.NewClause(&thor.Address{})).Build()
+	tx1 := new(tx.Builder).Clause(tx.NewClause(&play.Address{})).Clause(tx.NewClause(&play.Address{})).Build()
 	tx2 := new(tx.Builder).Clause(tx.NewClause(nil)).Build()
 
 	privKey := string("dce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65")
@@ -33,8 +32,8 @@ func TestBlock(t *testing.T) {
 		gasUsed     uint64       = 1000
 		gasLimit    uint64       = 14000
 		totalScore  uint64       = 101
-		emptyRoot   thor.Bytes32 = thor.BytesToBytes32([]byte("0"))
-		beneficiary thor.Address = thor.BytesToAddress([]byte("abc"))
+		emptyRoot   play.Bytes32 = play.BytesToBytes32([]byte("0"))
+		beneficiary play.Address = play.BytesToAddress([]byte("abc"))
 	)
 
 	block := new(Builder).
