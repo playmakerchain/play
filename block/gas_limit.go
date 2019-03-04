@@ -9,7 +9,7 @@ package block
 import (
 	"math"
 
-	"github.com/vechain/thor/thor"
+	"github.com/playmakerchain/play/play"
 )
 
 // GasLimit to support block gas limit validation and adjustment.
@@ -18,7 +18,7 @@ type GasLimit uint64
 // IsValid returns if the receiver is valid according to parent gas limit.
 func (gl GasLimit) IsValid(parentGasLimit uint64) bool {
 	gasLimit := uint64(gl)
-	if gasLimit < thor.MinGasLimit {
+	if gasLimit < play.MinGasLimit {
 		return false
 	}
 	var diff uint64
@@ -28,14 +28,14 @@ func (gl GasLimit) IsValid(parentGasLimit uint64) bool {
 		diff = parentGasLimit - gasLimit
 	}
 
-	return diff <= parentGasLimit/thor.GasLimitBoundDivisor
+	return diff <= parentGasLimit/play.GasLimitBoundDivisor
 }
 
 // Qualify the receiver according to parent gas limit, and returns
 // the qualified gas limit value.
 func (gl GasLimit) Qualify(parentGasLimit uint64) uint64 {
 	gasLimit := uint64(gl)
-	maxDiff := parentGasLimit / thor.GasLimitBoundDivisor
+	maxDiff := parentGasLimit / play.GasLimitBoundDivisor
 	if gasLimit > parentGasLimit {
 		diff := min64(gasLimit-parentGasLimit, maxDiff)
 		return GasLimit(parentGasLimit).Adjust(int64(diff))
@@ -48,7 +48,7 @@ func (gl GasLimit) Qualify(parentGasLimit uint64) uint64 {
 // gas limit value by apply `delta`.
 func (gl GasLimit) Adjust(delta int64) uint64 {
 	gasLimit := uint64(gl)
-	maxDiff := gasLimit / thor.GasLimitBoundDivisor
+	maxDiff := gasLimit / play.GasLimitBoundDivisor
 
 	if delta > 0 {
 		// increase
@@ -62,9 +62,9 @@ func (gl GasLimit) Adjust(delta int64) uint64 {
 
 	// reduce
 	diff := min64(uint64(-delta), maxDiff)
-	if thor.MinGasLimit+diff > gasLimit {
+	if play.MinGasLimit+diff > gasLimit {
 		// reach floor
-		return thor.MinGasLimit
+		return play.MinGasLimit
 	}
 	return gasLimit - diff
 }
