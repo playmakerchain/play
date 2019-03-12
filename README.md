@@ -1,2 +1,2 @@
-# play
+# powerplay
 Sports science meets blockchain technology
