@@ -12,8 +12,8 @@ import (
 	"sync/atomic"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain/play/metric"
-	"github.com/playmakerchain/play/tx"
+	"github.com/playmakerchain/powerplay/metric"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 // Block is an immutable block type.
