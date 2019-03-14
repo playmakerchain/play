@@ -7,8 +7,8 @@
 package block
 
 import (
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/tx"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 // Builder to make it easy to build a block object.
