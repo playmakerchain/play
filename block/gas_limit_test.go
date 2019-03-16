@@ -22,13 +22,13 @@ func TestGasLimit_IsValid(t *testing.T) {
 		parentGL uint64
 		want     bool
 	}{
-		{play.MinGasLimit, play.MinGasLimit, true},
-		{play.MinGasLimit - 1, play.MinGasLimit, false},
-		{play.MinGasLimit, play.MinGasLimit * 2, false},
-		{play.MinGasLimit * 2, play.MinGasLimit, false},
-		{play.MinGasLimit + play.MinGasLimit/play.GasLimitBoundDivisor, play.MinGasLimit, true},
-		{play.MinGasLimit*2 + play.MinGasLimit/play.GasLimitBoundDivisor, play.MinGasLimit * 2, true},
-		{play.MinGasLimit*2 - play.MinGasLimit/play.GasLimitBoundDivisor, play.MinGasLimit * 2, true},
+		{powerplay.MinGasLimit, powerplay.MinGasLimit, true},
+		{powerplay.MinGasLimit - 1, powerplay.MinGasLimit, false},
+		{powerplay.MinGasLimit, powerplay.MinGasLimit * 2, false},
+		{powerplay.MinGasLimit * 2, powerplay.MinGasLimit, false},
+		{powerplay.MinGasLimit + powerplay.MinGasLimit/powerplay.GasLimitBoundDivisor, powerplay.MinGasLimit, true},
+		{powerplay.MinGasLimit*2 + powerplay.MinGasLimit/powerplay.GasLimitBoundDivisor, powerplay.MinGasLimit * 2, true},
+		{powerplay.MinGasLimit*2 - powerplay.MinGasLimit/powerplay.GasLimitBoundDivisor, powerplay.MinGasLimit * 2, true},
 	}
 	for _, tt := range tests {
 		assert.Equal(t, tt.want, block.GasLimit(tt.gl).IsValid(tt.parentGL))
