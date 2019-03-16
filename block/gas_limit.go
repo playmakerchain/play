@@ -9,7 +9,7 @@ package block
 import (
 	"math"
 
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // GasLimit to support block gas limit validation and adjustment.
