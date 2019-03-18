@@ -14,7 +14,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // Header contains almost all information about a block, except block body.
@@ -129,7 +129,7 @@ func (h *Header) SigningHash() (hash play.Bytes32) {
 	}
 	defer func() { h.cache.signingHash.Store(hash) }()
 
-	hw := play.NewBlake2b()
+	hw := powerplay.NewBlake2b()
 	rlp.Encode(hw, []interface{}{
 		h.body.ParentID,
 		h.body.Timestamp,
