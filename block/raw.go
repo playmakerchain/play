@@ -10,7 +10,7 @@ import (
 	"bytes"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain/play/tx"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 // Raw allows to partially decode components of a block.
