@@ -9,11 +9,11 @@ package genesis
 import (
 	"math/big"
 
-	"github.com/playmakerchain//builtin"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
-	"github.com/playmakerchain//vm"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/vm"
 )
 
 // NewMainnet create mainnet genesis.
@@ -24,11 +24,11 @@ func NewMainnet() *Genesis {
 
 	builder := new(Builder).
 		Timestamp(launchTime).
-		GasLimit(.InitialGasLimit).
+		GasLimit(powerplay.InitialGasLimit).
 		State(func(state *state.State) error {
 			// alloc precompiled contracts
 			for addr := range vm.PrecompiledContractsByzantium {
-				state.SetCode(.Address(addr), emptyRuntimeBytecode)
+				state.SetCode(powerplay.Address(addr), emptyRuntimeBytecode)
 			}
 
 			// alloc builtin contracts
@@ -44,8 +44,8 @@ func NewMainnet() *Genesis {
 
 			// alloc tokens for authority node endorsor
 			for _, anode := range initialAuthorityNodes {
-				tokenSupply.Add(tokenSupply, .InitialProposerEndorsement)
-				state.SetBalance(anode.endorsorAddress, .InitialProposerEndorsement)
+				tokenSupply.Add(tokenSupply, powerplay.InitialProposerEndorsement)
+				state.SetBalance(anode.endorsorAddress, powerplay.InitialProposerEndorsement)
 				state.SetEnergy(anode.endorsorAddress, &big.Int{}, launchTime)
 			}
 
@@ -53,20 +53,20 @@ func NewMainnet() *Genesis {
 			// 21,046,908,616.5 x 4
 			amount := new(big.Int).Mul(big.NewInt(210469086165), big.NewInt(1e17))
 			tokenSupply.Add(tokenSupply, amount)
-			state.SetBalance(.MustParseAddress("0x137053dfbe6c0a43f915ad2efefefdcc2708e975"), amount)
-			state.SetEnergy(.MustParseAddress("0x137053dfbe6c0a43f915ad2efefefdcc2708e975"), &big.Int{}, launchTime)
+			state.SetBalance(powerplay.MustParseAddress("0x137053dfbe6c0a43f915ad2efefefdcc2708e975"), amount)
+			state.SetEnergy(powerplay.MustParseAddress("0x137053dfbe6c0a43f915ad2efefefdcc2708e975"), &big.Int{}, launchTime)
 
 			tokenSupply.Add(tokenSupply, amount)
-			state.SetBalance(.MustParseAddress("0xaf111431c1284a5e16d2eecd2daed133ce96820e"), amount)
-			state.SetEnergy(.MustParseAddress("0xaf111431c1284a5e16d2eecd2daed133ce96820e"), &big.Int{}, launchTime)
+			state.SetBalance(powerplay.MustParseAddress("0xaf111431c1284a5e16d2eecd2daed133ce96820e"), amount)
+			state.SetEnergy(powerplay.MustParseAddress("0xaf111431c1284a5e16d2eecd2daed133ce96820e"), &big.Int{}, launchTime)
 
 			tokenSupply.Add(tokenSupply, amount)
-			state.SetBalance(.MustParseAddress("0x997522a4274336f4b86af4a6ed9e45aedcc6d360"), amount)
-			state.SetEnergy(.MustParseAddress("0x997522a4274336f4b86af4a6ed9e45aedcc6d360"), &big.Int{}, launchTime)
+			state.SetBalance(powerplay.MustParseAddress("0x997522a4274336f4b86af4a6ed9e45aedcc6d360"), amount)
+			state.SetEnergy(powerplay.MustParseAddress("0x997522a4274336f4b86af4a6ed9e45aedcc6d360"), &big.Int{}, launchTime)
 
 			tokenSupply.Add(tokenSupply, amount)
-			state.SetBalance(.MustParseAddress("0x0bd7b06debd1522e75e4b91ff598f107fd826c8a"), amount)
-			state.SetEnergy(.MustParseAddress("0x0bd7b06debd1522e75e4b91ff598f107fd826c8a"), &big.Int{}, launchTime)
+			state.SetBalance(powerplay.MustParseAddress("0x0bd7b06debd1522e75e4b91ff598f107fd826c8a"), amount)
+			state.SetEnergy(powerplay.MustParseAddress("0x0bd7b06debd1522e75e4b91ff598f107fd826c8a"), &big.Int{}, launchTime)
 
 			builtin.Energy.Native(state, launchTime).SetInitialSupply(tokenSupply, energySupply)
 			return nil
@@ -75,16 +75,16 @@ func NewMainnet() *Genesis {
 	///// initialize builtin contracts
 
 	// initialize params
-	data := mustEncodeInput(builtin.Params.ABI, "set", .KeyExecutorAddress, new(big.Int).SetBytes(builtin.Executor.Address[:]))
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), .Address{})
+	data := mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyExecutorAddress, new(big.Int).SetBytes(builtin.Executor.Address[:]))
+	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), powerplay.Address{})
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", .KeyRewardRatio, .InitialRewardRatio)
+	data = mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyRewardRatio, powerplay.InitialRewardRatio)
 	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), builtin.Executor.Address)
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", .KeyBaseGasPrice, .InitialBaseGasPrice)
+	data = mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyBaseGasPrice, powerplay.InitialBaseGasPrice)
 	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), builtin.Executor.Address)
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", .KeyProposerEndorsement, .InitialProposerEndorsement)
+	data = mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyProposerEndorsement, powerplay.InitialProposerEndorsement)
 	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), builtin.Executor.Address)
 
 	// add initial authority nodes
@@ -95,7 +95,7 @@ func NewMainnet() *Genesis {
 
 	// add initial approvers (steering committee)
 	for _, approver := range loadApprovers() {
-		data := mustEncodeInput(builtin.Executor.ABI, "addApprover", approver.address, .BytesToBytes32([]byte(approver.identity)))
+		data := mustEncodeInput(builtin.Executor.ABI, "addApprover", approver.address, powerplay.BytesToBytes32([]byte(approver.identity)))
 		builder.Call(tx.NewClause(&builtin.Executor.Address).WithData(data), builtin.Executor.Address)
 	}
 
@@ -110,25 +110,25 @@ func NewMainnet() *Genesis {
 }
 
 type authorityNode struct {
-	masterAddress   .Address
-	endorsorAddress .Address
-	identity        .Bytes32
+	masterAddress   powerplay.Address
+	endorsorAddress powerplay.Address
+	identity        powerplay.Bytes32
 }
 
 type approver struct {
-	address  .Address
+	address  powerplay.Address
 	identity string
 }
 
 func loadApprovers() []*approver {
 	return []*approver{
-		{.MustParseAddress("0xb0f6d9933c1c2f4d891ca479343921f2d32e0fad"), "CY Cheung"},
-		{.MustParseAddress("0xda48cc4d23b41158e1294e0e4bcce8e9953cee26"), "George Kang"},
-		{.MustParseAddress("0xca7b45abe0d421e5628d2224bfe8fa6a6cf7c51b"), "Jay Zhang"},
-		{.MustParseAddress("0xa03f185f2a0def1efdd687ef3b96e404869d93de"), "Margaret Rui Zhu"},
-		{.MustParseAddress("0x74bac19f78369637db63f7496ecb5f88cc183672"), "Peter Zhou"},
-		{.MustParseAddress("0x5fefc7836af047c949d1fea72839823d2f06f7e3"), "Renato Grottola"},
-		{.MustParseAddress("0x7519874d0f7d31b5f0fd6f0429a4e5ece6f3fd49"), "Sunny Lu"},
+		{powerplay.MustParseAddress("0xb0f6d9933c1c2f4d891ca479343921f2d32e0fad"), "CY Cheung"},
+		{powerplay.MustParseAddress("0xda48cc4d23b41158e1294e0e4bcce8e9953cee26"), "George Kang"},
+		{powerplay.MustParseAddress("0xca7b45abe0d421e5628d2224bfe8fa6a6cf7c51b"), "Jay Zhang"},
+		{powerplay.MustParseAddress("0xa03f185f2a0def1efdd687ef3b96e404869d93de"), "Margaret Rui Zhu"},
+		{powerplay.MustParseAddress("0x74bac19f78369637db63f7496ecb5f88cc183672"), "Peter Zhou"},
+		{powerplay.MustParseAddress("0x5fefc7836af047c949d1fea72839823d2f06f7e3"), "Renato Grottola"},
+		{powerplay.MustParseAddress("0x7519874d0f7d31b5f0fd6f0429a4e5ece6f3fd49"), "Sunny Lu"},
 	}
 }
 
@@ -240,9 +240,9 @@ func loadAuthorityNodes() []*authorityNode {
 	candidates := make([]*authorityNode, 0, len(all))
 	for _, item := range all {
 		candidates = append(candidates, &authorityNode{
-			masterAddress:   .MustParseAddress(item[0]),
-			endorsorAddress: .MustParseAddress(item[1]),
-			identity:        .MustParseBytes32(item[2]),
+			masterAddress:   powerplay.MustParseAddress(item[0]),
+			endorsorAddress: powerplay.MustParseAddress(item[1]),
+			identity:        powerplay.MustParseBytes32(item[2]),
 		})
 	}
 	return candidates
