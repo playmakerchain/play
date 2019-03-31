@@ -123,7 +123,7 @@ type approver struct {
 func loadApprovers() []*approver {
 	return []*approver{
 		{powerplay.MustParseAddress("0xb0f6d9933c1c2f4d891ca479343921f2d32e0fad"), "CY Cheung"},
-		{powerplay.MustParseAddress("0xda48cc4d23b41158e1294e0e4bcce8e9953cee26"), "George Kang"},
+		{powerplay.MustParseAddress("0xda48cc4d23b41158e1294e0e4bcce8e9953cee26"), ""},
 		{powerplay.MustParseAddress("0xca7b45abe0d421e5628d2224bfe8fa6a6cf7c51b"), ""},
 		{powerplay.MustParseAddress("0xa03f185f2a0def1efdd687ef3b96e404869d93de"), ""},
 		{powerplay.MustParseAddress("0x74bac19f78369637db63f7496ecb5f88cc183672"), ""},
