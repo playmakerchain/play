@@ -10,13 +10,13 @@ import (
 	"math"
 
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/runtime"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/tx"
-	"github.com/playmakerchain/thor/xenv"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/runtime"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 // Builder helper to build genesis block.
@@ -31,7 +31,7 @@ type Builder struct {
 
 type call struct {
 	clause *tx.Clause
-	caller thor.Address
+	caller powerplay.Address
 }
 
 // Timestamp set timestamp.
@@ -53,7 +53,7 @@ func (b *Builder) State(proc func(state *state.State) error) *Builder {
 }
 
 // Call add a contrct call.
-func (b *Builder) Call(clause *tx.Clause, caller thor.Address) *Builder {
+func (b *Builder) Call(clause *tx.Clause, caller powerplay.Address) *Builder {
 	b.calls = append(b.calls, call{clause, caller})
 	return b
 }
@@ -65,21 +65,21 @@ func (b *Builder) ExtraData(data [28]byte) *Builder {
 }
 
 // ComputeID compute genesis ID.
-func (b *Builder) ComputeID() (thor.Bytes32, error) {
+func (b *Builder) ComputeID() (powerplay.Bytes32, error) {
 	kv, err := lvldb.NewMem()
 	if err != nil {
-		return thor.Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
 	blk, _, err := b.Build(state.NewCreator(kv))
 	if err != nil {
-		return thor.Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
 	return blk.Header().ID(), nil
 }
 
 // Build build genesis block according to presets.
 func (b *Builder) Build(stateCreator *state.Creator) (blk *block.Block, events tx.Events, err error) {
-	state, err := stateCreator.NewState(thor.Bytes32{})
+	state, err := stateCreator.NewState(powerplay.Bytes32{})
 	if err != nil {
 		return nil, nil, err
 	}
@@ -113,7 +113,7 @@ func (b *Builder) Build(stateCreator *state.Creator) (blk *block.Block, events t
 		return nil, nil, errors.Wrap(err, "commit state")
 	}
 
-	parentID := thor.Bytes32{0xff, 0xff, 0xff, 0xff} //so, genesis number is 0
+	parentID := powerplay.Bytes32{0xff, 0xff, 0xff, 0xff} //so, genesis number is 0
 	copy(parentID[4:], b.extraData[:])
 
 	return new(block.Builder).
