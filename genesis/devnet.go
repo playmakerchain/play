@@ -12,16 +12,16 @@ import (
 	"sync/atomic"
 
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/powerplay//builtin"
-	"github.com/powerplay//state"
-	"github.com/powerplay//"
-	"github.com/powerplay//tx"
-	"github.com/powerplay//vm"
+	"github.com/powerplay/powerplay/builtin"
+	"github.com/powerplay/powerplay/state"
+	"github.com/powerplay/powerplay/powerplay"
+	"github.com/powerplay/powerplay/tx"
+	"github.com/powerplay/powerplay/vm"
 )
 
 // DevAccount account for development.
 type DevAccount struct {
-	Address    .Address
+	Address    powerplay.Address
 	PrivateKey *ecdsa.PrivateKey
 }
 
@@ -52,7 +52,7 @@ func DevAccounts() []DevAccount {
 			panic(err)
 		}
 		addr := crypto.PubkeyToAddress(pk.PublicKey)
-		accs = append(accs, DevAccount{.Address(addr), pk})
+		accs = append(accs, DevAccount{powerplay.Address(addr), pk})
 	}
 	devAccounts.Store(accs)
 	return accs
@@ -66,12 +66,12 @@ func NewDevnet() *Genesis {
 	soloBlockSigner := DevAccounts()[0]
 
 	builder := new(Builder).
-		GasLimit(.InitialGasLimit).
+		GasLimit(powerplay.InitialGasLimit).
 		Timestamp(launchTime).
 		State(func(state *state.State) error {
 			// alloc precompiled contracts
 			for addr := range vm.PrecompiledContractsByzantium {
-				state.SetCode(.Address(addr), emptyRuntimeBytecode)
+				state.SetCode(powerplay.Address(addr), emptyRuntimeBytecode)
 			}
 
 			// setup builtin contracts
@@ -94,19 +94,19 @@ func NewDevnet() *Genesis {
 			return nil
 		}).
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", .KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))),
-			.Address{}).
+			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))),
+			powerplay.Address{}).
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", .KeyRewardRatio, .InitialRewardRatio)),
+			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyRewardRatio, powerplay.InitialRewardRatio)),
 			executor).
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", .KeyBaseGasPrice, .InitialBaseGasPrice)),
+			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyBaseGasPrice, powerplay.InitialBaseGasPrice)),
 			executor).
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", .KeyProposerEndorsement, .InitialProposerEndorsement)),
+			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", powerplay.KeyProposerEndorsement, powerplay.InitialProposerEndorsement)),
 			executor).
 		Call(
-			tx.NewClause(&builtin.Authority.Address).WithData(mustEncodeInput(builtin.Authority.ABI, "add", soloBlockSigner.Address, soloBlockSigner.Address, .BytesToBytes32([]byte("Solo Block Signer")))),
+			tx.NewClause(&builtin.Authority.Address).WithData(mustEncodeInput(builtin.Authority.ABI, "add", soloBlockSigner.Address, soloBlockSigner.Address, powerplay.BytesToBytes32([]byte("Solo Block Signer")))),
 			executor)
 
 	id, err := builder.ComputeID()
