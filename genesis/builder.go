@@ -10,13 +10,13 @@ import (
 	"math"
 
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/runtime"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
-	"github.com/vechain/thor/xenv"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/lvldb"
+	"github.com/playmakerchain/thor/runtime"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain/thor/xenv"
 )
 
 // Builder helper to build genesis block.
