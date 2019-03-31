@@ -10,9 +10,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//genesis"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//state"
+	"github.com/playmakerchain/powerplay/genesis"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/state"
 )
 
 func TestTestnetGenesis(t *testing.T) {
