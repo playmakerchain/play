@@ -9,11 +9,11 @@ package genesis
 import (
 	"encoding/hex"
 
-	"github.com/vechain/thor/abi"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/abi"
+	"github.com//thor/block"
+	"github.com//thor/state"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 // Genesis to build genesis block.
