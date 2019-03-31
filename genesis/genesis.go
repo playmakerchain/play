@@ -9,11 +9,11 @@ package genesis
 import (
 	"encoding/hex"
 
-	"github.com//thor/abi"
-	"github.com//thor/block"
-	"github.com//thor/state"
-	"github.com//thor/thor"
-	"github.com//thor/tx"
+	"github.com/playmakerchain/thor/abi"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/tx"
 )
 
 // Genesis to build genesis block.
