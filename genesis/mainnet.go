@@ -9,11 +9,11 @@ package genesis
 import (
 	"math/big"
 
-	"github.com//thor/builtin"
-	"github.com//thor/state"
-	"github.com//thor/thor"
-	"github.com//thor/tx"
-	"github.com//thor/vm"
+	"github.com/playmakerchain/thor/builtin"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain/thor/vm"
 )
 
 // NewMainnet create mainnet genesis.
