@@ -127,7 +127,7 @@ func loadApprovers() []*approver {
 		{powerplay.MustParseAddress("0xca7b45abe0d421e5628d2224bfe8fa6a6cf7c51b"), "Sven Pavleković"},
 		{powerplay.MustParseAddress("0x"), ""},
 		{powerplay.MustParseAddress("0x"), ""},
-		{powerplay.MustParseAddress("0x5fefc7836af047c949d1fea72839823d2f06f7e3"), ""},
+		{powerplay.MustParseAddress("0x"), ""},
 		{powerplay.MustParseAddress("0x7519874d0f7d31b5f0fd6f0429a4e5ece6f3fd49"), ""},
 	}
 }
