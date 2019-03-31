@@ -128,7 +128,7 @@ func loadApprovers() []*approver {
 		{powerplay.MustParseAddress("0x"), ""},
 		{powerplay.MustParseAddress("0x"), ""},
 		{powerplay.MustParseAddress("0x"), ""},
-		{powerplay.MustParseAddress("0x7519874d0f7d31b5f0fd6f0429a4e5ece6f3fd49"), ""},
+		{powerplay.MustParseAddress("0x"), ""},
 	}
 }
 
