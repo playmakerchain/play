@@ -9,17 +9,17 @@ package genesis
 import (
 	"encoding/hex"
 
-	"github.com/playmakerchain//abi"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/abi"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 // Genesis to build genesis block.
 type Genesis struct {
 	builder *Builder
-	id      .Bytes32
+	id      powerplay.Bytes32
 	name    string
 }
 
@@ -36,7 +36,7 @@ func (g *Genesis) Build(stateCreator *state.Creator) (blk *block.Block, events t
 }
 
 // ID returns genesis block ID.
-func (g *Genesis) ID() .Bytes32 {
+func (g *Genesis) ID() powerplay.Bytes32 {
 	return g.id
 }
 
