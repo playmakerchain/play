@@ -7,18 +7,18 @@
 package chain
 
 import (
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//"
 )
 
 // Seeker to seek block by given number on the chain defined by head block ID.
 type Seeker struct {
 	chain       *Chain
-	headBlockID thor.Bytes32
+	headBlockID .Bytes32
 	err         error
 }
 
-func newSeeker(chain *Chain, headBlockID thor.Bytes32) *Seeker {
+func newSeeker(chain *Chain, headBlockID .Bytes32) *Seeker {
 	return &Seeker{
 		chain:       chain,
 		headBlockID: headBlockID,
@@ -37,7 +37,7 @@ func (s *Seeker) Err() error {
 }
 
 // GetID returns block ID by the given number.
-func (s *Seeker) GetID(num uint32) thor.Bytes32 {
+func (s *Seeker) GetID(num uint32) .Bytes32 {
 	if num > block.Number(s.headBlockID) {
 		panic("num exceeds head block")
 	}
@@ -47,7 +47,7 @@ func (s *Seeker) GetID(num uint32) thor.Bytes32 {
 }
 
 // GetHeader returns block header by the given number.
-func (s *Seeker) GetHeader(id thor.Bytes32) *block.Header {
+func (s *Seeker) GetHeader(id .Bytes32) *block.Header {
 	header, err := s.chain.GetBlockHeader(id)
 	if err != nil {
 		s.setError(err)
@@ -57,6 +57,6 @@ func (s *Seeker) GetHeader(id thor.Bytes32) *block.Header {
 }
 
 // GenesisID get genesis block ID.
-func (s *Seeker) GenesisID() thor.Bytes32 {
+func (s *Seeker) GenesisID() .Bytes32 {
 	return s.chain.GenesisBlock().Header().ID()
 }
