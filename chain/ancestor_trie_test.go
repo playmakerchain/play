@@ -10,8 +10,8 @@ import (
 	"encoding/binary"
 	"testing"
 
-	"github.com//thor/lvldb"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/lvldb"
+	"github.com/playmakerchain/thor/thor"
 )
 
 func BenchmarkGet(b *testing.B) {
