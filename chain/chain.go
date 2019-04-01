@@ -12,11 +12,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/co"
-	"github.com/vechain/thor/kv"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/co"
+	"github.com//thor/kv"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 const (
