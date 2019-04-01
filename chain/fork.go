@@ -7,7 +7,7 @@
 package chain
 
 import (
-	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/powerplay/block"
 )
 
 // Fork describes forked chain.
