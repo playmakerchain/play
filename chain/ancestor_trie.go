@@ -11,10 +11,10 @@ import (
 
 	lru "github.com/hashicorp/golang-lru"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//kv"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//trie"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/kv"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/trie"
 )
 
 const rootCacheLimit = 2048
@@ -27,7 +27,7 @@ type ancestorTrie struct {
 
 func newAncestorTrie(kv kv.GetPutter) *ancestorTrie {
 	rootsCache := newCache(rootCacheLimit, func(key interface{}) (interface{}, error) {
-		return loadBlockNumberIndexTrieRoot(kv, key.(.Bytes32))
+		return loadBlockNumberIndexTrieRoot(kv, key.(powerplay.Bytes32))
 	})
 	return &ancestorTrie{kv, rootsCache, newTrieCache()}
 }
@@ -38,15 +38,15 @@ func numberAsKey(num uint32) []byte {
 	return key[:]
 }
 
-func (at *ancestorTrie) Update(w kv.Putter, id, parentID .Bytes32) error {
-	var parentRoot .Bytes32
+func (at *ancestorTrie) Update(w kv.Putter, id, parentID powerplay.Bytes32) error {
+	var parentRoot powerplay.Bytes32
 	if block.Number(id) > 0 {
 		// non-genesis
 		root, err := at.rootsCache.GetOrLoad(parentID)
 		if err != nil {
 			return errors.WithMessage(err, "load index root")
 		}
-		parentRoot = root.(.Bytes32)
+		parentRoot = root.(powerplay.Bytes32)
 	}
 
 	tr, err := at.trieCache.Get(parentRoot, at.kv, true)
@@ -70,9 +70,9 @@ func (at *ancestorTrie) Update(w kv.Putter, id, parentID .Bytes32) error {
 	return nil
 }
 
-func (at *ancestorTrie) GetAncestor(descendantID .Bytes32, ancestorNum uint32) (.Bytes32, error) {
+func (at *ancestorTrie) GetAncestor(descendantID powerplay.Bytes32, ancestorNum uint32) (powerplay.Bytes32, error) {
 	if ancestorNum > block.Number(descendantID) {
-		return .Bytes32{}, errNotFound
+		return powerplay.Bytes32{}, errNotFound
 	}
 	if ancestorNum == block.Number(descendantID) {
 		return descendantID, nil
@@ -80,18 +80,18 @@ func (at *ancestorTrie) GetAncestor(descendantID .Bytes32, ancestorNum uint32) (
 
 	root, err := at.rootsCache.GetOrLoad(descendantID)
 	if err != nil {
-		return .Bytes32{}, errors.WithMessage(err, "load index root")
+		return powerplay.Bytes32{}, errors.WithMessage(err, "load index root")
 	}
-	tr, err := at.trieCache.Get(root.(.Bytes32), at.kv, false)
+	tr, err := at.trieCache.Get(root.(powerplay.Bytes32), at.kv, false)
 	if err != nil {
-		return .Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
 
 	id, err := tr.TryGet(numberAsKey(ancestorNum))
 	if err != nil {
-		return .Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
-	return .BytesToBytes32(id), nil
+	return powerplay.BytesToBytes32(id), nil
 }
 
 ///
@@ -110,7 +110,7 @@ func newTrieCache() *trieCache {
 }
 
 // to get a trie for writing, copy should be set to true
-func (tc *trieCache) Get(root .Bytes32, kv kv.GetPutter, copy bool) (*trie.Trie, error) {
+func (tc *trieCache) Get(root powerplay.Bytes32, kv kv.GetPutter, copy bool) (*trie.Trie, error) {
 
 	if v, ok := tc.cache.Get(root); ok {
 		entry := v.(*trieCacheEntry)
@@ -135,7 +135,7 @@ func (tc *trieCache) Get(root .Bytes32, kv kv.GetPutter, copy bool) (*trie.Trie,
 	return tr, nil
 }
 
-func (tc *trieCache) Add(root .Bytes32, trie *trie.Trie, kv kv.GetPutter) {
+func (tc *trieCache) Add(root powerplay.Bytes32, trie *trie.Trie, kv kv.GetPutter) {
 	cpy := *trie
 	tc.cache.Add(root, &trieCacheEntry{&cpy, kv})
 }
