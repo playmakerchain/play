@@ -10,8 +10,8 @@ import (
 	"encoding/binary"
 	"testing"
 
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//"
 )
 
 func BenchmarkGet(b *testing.B) {
@@ -20,7 +20,7 @@ func BenchmarkGet(b *testing.B) {
 
 	const maxBN = 1000
 	for bn := uint32(0); bn < maxBN; bn++ {
-		var id, parentID thor.Bytes32
+		var id, parentID .Bytes32
 		binary.BigEndian.PutUint32(id[:], bn)
 		binary.BigEndian.PutUint32(parentID[:], bn-1)
 		if err := at.Update(kv, id, parentID); err != nil {
@@ -35,7 +35,7 @@ func BenchmarkGet(b *testing.B) {
 		if bn == 0 {
 			bn = maxBN / 2
 		}
-		var id thor.Bytes32
+		var id .Bytes32
 		binary.BigEndian.PutUint32(id[:], bn)
 		if _, err := at.GetAncestor(id, bn-1); err != nil {
 			b.Fatal(err)
