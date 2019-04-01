@@ -8,10 +8,10 @@ package chain
 
 import (
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//kv"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/kv"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 var (
@@ -24,7 +24,7 @@ var (
 
 // TxMeta contains information about a tx is settled.
 type TxMeta struct {
-	BlockID .Bytes32
+	BlockID powerplay.Bytes32
 
 	// Index the position of the tx in block's txs.
 	Index uint64 // rlp require uint64.
@@ -49,50 +49,50 @@ func loadRLP(r kv.Getter, key []byte, val interface{}) error {
 }
 
 // loadBestBlockID returns the best block ID on trunk.
-func loadBestBlockID(r kv.Getter) (.Bytes32, error) {
+func loadBestBlockID(r kv.Getter) (powerplay.Bytes32, error) {
 	data, err := r.Get(bestBlockKey)
 	if err != nil {
-		return .Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
-	return .BytesToBytes32(data), nil
+	return powerplay.BytesToBytes32(data), nil
 }
 
 // saveBestBlockID save the best block ID on trunk.
-func saveBestBlockID(w kv.Putter, id .Bytes32) error {
+func saveBestBlockID(w kv.Putter, id powerplay.Bytes32) error {
 	return w.Put(bestBlockKey, id[:])
 }
 
 // loadBlockRaw load rlp encoded block raw data.
-func loadBlockRaw(r kv.Getter, id .Bytes32) (block.Raw, error) {
+func loadBlockRaw(r kv.Getter, id powerplay.Bytes32) (block.Raw, error) {
 	return r.Get(append(blockPrefix, id[:]...))
 }
 
 // saveBlockRaw save rlp encoded block raw data.
-func saveBlockRaw(w kv.Putter, id .Bytes32, raw block.Raw) error {
+func saveBlockRaw(w kv.Putter, id powerplay.Bytes32, raw block.Raw) error {
 	return w.Put(append(blockPrefix, id[:]...), raw)
 }
 
 // saveBlockNumberIndexTrieRoot save the root of trie that contains number to id index.
-func saveBlockNumberIndexTrieRoot(w kv.Putter, id .Bytes32, root .Bytes32) error {
+func saveBlockNumberIndexTrieRoot(w kv.Putter, id powerplay.Bytes32, root powerplay.Bytes32) error {
 	return w.Put(append(indexTrieRootPrefix, id[:]...), root[:])
 }
 
 // loadBlockNumberIndexTrieRoot load trie root.
-func loadBlockNumberIndexTrieRoot(r kv.Getter, id .Bytes32) (.Bytes32, error) {
+func loadBlockNumberIndexTrieRoot(r kv.Getter, id powerplay.Bytes32) (powerplay.Bytes32, error) {
 	root, err := r.Get(append(indexTrieRootPrefix, id[:]...))
 	if err != nil {
-		return .Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
-	return .BytesToBytes32(root), nil
+	return powerplay.BytesToBytes32(root), nil
 }
 
 // saveTxMeta save locations of a tx.
-func saveTxMeta(w kv.Putter, txID .Bytes32, meta []TxMeta) error {
+func saveTxMeta(w kv.Putter, txID powerplay.Bytes32, meta []TxMeta) error {
 	return saveRLP(w, append(txMetaPrefix, txID[:]...), meta)
 }
 
 // loadTxMeta load tx meta info by tx id.
-func loadTxMeta(r kv.Getter, txID .Bytes32) ([]TxMeta, error) {
+func loadTxMeta(r kv.Getter, txID powerplay.Bytes32) ([]TxMeta, error) {
 	var meta []TxMeta
 	if err := loadRLP(r, append(txMetaPrefix, txID[:]...), &meta); err != nil {
 		return nil, err
@@ -101,12 +101,12 @@ func loadTxMeta(r kv.Getter, txID .Bytes32) ([]TxMeta, error) {
 }
 
 // saveBlockReceipts save tx receipts of a block.
-func saveBlockReceipts(w kv.Putter, blockID .Bytes32, receipts tx.Receipts) error {
+func saveBlockReceipts(w kv.Putter, blockID powerplay.Bytes32, receipts tx.Receipts) error {
 	return saveRLP(w, append(blockReceiptsPrefix, blockID[:]...), receipts)
 }
 
 // loadBlockReceipts load tx receipts of a block.
-func loadBlockReceipts(r kv.Getter, blockID .Bytes32) (tx.Receipts, error) {
+func loadBlockReceipts(r kv.Getter, blockID powerplay.Bytes32) (tx.Receipts, error) {
 	var receipts tx.Receipts
 	if err := loadRLP(r, append(blockReceiptsPrefix, blockID[:]...), &receipts); err != nil {
 		return nil, err
