@@ -7,8 +7,8 @@
 package chain
 
 import (
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/block"
+	"github.com//thor/thor"
 )
 
 // Seeker to seek block by given number on the chain defined by head block ID.
