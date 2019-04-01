@@ -12,11 +12,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//co"
-	"github.com/playmakerchain//kv"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/co"
+	"github.com/playmakerchain/powerplay/kv"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 const (
@@ -104,7 +104,7 @@ func New(kv kv.GetPutter, genesisBlock *block.Block) (*Chain, error) {
 	}
 
 	rawBlocksCache := newCache(blockCacheLimit, func(key interface{}) (interface{}, error) {
-		raw, err := loadBlockRaw(kv, key.(.Bytes32))
+		raw, err := loadBlockRaw(kv, key.(powerplay.Bytes32))
 		if err != nil {
 			return nil, err
 		}
@@ -112,7 +112,7 @@ func New(kv kv.GetPutter, genesisBlock *block.Block) (*Chain, error) {
 	})
 
 	receiptsCache := newCache(receiptsCacheLimit, func(key interface{}) (interface{}, error) {
-		return loadBlockReceipts(kv, key.(.Bytes32))
+		return loadBlockReceipts(kv, key.(powerplay.Bytes32))
 	})
 
 	return &Chain{
@@ -235,21 +235,21 @@ func (c *Chain) AddBlock(newBlock *block.Block, receipts tx.Receipts) (*Fork, er
 }
 
 // GetBlockHeader get block header by block id.
-func (c *Chain) GetBlockHeader(id .Bytes32) (*block.Header, error) {
+func (c *Chain) GetBlockHeader(id powerplay.Bytes32) (*block.Header, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.getBlockHeader(id)
 }
 
 // GetBlockBody get block body by block id.
-func (c *Chain) GetBlockBody(id .Bytes32) (*block.Body, error) {
+func (c *Chain) GetBlockBody(id powerplay.Bytes32) (*block.Body, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.getBlockBody(id)
 }
 
 // GetBlock get block by id.
-func (c *Chain) GetBlock(id .Bytes32) (*block.Block, error) {
+func (c *Chain) GetBlock(id powerplay.Bytes32) (*block.Block, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.getBlock(id)
@@ -257,7 +257,7 @@ func (c *Chain) GetBlock(id .Bytes32) (*block.Block, error) {
 
 // GetBlockRaw get block rlp encoded bytes for given id.
 // Never modify the returned raw block.
-func (c *Chain) GetBlockRaw(id .Bytes32) (block.Raw, error) {
+func (c *Chain) GetBlockRaw(id powerplay.Bytes32) (block.Raw, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	raw, err := c.getRawBlock(id)
@@ -268,35 +268,35 @@ func (c *Chain) GetBlockRaw(id .Bytes32) (block.Raw, error) {
 }
 
 // GetBlockReceipts get all tx receipts in the block for given block id.
-func (c *Chain) GetBlockReceipts(id .Bytes32) (tx.Receipts, error) {
+func (c *Chain) GetBlockReceipts(id powerplay.Bytes32) (tx.Receipts, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.getBlockReceipts(id)
 }
 
 // GetAncestorBlockID get ancestor block ID of descendant for given ancestor block.
-func (c *Chain) GetAncestorBlockID(descendantID .Bytes32, ancestorNum uint32) (.Bytes32, error) {
+func (c *Chain) GetAncestorBlockID(descendantID powerplay.Bytes32, ancestorNum uint32) (powerplay.Bytes32, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.ancestorTrie.GetAncestor(descendantID, ancestorNum)
 }
 
 // GetTransactionMeta get transaction meta info, on the chain defined by head block ID.
-func (c *Chain) GetTransactionMeta(txID .Bytes32, headBlockID .Bytes32) (*TxMeta, error) {
+func (c *Chain) GetTransactionMeta(txID powerplay.Bytes32, headBlockID powerplay.Bytes32) (*TxMeta, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.getTransactionMeta(txID, headBlockID)
 }
 
 // GetTransaction get transaction for given block and index.
-func (c *Chain) GetTransaction(blockID .Bytes32, index uint64) (*tx.Transaction, error) {
+func (c *Chain) GetTransaction(blockID powerplay.Bytes32, index uint64) (*tx.Transaction, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.getTransaction(blockID, index)
 }
 
 // GetTransactionReceipt get tx receipt for given block and index.
-func (c *Chain) GetTransactionReceipt(blockID .Bytes32, index uint64) (*tx.Receipt, error) {
+func (c *Chain) GetTransactionReceipt(blockID powerplay.Bytes32, index uint64) (*tx.Receipt, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	receipts, err := c.getBlockReceipts(blockID)
@@ -310,7 +310,7 @@ func (c *Chain) GetTransactionReceipt(blockID .Bytes32, index uint64) (*tx.Recei
 }
 
 // GetTrunkBlockID get block id on trunk by given block number.
-func (c *Chain) GetTrunkBlockID(num uint32) (.Bytes32, error) {
+func (c *Chain) GetTrunkBlockID(num uint32) (powerplay.Bytes32, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.ancestorTrie.GetAncestor(c.bestBlock.Header().ID(), num)
@@ -354,14 +354,14 @@ func (c *Chain) GetTrunkBlockRaw(num uint32) (block.Raw, error) {
 }
 
 // GetTrunkTransactionMeta get transaction meta info on trunk by given tx id.
-func (c *Chain) GetTrunkTransactionMeta(txID .Bytes32) (*TxMeta, error) {
+func (c *Chain) GetTrunkTransactionMeta(txID powerplay.Bytes32) (*TxMeta, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	return c.getTransactionMeta(txID, c.bestBlock.Header().ID())
 }
 
 // GetTrunkTransaction get transaction on trunk by given tx id.
-func (c *Chain) GetTrunkTransaction(txID .Bytes32) (*tx.Transaction, *TxMeta, error) {
+func (c *Chain) GetTrunkTransaction(txID powerplay.Bytes32) (*tx.Transaction, *TxMeta, error) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
 	meta, err := c.getTransactionMeta(txID, c.bestBlock.Header().ID())
@@ -376,7 +376,7 @@ func (c *Chain) GetTrunkTransaction(txID .Bytes32) (*tx.Transaction, *TxMeta, er
 }
 
 // NewSeeker returns a new seeker instance.
-func (c *Chain) NewSeeker(headBlockID .Bytes32) *Seeker {
+func (c *Chain) NewSeeker(headBlockID powerplay.Bytes32) *Seeker {
 	return newSeeker(c, headBlockID)
 }
 
@@ -456,7 +456,7 @@ func (c *Chain) buildFork(trunkHead *block.Header, branchHead *block.Header) (*F
 	}
 }
 
-func (c *Chain) getRawBlock(id .Bytes32) (*rawBlock, error) {
+func (c *Chain) getRawBlock(id powerplay.Bytes32) (*rawBlock, error) {
 	raw, err := c.caches.rawBlocks.GetOrLoad(id)
 	if err != nil {
 		return nil, err
@@ -464,7 +464,7 @@ func (c *Chain) getRawBlock(id .Bytes32) (*rawBlock, error) {
 	return raw.(*rawBlock), nil
 }
 
-func (c *Chain) getBlockHeader(id .Bytes32) (*block.Header, error) {
+func (c *Chain) getBlockHeader(id powerplay.Bytes32) (*block.Header, error) {
 	raw, err := c.getRawBlock(id)
 	if err != nil {
 		return nil, err
@@ -472,14 +472,14 @@ func (c *Chain) getBlockHeader(id .Bytes32) (*block.Header, error) {
 	return raw.Header()
 }
 
-func (c *Chain) getBlockBody(id .Bytes32) (*block.Body, error) {
+func (c *Chain) getBlockBody(id powerplay.Bytes32) (*block.Body, error) {
 	raw, err := c.getRawBlock(id)
 	if err != nil {
 		return nil, err
 	}
 	return raw.Body()
 }
-func (c *Chain) getBlock(id .Bytes32) (*block.Block, error) {
+func (c *Chain) getBlock(id powerplay.Bytes32) (*block.Block, error) {
 	raw, err := c.getRawBlock(id)
 	if err != nil {
 		return nil, err
@@ -487,7 +487,7 @@ func (c *Chain) getBlock(id .Bytes32) (*block.Block, error) {
 	return raw.Block()
 }
 
-func (c *Chain) getBlockReceipts(blockID .Bytes32) (tx.Receipts, error) {
+func (c *Chain) getBlockReceipts(blockID powerplay.Bytes32) (tx.Receipts, error) {
 	receipts, err := c.caches.receipts.GetOrLoad(blockID)
 	if err != nil {
 		return nil, err
@@ -495,7 +495,7 @@ func (c *Chain) getBlockReceipts(blockID .Bytes32) (tx.Receipts, error) {
 	return receipts.(tx.Receipts), nil
 }
 
-func (c *Chain) getTransactionMeta(txID .Bytes32, headBlockID .Bytes32) (*TxMeta, error) {
+func (c *Chain) getTransactionMeta(txID powerplay.Bytes32, headBlockID powerplay.Bytes32) (*TxMeta, error) {
 	meta, err := loadTxMeta(c.kv, txID)
 	if err != nil {
 		return nil, err
@@ -515,7 +515,7 @@ func (c *Chain) getTransactionMeta(txID .Bytes32, headBlockID .Bytes32) (*TxMeta
 	return nil, errNotFound
 }
 
-func (c *Chain) getTransaction(blockID .Bytes32, index uint64) (*tx.Transaction, error) {
+func (c *Chain) getTransaction(blockID powerplay.Bytes32, index uint64) (*tx.Transaction, error) {
 	body, err := c.getBlockBody(blockID)
 	if err != nil {
 		return nil, err
@@ -559,7 +559,7 @@ func (r readBlock) Read() ([]*Block, error) {
 }
 
 // NewBlockReader generate an object that implements the BlockReader interface
-func (c *Chain) NewBlockReader(position .Bytes32) BlockReader {
+func (c *Chain) NewBlockReader(position powerplay.Bytes32) BlockReader {
 	return readBlock(func() ([]*Block, error) {
 		c.rw.RLock()
 		defer c.rw.RUnlock()
@@ -602,7 +602,7 @@ func (c *Chain) NewBlockReader(position .Bytes32) BlockReader {
 	})
 }
 
-func (c *Chain) nextBlock(descendantID .Bytes32, num uint32) (*block.Block, error) {
+func (c *Chain) nextBlock(descendantID powerplay.Bytes32, num uint32) (*block.Block, error) {
 	next, err := c.ancestorTrie.GetAncestor(descendantID, num+1)
 	if err != nil {
 		return nil, err
