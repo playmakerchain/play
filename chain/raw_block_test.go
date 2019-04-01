@@ -12,8 +12,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/block"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/thor"
 )
 
 func TestRawBlock(t *testing.T) {
