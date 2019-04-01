@@ -7,7 +7,7 @@
 package chain
 
 import (
-	"github.com/vechain/thor/block"
+	"github.com/playmakerchain/thor/block"
 )
 
 // Fork describes forked chain.
