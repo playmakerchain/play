@@ -9,7 +9,7 @@ package chain
 import (
 	"sync/atomic"
 
-	"github.com/playmakerchain//block"
+	"github.com/playmakerchain/powerplay/block"
 )
 
 type rawBlock struct {
