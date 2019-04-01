@@ -7,18 +7,18 @@
 package chain
 
 import (
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // Seeker to seek block by given number on the chain defined by head block ID.
 type Seeker struct {
 	chain       *Chain
-	headBlockID .Bytes32
+	headBlockID powerplay.Bytes32
 	err         error
 }
 
-func newSeeker(chain *Chain, headBlockID .Bytes32) *Seeker {
+func newSeeker(chain *Chain, headBlockID powerplay.Bytes32) *Seeker {
 	return &Seeker{
 		chain:       chain,
 		headBlockID: headBlockID,
@@ -37,7 +37,7 @@ func (s *Seeker) Err() error {
 }
 
 // GetID returns block ID by the given number.
-func (s *Seeker) GetID(num uint32) .Bytes32 {
+func (s *Seeker) GetID(num uint32) powerplay.Bytes32 {
 	if num > block.Number(s.headBlockID) {
 		panic("num exceeds head block")
 	}
@@ -47,7 +47,7 @@ func (s *Seeker) GetID(num uint32) .Bytes32 {
 }
 
 // GetHeader returns block header by the given number.
-func (s *Seeker) GetHeader(id .Bytes32) *block.Header {
+func (s *Seeker) GetHeader(id powerplay.Bytes32) *block.Header {
 	header, err := s.chain.GetBlockHeader(id)
 	if err != nil {
 		s.setError(err)
@@ -57,6 +57,6 @@ func (s *Seeker) GetHeader(id .Bytes32) *block.Header {
 }
 
 // GenesisID get genesis block ID.
-func (s *Seeker) GenesisID() .Bytes32 {
+func (s *Seeker) GenesisID() powerplay.Bytes32 {
 	return s.chain.GenesisBlock().Header().ID()
 }
