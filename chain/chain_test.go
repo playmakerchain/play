@@ -11,11 +11,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/chain"
-	"github.com/vechain/thor/genesis"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/state"
+	"github.com//thor/block"
+	"github.com//thor/chain"
+	"github.com//thor/genesis"
+	"github.com//thor/lvldb"
+	"github.com//thor/state"
 )
 
 func initChain() *chain.Chain {
