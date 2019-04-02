@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/thor"
 )
 
 func TestBloom(t *testing.T) {
