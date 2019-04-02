@@ -11,13 +11,13 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 func TestBloom(t *testing.T) {
 
 	itemCount := 100
-	bloom := .NewBloom(.EstimateBloomK(itemCount))
+	bloom := powerplay.NewBloom(powerplay.EstimateBloomK(itemCount))
 
 	for i := 0; i < itemCount; i++ {
 		bloom.Add([]byte(fmt.Sprintf("%v", i)))
