@@ -49,5 +49,5 @@ var (
 	InitialBaseGasPrice        = big.NewInt(1e15)
 	InitialProposerEndorsement = new(big.Int).Mul(big.NewInt(1e18), big.NewInt(25000000))
 
-	EnergyGrowthRate = big.NewInt(5000000000) // WEI  per token(VET) per second. about 0.000325  per token per day.
+	EnergyGrowthRate = big.NewInt(5000000000) // WEI POWERPLAY per token(PMK) per second. about 0.000325 POWERPLAY per token per day.
 )
