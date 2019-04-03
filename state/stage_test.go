@@ -12,23 +12,23 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 func TestStage(t *testing.T) {
 	kv, _ := lvldb.NewMem()
-	state, _ := New(.Bytes32{}, kv)
+	state, _ := New(powerplay.Bytes32{}, kv)
 
-	addr := .BytesToAddress([]byte("acc1"))
+	addr := powerplay.BytesToAddress([]byte("acc1"))
 
 	balance := big.NewInt(10)
 	code := []byte{1, 2, 3}
 
-	storage := map[.Bytes32].Bytes32{
-		.BytesToBytes32([]byte("s1")): .BytesToBytes32([]byte("v1")),
-		.BytesToBytes32([]byte("s2")): .BytesToBytes32([]byte("v2")),
-		.BytesToBytes32([]byte("s3")): .BytesToBytes32([]byte("v3"))}
+	storage := map[powerplay.Bytes32]powerplay.Bytes32{
+		powerplay.BytesToBytes32([]byte("s1")): powerplay.BytesToBytes32([]byte("v1")),
+		powerplay.BytesToBytes32([]byte("s2")): powerplay.BytesToBytes32([]byte("v2")),
+		powerplay.BytesToBytes32([]byte("s3")): powerplay.BytesToBytes32([]byte("v3"))}
 
 	state.SetBalance(addr, balance)
 	state.SetCode(addr, code)
@@ -49,7 +49,7 @@ func TestStage(t *testing.T) {
 
 	assert.Equal(t, balance, state.GetBalance(addr))
 	assert.Equal(t, code, state.GetCode(addr))
-	assert.Equal(t, .Bytes32(crypto.Keccak256Hash(code)), state.GetCodeHash(addr))
+	assert.Equal(t, powerplay.Bytes32(crypto.Keccak256Hash(code)), state.GetCodeHash(addr))
 	for k, v := range storage {
 		assert.Equal(t, v, state.GetStorage(addr, k))
 	}
