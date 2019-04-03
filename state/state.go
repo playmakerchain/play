@@ -13,10 +13,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//thor/kv"
-	"github.com//thor/stackedmap"
-	"github.com//thor/thor"
-	"github.com//thor/trie"
+	"github.com/playmakerchain/thor/kv"
+	"github.com/playmakerchain/thor/stackedmap"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/trie"
 )
 
 // State manages the main accounts trie.
