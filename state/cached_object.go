@@ -8,8 +8,8 @@ package state
 
 import (
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//kv"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/kv"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // cachedObject to cache code and storage of an account.
@@ -20,7 +20,7 @@ type cachedObject struct {
 	cache struct {
 		code        []byte
 		storageTrie trieReader
-		storage     map[.Bytes32]rlp.RawValue
+		storage     map[powerplay.Bytes32]rlp.RawValue
 	}
 }
 
@@ -33,7 +33,7 @@ func (co *cachedObject) getOrCreateStorageTrie() (trieReader, error) {
 		return co.cache.storageTrie, nil
 	}
 
-	root := .BytesToBytes32(co.data.StorageRoot)
+	root := powerplay.BytesToBytes32(co.data.StorageRoot)
 
 	trie, err := trCache.Get(root, co.kv, false)
 	if err != nil {
@@ -44,11 +44,11 @@ func (co *cachedObject) getOrCreateStorageTrie() (trieReader, error) {
 }
 
 // GetStorage returns storage value for given key.
-func (co *cachedObject) GetStorage(key .Bytes32) (rlp.RawValue, error) {
+func (co *cachedObject) GetStorage(key powerplay.Bytes32) (rlp.RawValue, error) {
 	cache := &co.cache
 	// retrive from storage cache
 	if cache.storage == nil {
-		cache.storage = make(map[.Bytes32]rlp.RawValue)
+		cache.storage = make(map[powerplay.Bytes32]rlp.RawValue)
 	} else {
 		if v, ok := cache.storage[key]; ok {
 			return v, nil
