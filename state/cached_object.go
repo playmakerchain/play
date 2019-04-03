@@ -8,8 +8,8 @@ package state
 
 import (
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//thor/kv"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/kv"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // cachedObject to cache code and storage of an account.
