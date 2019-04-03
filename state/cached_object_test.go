@@ -14,23 +14,23 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//trie"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/trie"
 )
 
 func TestCachedObject(t *testing.T) {
 	kv, _ := lvldb.NewMem()
 
-	stgTrie, _ := trie.NewSecure(.Bytes32{}, kv, 0)
+	stgTrie, _ := trie.NewSecure(powerplay.Bytes32{}, kv, 0)
 	storages := []struct {
-		k .Bytes32
+		k powerplay.Bytes32
 		v rlp.RawValue
 	}{
-		{.BytesToBytes32([]byte("key1")), []byte("value1")},
-		{.BytesToBytes32([]byte("key2")), []byte("value2")},
-		{.BytesToBytes32([]byte("key3")), []byte("value3")},
-		{.BytesToBytes32([]byte("key4")), []byte("value4")},
+		{powerplay.BytesToBytes32([]byte("key1")), []byte("value1")},
+		{powerplay.BytesToBytes32([]byte("key2")), []byte("value2")},
+		{powerplay.BytesToBytes32([]byte("key3")), []byte("value3")},
+		{powerplay.BytesToBytes32([]byte("key4")), []byte("value4")},
 	}
 
 	for _, s := range storages {
