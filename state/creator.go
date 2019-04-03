@@ -7,8 +7,8 @@
 package state
 
 import (
-	"github.com//thor/kv"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/kv"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // Creator state creator to cut-off kv dependency.
