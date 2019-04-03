@@ -13,7 +13,7 @@ import (
 	"github.com/playmakerchain/powerplay/powerplay"
 )
 
-// Account is the  consensus representation of an account.
+// Account is the PowerPlay consensus representation of an account.
 // RLP encoded objects are stored in main account trie.
 type Account struct {
 	Balance     *big.Int
