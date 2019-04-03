@@ -12,8 +12,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/lvldb"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/lvldb"
+	"github.com/playmakerchain/thor/thor"
 )
 
 func TestStage(t *testing.T) {
