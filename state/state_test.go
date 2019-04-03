@@ -13,8 +13,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/lvldb"
+	"github.com//thor/thor"
 )
 
 func TestStateReadWrite(t *testing.T) {
