@@ -7,9 +7,9 @@
 package state
 
 import (
-	"github.com//thor/kv"
-	"github.com//thor/thor"
-	"github.com//thor/trie"
+	"github.com/playmakerchain/thor/kv"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/trie"
 )
 
 // Stage abstracts changes on the main accounts trie.
