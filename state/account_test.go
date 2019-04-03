@@ -12,9 +12,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/trie"
+	"github.com//thor/lvldb"
+	"github.com//thor/thor"
+	"github.com//thor/trie"
 )
 
 func M(a ...interface{}) []interface{} {
