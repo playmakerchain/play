@@ -8,9 +8,9 @@ package state
 
 import (
 	lru "github.com/hashicorp/golang-lru"
-	"github.com//thor/kv"
-	"github.com//thor/thor"
-	"github.com//thor/trie"
+	"github.com/playmakerchain/thor/kv"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/trie"
 )
 
 var trCache = newTrieCache()
