@@ -7,8 +7,8 @@
 package state
 
 import (
-	"github.com/playmakerchain/thor/kv"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//kv"
+	"github.com/playmakerchain//"
 )
 
 // Creator state creator to cut-off kv dependency.
@@ -22,6 +22,6 @@ func NewCreator(kv kv.GetPutter) *Creator {
 }
 
 // NewState create a new state object.
-func (c *Creator) NewState(root thor.Bytes32) (*State, error) {
+func (c *Creator) NewState(root .Bytes32) (*State, error) {
 	return New(root, c.kv)
 }
