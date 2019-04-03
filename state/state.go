@@ -13,18 +13,18 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//kv"
-	"github.com/playmakerchain//stackedmap"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//trie"
+	"github.com/playmakerchain/powerplay/kv"
+	"github.com/playmakerchain/powerplay/stackedmap"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/trie"
 )
 
 // State manages the main accounts trie.
 type State struct {
-	root     .Bytes32 // root of initial accounts trie
+	root     powerplay.Bytes32 // root of initial accounts trie
 	kv       kv.GetPutter
 	trie     trieReader                     // the accounts trie reader
-	cache    map[.Address]*cachedObject // cache of accounts trie
+	cache    map[powerplay.Address]*cachedObject // cache of accounts trie
 	sm       *stackedmap.StackedMap         // keeps revisions of accounts state
 	err      error
 	setError func(err error)
@@ -42,7 +42,7 @@ type trieWriter interface {
 }
 
 // New create an state object.
-func New(root .Bytes32, kv kv.GetPutter) (*State, error) {
+func New(root powerplay.Bytes32, kv kv.GetPutter) (*State, error) {
 	trie, err := trCache.Get(root, kv, false)
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func New(root .Bytes32, kv kv.GetPutter) (*State, error) {
 		root:  root,
 		kv:    kv,
 		trie:  trie,
-		cache: make(map[.Address]*cachedObject),
+		cache: make(map[powerplay.Address]*cachedObject),
 	}
 	state.setError = func(err error) {
 		if state.err == nil {
@@ -67,11 +67,11 @@ func New(root .Bytes32, kv kv.GetPutter) (*State, error) {
 
 // Spawn create a new state object shares current state's underlying db.
 // Also errors will be reported to current state.
-func (s *State) Spawn(root .Bytes32) *State {
+func (s *State) Spawn(root powerplay.Bytes32) *State {
 	newState, err := New(root, s.kv)
 	if err != nil {
 		s.setError(err)
-		newState, _ = New(.Bytes32{}, s.kv)
+		newState, _ = New(powerplay.Bytes32{}, s.kv)
 	}
 	newState.setError = s.setError
 	return newState
@@ -80,10 +80,10 @@ func (s *State) Spawn(root .Bytes32) *State {
 // implements stackedmap.MapGetter
 func (s *State) cacheGetter(key interface{}) (value interface{}, exist bool) {
 	switch k := key.(type) {
-	case .Address: // get account
+	case powerplay.Address: // get account
 		return &s.getCachedObject(k).data, true
 	case codeKey: // get code
-		co := s.getCachedObject(.Address(k))
+		co := s.getCachedObject(powerplay.Address(k))
 		code, err := co.GetCode()
 		if err != nil {
 			s.setError(err)
@@ -102,11 +102,11 @@ func (s *State) cacheGetter(key interface{}) (value interface{}, exist bool) {
 }
 
 // build changes via journal of stackedMap.
-func (s *State) changes() map[.Address]*changedObject {
-	changes := make(map[.Address]*changedObject)
+func (s *State) changes() map[powerplay.Address]*changedObject {
+	changes := make(map[powerplay.Address]*changedObject)
 
 	// get or create changedObject
-	getOrNewObj := func(addr .Address) *changedObject {
+	getOrNewObj := func(addr powerplay.Address) *changedObject {
 		if obj, ok := changes[addr]; ok {
 			return obj
 		}
@@ -118,14 +118,14 @@ func (s *State) changes() map[.Address]*changedObject {
 	// traverse journal to build changes
 	s.sm.Journal(func(k, v interface{}) bool {
 		switch key := k.(type) {
-		case .Address:
+		case powerplay.Address:
 			getOrNewObj(key).data = *(v.(*Account))
 		case codeKey:
-			getOrNewObj(.Address(key)).code = v.([]byte)
+			getOrNewObj(powerplay.Address(key)).code = v.([]byte)
 		case storageKey:
 			o := getOrNewObj(key.addr)
 			if o.storage == nil {
-				o.storage = make(map[.Bytes32]rlp.RawValue)
+				o.storage = make(map[powerplay.Bytes32]rlp.RawValue)
 			}
 			o.storage[key.key] = v.(rlp.RawValue)
 		}
@@ -135,7 +135,7 @@ func (s *State) changes() map[.Address]*changedObject {
 	return changes
 }
 
-func (s *State) getCachedObject(addr .Address) *cachedObject {
+func (s *State) getCachedObject(addr powerplay.Address) *cachedObject {
 	if co, ok := s.cache[addr]; ok {
 		return co
 	}
@@ -150,29 +150,29 @@ func (s *State) getCachedObject(addr .Address) *cachedObject {
 }
 
 // the returned account should not be modified
-func (s *State) getAccount(addr .Address) *Account {
+func (s *State) getAccount(addr powerplay.Address) *Account {
 	v, _ := s.sm.Get(addr)
 	return v.(*Account)
 }
 
-func (s *State) getAccountCopy(addr .Address) Account {
+func (s *State) getAccountCopy(addr powerplay.Address) Account {
 	return *s.getAccount(addr)
 }
 
-func (s *State) updateAccount(addr .Address, acc *Account) {
+func (s *State) updateAccount(addr powerplay.Address, acc *Account) {
 	s.sm.Put(addr, acc)
 }
 
 // ForEachStorage iterates all storage key-value pairs for given address.
 // It's for debug purpose.
-// func (s *State) ForEachStorage(addr .Address, cb func(key .Bytes32, value []byte) bool) {
+// func (s *State) ForEachStorage(addr powerplay.Address, cb func(key powerplay.Bytes32, value []byte) bool) {
 // 	// skip if no code
-// 	if (s.GetCodeHash(addr) == .Bytes32{}) {
+// 	if (s.GetCodeHash(addr) == powerplay.Bytes32{}) {
 // 		return
 // 	}
 
 // 	// build ongoing key-value pairs
-// 	ongoing := make(map[.Bytes32][]byte)
+// 	ongoing := make(map[powerplay.Bytes32][]byte)
 // 	s.sm.Journal(func(k, v interface{}) bool {
 // 		if key, ok := k.(storageKey); ok {
 // 			if key.addr == addr {
@@ -189,7 +189,7 @@ func (s *State) updateAccount(addr .Address, acc *Account) {
 // 	}
 
 // 	co := s.getCachedObject(addr)
-// 	strie, err := trie.NewSecure(.BytesToBytes32(co.data.StorageRoot), s.kv, 0)
+// 	strie, err := trie.NewSecure(powerplay.BytesToBytes32(co.data.StorageRoot), s.kv, 0)
 // 	if err != nil {
 // 		s.setError(err)
 // 		return
@@ -201,7 +201,7 @@ func (s *State) updateAccount(addr .Address, acc *Account) {
 // 			return
 // 		}
 // 		// skip cached values
-// 		key := .BytesToBytes32(strie.GetKey(iter.Key))
+// 		key := powerplay.BytesToBytes32(strie.GetKey(iter.Key))
 // 		if _, ok := ongoing[key]; !ok {
 // 			if !cb(key, iter.Value) {
 // 				return
@@ -216,24 +216,24 @@ func (s *State) Err() error {
 }
 
 // GetBalance returns balance for the given address.
-func (s *State) GetBalance(addr .Address) *big.Int {
+func (s *State) GetBalance(addr powerplay.Address) *big.Int {
 	return s.getAccount(addr).Balance
 }
 
 // SetBalance set balance for the given address.
-func (s *State) SetBalance(addr .Address, balance *big.Int) {
+func (s *State) SetBalance(addr powerplay.Address, balance *big.Int) {
 	cpy := s.getAccountCopy(addr)
 	cpy.Balance = balance
 	s.updateAccount(addr, &cpy)
 }
 
 // GetEnergy get energy for the given address at block number specified.
-func (s *State) GetEnergy(addr .Address, blockTime uint64) *big.Int {
+func (s *State) GetEnergy(addr powerplay.Address, blockTime uint64) *big.Int {
 	return s.getAccount(addr).CalcEnergy(blockTime)
 }
 
 // SetEnergy set energy at block number for the given address.
-func (s *State) SetEnergy(addr .Address, energy *big.Int, blockTime uint64) {
+func (s *State) SetEnergy(addr powerplay.Address, energy *big.Int, blockTime uint64) {
 	cpy := s.getAccountCopy(addr)
 	cpy.Energy, cpy.BlockTime = energy, blockTime
 	s.updateAccount(addr, &cpy)
@@ -241,12 +241,12 @@ func (s *State) SetEnergy(addr .Address, energy *big.Int, blockTime uint64) {
 
 // GetMaster get master for the given address.
 // Master can move energy, manage users...
-func (s *State) GetMaster(addr .Address) .Address {
-	return .BytesToAddress(s.getAccount(addr).Master)
+func (s *State) GetMaster(addr powerplay.Address) powerplay.Address {
+	return powerplay.BytesToAddress(s.getAccount(addr).Master)
 }
 
 // SetMaster set master for the given address.
-func (s *State) SetMaster(addr .Address, master .Address) {
+func (s *State) SetMaster(addr powerplay.Address, master powerplay.Address) {
 	cpy := s.getAccountCopy(addr)
 	if master.IsZero() {
 		cpy.Master = nil
@@ -257,26 +257,26 @@ func (s *State) SetMaster(addr .Address, master .Address) {
 }
 
 // GetStorage returns storage value for the given address and key.
-func (s *State) GetStorage(addr .Address, key .Bytes32) .Bytes32 {
+func (s *State) GetStorage(addr powerplay.Address, key powerplay.Bytes32) powerplay.Bytes32 {
 	raw := s.GetRawStorage(addr, key)
 	if len(raw) == 0 {
-		return .Bytes32{}
+		return powerplay.Bytes32{}
 	}
 	kind, content, _, err := rlp.Split(raw)
 	if err != nil {
 		s.setError(err)
-		return .Bytes32{}
+		return powerplay.Bytes32{}
 	}
 	if kind == rlp.List {
 		// special case for rlp list, it should be customized storage value
 		// return hash of raw data
-		return .Blake2b(raw)
+		return powerplay.Blake2b(raw)
 	}
-	return .BytesToBytes32(content)
+	return powerplay.BytesToBytes32(content)
 }
 
 // SetStorage set storage value for the given address and key.
-func (s *State) SetStorage(addr .Address, key, value .Bytes32) {
+func (s *State) SetStorage(addr powerplay.Address, key, value powerplay.Bytes32) {
 	if value.IsZero() {
 		s.SetRawStorage(addr, key, nil)
 		return
@@ -286,19 +286,19 @@ func (s *State) SetStorage(addr .Address, key, value .Bytes32) {
 }
 
 // GetRawStorage returns storage value in rlp raw for given address and key.
-func (s *State) GetRawStorage(addr .Address, key .Bytes32) rlp.RawValue {
+func (s *State) GetRawStorage(addr powerplay.Address, key powerplay.Bytes32) rlp.RawValue {
 	data, _ := s.sm.Get(storageKey{addr, key})
 	return data.(rlp.RawValue)
 }
 
 // SetRawStorage set storage value in rlp raw.
-func (s *State) SetRawStorage(addr .Address, key .Bytes32, raw rlp.RawValue) {
+func (s *State) SetRawStorage(addr powerplay.Address, key powerplay.Bytes32, raw rlp.RawValue) {
 	s.sm.Put(storageKey{addr, key}, raw)
 }
 
 // EncodeStorage set storage value encoded by given enc method.
 // Error returned by end will be absorbed by State instance.
-func (s *State) EncodeStorage(addr .Address, key .Bytes32, enc func() ([]byte, error)) {
+func (s *State) EncodeStorage(addr powerplay.Address, key powerplay.Bytes32, enc func() ([]byte, error)) {
 	raw, err := enc()
 	if err != nil {
 		s.setError(err)
@@ -309,7 +309,7 @@ func (s *State) EncodeStorage(addr .Address, key .Bytes32, enc func() ([]byte, e
 
 // DecodeStorage get and decode storage value.
 // Error returned by dec will be absorbed by State instance.
-func (s *State) DecodeStorage(addr .Address, key .Bytes32, dec func([]byte) error) {
+func (s *State) DecodeStorage(addr powerplay.Address, key powerplay.Bytes32, dec func([]byte) error) {
 	raw := s.GetRawStorage(addr, key)
 	if err := dec(raw); err != nil {
 		s.setError(err)
@@ -317,18 +317,18 @@ func (s *State) DecodeStorage(addr .Address, key .Bytes32, dec func([]byte) erro
 }
 
 // GetCode returns code for the given address.
-func (s *State) GetCode(addr .Address) []byte {
+func (s *State) GetCode(addr powerplay.Address) []byte {
 	v, _ := s.sm.Get(codeKey(addr))
 	return v.([]byte)
 }
 
 // GetCodeHash returns code hash for the given address.
-func (s *State) GetCodeHash(addr .Address) .Bytes32 {
-	return .BytesToBytes32(s.getAccount(addr).CodeHash)
+func (s *State) GetCodeHash(addr powerplay.Address) powerplay.Bytes32 {
+	return powerplay.BytesToBytes32(s.getAccount(addr).CodeHash)
 }
 
 // SetCode set code for the given address.
-func (s *State) SetCode(addr .Address, code []byte) {
+func (s *State) SetCode(addr powerplay.Address, code []byte) {
 	var codeHash []byte
 	if len(code) > 0 {
 		s.sm.Put(codeKey(addr), code)
@@ -343,13 +343,13 @@ func (s *State) SetCode(addr .Address, code []byte) {
 
 // Exists returns whether an account exists at the given address.
 // See Account.IsEmpty()
-func (s *State) Exists(addr .Address) bool {
+func (s *State) Exists(addr powerplay.Address) bool {
 	return !s.getAccount(addr).IsEmpty()
 }
 
 // Delete delete an account at the given address.
 // That's set balance, energy and code to zero value.
-func (s *State) Delete(addr .Address) {
+func (s *State) Delete(addr powerplay.Address) {
 	s.sm.Put(codeKey(addr), []byte(nil))
 	s.updateAccount(addr, emptyAccount())
 }
@@ -366,10 +366,10 @@ func (s *State) RevertTo(revision int) {
 }
 
 // BuildStorageTrie build up storage trie for given address with cumulative changes.
-func (s *State) BuildStorageTrie(addr .Address) (*trie.SecureTrie, error) {
+func (s *State) BuildStorageTrie(addr powerplay.Address) (*trie.SecureTrie, error) {
 	acc := s.getAccount(addr)
 
-	root := .BytesToBytes32(acc.StorageRoot)
+	root := powerplay.BytesToBytes32(acc.StorageRoot)
 
 	// retrieve a copied trie
 	trie, err := trCache.Get(root, s.kv, true)
@@ -407,13 +407,13 @@ func (s *State) Stage() *Stage {
 
 type (
 	storageKey struct {
-		addr .Address
-		key  .Bytes32
+		addr powerplay.Address
+		key  powerplay.Bytes32
 	}
-	codeKey       .Address
+	codeKey       powerplay.Address
 	changedObject struct {
 		data    Account
-		storage map[.Bytes32]rlp.RawValue
+		storage map[powerplay.Bytes32]rlp.RawValue
 		code    []byte
 	}
 )
