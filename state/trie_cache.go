@@ -8,9 +8,9 @@ package state
 
 import (
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/playmakerchain//kv"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//trie"
+	"github.com/playmakerchain/powerplay/kv"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/trie"
 )
 
 var trCache = newTrieCache()
@@ -30,7 +30,7 @@ func newTrieCache() *trieCache {
 }
 
 // to get a trie for writing, copy should be set to true
-func (tc *trieCache) Get(root .Bytes32, kv kv.GetPutter, copy bool) (*trie.SecureTrie, error) {
+func (tc *trieCache) Get(root powerplay.Bytes32, kv kv.GetPutter, copy bool) (*trie.SecureTrie, error) {
 
 	if v, ok := tc.cache.Get(root); ok {
 		entry := v.(*trieCacheEntry)
@@ -52,6 +52,6 @@ func (tc *trieCache) Get(root .Bytes32, kv kv.GetPutter, copy bool) (*trie.Secur
 	return tr, nil
 }
 
-func (tc *trieCache) Add(root .Bytes32, trie *trie.SecureTrie, kv kv.GetPutter) {
+func (tc *trieCache) Add(root powerplay.Bytes32, trie *trie.SecureTrie, kv kv.GetPutter) {
 	tc.cache.Add(root, &trieCacheEntry{trie.Copy(), kv})
 }
