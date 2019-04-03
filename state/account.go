@@ -10,7 +10,7 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//"
 )
 
 // Account is the Thor consensus representation of an account.
@@ -51,7 +51,7 @@ func (a *Account) CalcEnergy(blockTime uint64) *big.Int {
 
 	x := new(big.Int).SetUint64(blockTime - a.BlockTime)
 	x.Mul(x, a.Balance)
-	x.Mul(x, thor.EnergyGrowthRate)
+	x.Mul(x, .EnergyGrowthRate)
 	x.Div(x, bigE18)
 	return new(big.Int).Add(a.Energy, x)
 }
@@ -62,7 +62,7 @@ func emptyAccount() *Account {
 
 // loadAccount load an account object by address in trie.
 // It returns empty account is no account found at the address.
-func loadAccount(trie trieReader, addr thor.Address) (*Account, error) {
+func loadAccount(trie trieReader, addr .Address) (*Account, error) {
 	data, err := trie.TryGet(addr[:])
 	if err != nil {
 		return nil, err
@@ -79,7 +79,7 @@ func loadAccount(trie trieReader, addr thor.Address) (*Account, error) {
 
 // saveAccount save account into trie at given address.
 // If the given account is empty, the value for given address is deleted.
-func saveAccount(trie trieWriter, addr thor.Address, a *Account) error {
+func saveAccount(trie trieWriter, addr .Address, a *Account) error {
 	if a.IsEmpty() {
 		// delete if account is empty
 		return trie.TryDelete(addr[:])
@@ -93,13 +93,13 @@ func saveAccount(trie trieWriter, addr thor.Address, a *Account) error {
 }
 
 // loadStorage load storage data for given key.
-func loadStorage(trie trieReader, key thor.Bytes32) (rlp.RawValue, error) {
+func loadStorage(trie trieReader, key .Bytes32) (rlp.RawValue, error) {
 	return trie.TryGet(key[:])
 }
 
 // saveStorage save value for given key.
 // If the data is zero, the given key will be deleted.
-func saveStorage(trie trieWriter, key thor.Bytes32, data rlp.RawValue) error {
+func saveStorage(trie trieWriter, key .Bytes32, data rlp.RawValue) error {
 	if len(data) == 0 {
 		// release storage if data is zero length
 		return trie.TryDelete(key[:])
