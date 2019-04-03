@@ -12,9 +12,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/trie"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//trie"
 )
 
 func M(a ...interface{}) []interface{} {
@@ -42,13 +42,13 @@ func TestAccount(t *testing.T) {
 
 func newTrie() *trie.SecureTrie {
 	kv, _ := lvldb.NewMem()
-	trie, _ := trie.NewSecure(thor.Bytes32{}, kv, 0)
+	trie, _ := trie.NewSecure(.Bytes32{}, kv, 0)
 	return trie
 }
 func TestTrie(t *testing.T) {
 	trie := newTrie()
 
-	addr := thor.BytesToAddress([]byte("account1"))
+	addr := .BytesToAddress([]byte("account1"))
 	assert.Equal(t,
 		M(loadAccount(trie, addr)),
 		[]interface{}{emptyAccount(), nil},
@@ -77,7 +77,7 @@ func TestTrie(t *testing.T) {
 func TestStorageTrie(t *testing.T) {
 	trie := newTrie()
 
-	key := thor.BytesToBytes32([]byte("key"))
+	key := .BytesToBytes32([]byte("key"))
 	assert.Equal(t,
 		M(loadStorage(trie, key)),
 		[]interface{}{rlp.RawValue(nil), nil})
