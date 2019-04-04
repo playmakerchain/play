@@ -10,22 +10,22 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // Params binder of `Params` contract.
 type Params struct {
-	addr  .Address
+	addr  powerplay.Address
 	state *state.State
 }
 
-func New(addr .Address, state *state.State) *Params {
+func New(addr powerplay.Address, state *state.State) *Params {
 	return &Params{addr, state}
 }
 
 // Get native way to get param.
-func (p *Params) Get(key .Bytes32) (value *big.Int) {
+func (p *Params) Get(key powerplay.Bytes32) (value *big.Int) {
 	p.state.DecodeStorage(p.addr, key, func(raw []byte) error {
 		if len(raw) == 0 {
 			value = &big.Int{}
@@ -37,7 +37,7 @@ func (p *Params) Get(key .Bytes32) (value *big.Int) {
 }
 
 // Set native way to set param.
-func (p *Params) Set(key .Bytes32, value *big.Int) {
+func (p *Params) Set(key powerplay.Bytes32, value *big.Int) {
 	p.state.EncodeStorage(p.addr, key, func() ([]byte, error) {
 		if value.Sign() == 0 {
 			return nil, nil
