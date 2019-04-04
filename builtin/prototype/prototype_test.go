@@ -11,10 +11,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/builtin/prototype"
-	"github.com//thor/lvldb"
-	"github.com//thor/state"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/builtin/prototype"
+	"github.com/playmakerchain/thor/lvldb"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
 )
 
 func M(a ...interface{}) []interface{} {
