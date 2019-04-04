@@ -10,24 +10,24 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 var (
-	initialSupplyKey = .Blake2b([]byte("initial-supply"))
-	totalAddSubKey   = .Blake2b([]byte("total-add-sub"))
+	initialSupplyKey = powerplay.Blake2b([]byte("initial-supply"))
+	totalAddSubKey   = powerplay.Blake2b([]byte("total-add-sub"))
 )
 
 // Energy implements energy operations.
 type Energy struct {
-	addr      .Address
+	addr      powerplay.Address
 	state     *state.State
 	blockTime uint64
 }
 
 // New creates a new energy instance.
-func New(addr .Address, state *state.State, blockTime uint64) *Energy {
+func New(addr powerplay.Address, state *state.State, blockTime uint64) *Energy {
 	return &Energy{addr, state, blockTime}
 }
 
@@ -93,12 +93,12 @@ func (e *Energy) TotalBurned() *big.Int {
 }
 
 // Get returns energy of an account at given block time.
-func (e *Energy) Get(addr .Address) *big.Int {
+func (e *Energy) Get(addr powerplay.Address) *big.Int {
 	return e.state.GetEnergy(addr, e.blockTime)
 }
 
 // Add add amount of energy to given address.
-func (e *Energy) Add(addr .Address, amount *big.Int) {
+func (e *Energy) Add(addr powerplay.Address, amount *big.Int) {
 	if amount.Sign() == 0 {
 		return
 	}
@@ -113,7 +113,7 @@ func (e *Energy) Add(addr .Address, amount *big.Int) {
 
 // Sub sub amount of energy from given address.
 // False is returned if no enough energy.
-func (e *Energy) Sub(addr .Address, amount *big.Int) bool {
+func (e *Energy) Sub(addr powerplay.Address, amount *big.Int) bool {
 	if amount.Sign() == 0 {
 		return true
 	}
