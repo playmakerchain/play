@@ -11,10 +11,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/thor/builtin/prototype"
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//builtin/prototype"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
 )
 
 func M(a ...interface{}) []interface{} {
@@ -23,15 +23,15 @@ func M(a ...interface{}) []interface{} {
 
 func TestPrototype(t *testing.T) {
 	kv, _ := lvldb.NewMem()
-	st, _ := state.New(thor.Bytes32{}, kv)
+	st, _ := state.New(.Bytes32{}, kv)
 
-	proto := prototype.New(thor.BytesToAddress([]byte("proto")), st)
-	binding := proto.Bind(thor.BytesToAddress([]byte("binding")))
+	proto := prototype.New(.BytesToAddress([]byte("proto")), st)
+	binding := proto.Bind(.BytesToAddress([]byte("binding")))
 
-	user := thor.BytesToAddress([]byte("user"))
+	user := .BytesToAddress([]byte("user"))
 	planCredit := big.NewInt(100000)
 	planRecRate := big.NewInt(2222)
-	sponsor := thor.BytesToAddress([]byte("sponsor"))
+	sponsor := .BytesToAddress([]byte("sponsor"))
 
 	tests := []struct {
 		fn       func() interface{}
