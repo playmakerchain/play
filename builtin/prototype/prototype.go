@@ -10,46 +10,46 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type Prototype struct {
-	addr  .Address
+	addr  powerplay.Address
 	state *state.State
 }
 
-func New(addr .Address, state *state.State) *Prototype {
+func New(addr powerplay.Address, state *state.State) *Prototype {
 	return &Prototype{addr, state}
 }
 
-func (p *Prototype) Bind(self .Address) *Binding {
+func (p *Prototype) Bind(self powerplay.Address) *Binding {
 	return &Binding{p.addr, p.state, self}
 }
 
 type Binding struct {
-	addr  .Address
+	addr  powerplay.Address
 	state *state.State
-	self  .Address
+	self  powerplay.Address
 }
 
-func (b *Binding) userKey(user .Address) .Bytes32 {
-	return .Blake2b(b.self.Bytes(), user.Bytes(), []byte("user"))
+func (b *Binding) userKey(user powerplay.Address) powerplay.Bytes32 {
+	return powerplay.Blake2b(b.self.Bytes(), user.Bytes(), []byte("user"))
 }
 
-func (b *Binding) creditPlanKey() .Bytes32 {
-	return .Blake2b(b.self.Bytes(), []byte("credit-plan"))
+func (b *Binding) creditPlanKey() powerplay.Bytes32 {
+	return powerplay.Blake2b(b.self.Bytes(), []byte("credit-plan"))
 }
 
-func (b *Binding) sponsorKey(sponsor .Address) .Bytes32 {
-	return .Blake2b(b.self.Bytes(), sponsor.Bytes(), []byte("sponsor"))
+func (b *Binding) sponsorKey(sponsor powerplay.Address) powerplay.Bytes32 {
+	return powerplay.Blake2b(b.self.Bytes(), sponsor.Bytes(), []byte("sponsor"))
 }
 
-func (b *Binding) curSponsorKey() .Bytes32 {
-	return .Blake2b(b.self.Bytes(), []byte("cur-sponsor"))
+func (b *Binding) curSponsorKey() powerplay.Bytes32 {
+	return powerplay.Blake2b(b.self.Bytes(), []byte("cur-sponsor"))
 }
 
-func (b *Binding) getUserObject(user .Address) *userObject {
+func (b *Binding) getUserObject(user powerplay.Address) *userObject {
 	var uo userObject
 	b.state.DecodeStorage(b.addr, b.userKey(user), func(raw []byte) error {
 		if len(raw) == 0 {
@@ -61,7 +61,7 @@ func (b *Binding) getUserObject(user .Address) *userObject {
 	return &uo
 }
 
-func (b *Binding) setUserObject(user .Address, uo *userObject) {
+func (b *Binding) setUserObject(user powerplay.Address, uo *userObject) {
 	b.state.EncodeStorage(b.addr, b.userKey(user), func() ([]byte, error) {
 		if uo.IsEmpty() {
 			return nil, nil
@@ -91,20 +91,20 @@ func (b *Binding) setCreditPlan(cp *creditPlan) {
 	})
 }
 
-func (b *Binding) IsUser(user .Address) bool {
+func (b *Binding) IsUser(user powerplay.Address) bool {
 	return !b.getUserObject(user).IsEmpty()
 }
 
-func (b *Binding) AddUser(user .Address, blockTime uint64) {
+func (b *Binding) AddUser(user powerplay.Address, blockTime uint64) {
 	b.setUserObject(user, &userObject{&big.Int{}, blockTime})
 }
 
-func (b *Binding) RemoveUser(user .Address) {
+func (b *Binding) RemoveUser(user powerplay.Address) {
 	// set to empty
 	b.setUserObject(user, &userObject{&big.Int{}, 0})
 }
 
-func (b *Binding) UserCredit(user .Address, blockTime uint64) *big.Int {
+func (b *Binding) UserCredit(user powerplay.Address, blockTime uint64) *big.Int {
 	uo := b.getUserObject(user)
 	if uo.IsEmpty() {
 		return &big.Int{}
@@ -112,7 +112,7 @@ func (b *Binding) UserCredit(user .Address, blockTime uint64) *big.Int {
 	return uo.Credit(b.getCreditPlan(), blockTime)
 }
 
-func (b *Binding) SetUserCredit(user .Address, credit *big.Int, blockTime uint64) {
+func (b *Binding) SetUserCredit(user powerplay.Address, credit *big.Int, blockTime uint64) {
 	up := b.getCreditPlan()
 	used := new(big.Int).Sub(up.Credit, credit)
 	if used.Sign() < 0 {
@@ -130,7 +130,7 @@ func (b *Binding) SetCreditPlan(credit, recoveryRate *big.Int) {
 	b.setCreditPlan(&creditPlan{credit, recoveryRate})
 }
 
-func (b *Binding) Sponsor(sponsor .Address, flag bool) {
+func (b *Binding) Sponsor(sponsor powerplay.Address, flag bool) {
 	b.state.EncodeStorage(b.addr, b.sponsorKey(sponsor), func() ([]byte, error) {
 		if !flag {
 			return nil, nil
@@ -139,7 +139,7 @@ func (b *Binding) Sponsor(sponsor .Address, flag bool) {
 	})
 }
 
-func (b *Binding) IsSponsor(sponsor .Address) (flag bool) {
+func (b *Binding) IsSponsor(sponsor powerplay.Address) (flag bool) {
 	b.state.DecodeStorage(b.addr, b.sponsorKey(sponsor), func(raw []byte) error {
 		if len(raw) == 0 {
 			return nil
@@ -149,10 +149,10 @@ func (b *Binding) IsSponsor(sponsor .Address) (flag bool) {
 	return
 }
 
-func (b *Binding) SelectSponsor(sponsor .Address) {
-	b.state.SetStorage(b.addr, b.curSponsorKey(), .BytesToBytes32(sponsor.Bytes()))
+func (b *Binding) SelectSponsor(sponsor powerplay.Address) {
+	b.state.SetStorage(b.addr, b.curSponsorKey(), powerplay.BytesToBytes32(sponsor.Bytes()))
 }
 
-func (b *Binding) CurrentSponsor() .Address {
-	return .BytesToAddress(b.state.GetStorage(b.addr, b.curSponsorKey()).Bytes())
+func (b *Binding) CurrentSponsor() powerplay.Address {
+	return powerplay.BytesToAddress(b.state.GetStorage(b.addr, b.curSponsorKey()).Bytes())
 }
