@@ -10,24 +10,24 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
 )
 
 var (
-	initialSupplyKey = thor.Blake2b([]byte("initial-supply"))
-	totalAddSubKey   = thor.Blake2b([]byte("total-add-sub"))
+	initialSupplyKey = .Blake2b([]byte("initial-supply"))
+	totalAddSubKey   = .Blake2b([]byte("total-add-sub"))
 )
 
 // Energy implements energy operations.
 type Energy struct {
-	addr      thor.Address
+	addr      .Address
 	state     *state.State
 	blockTime uint64
 }
 
 // New creates a new energy instance.
-func New(addr thor.Address, state *state.State, blockTime uint64) *Energy {
+func New(addr .Address, state *state.State, blockTime uint64) *Energy {
 	return &Energy{addr, state, blockTime}
 }
 
@@ -93,12 +93,12 @@ func (e *Energy) TotalBurned() *big.Int {
 }
 
 // Get returns energy of an account at given block time.
-func (e *Energy) Get(addr thor.Address) *big.Int {
+func (e *Energy) Get(addr .Address) *big.Int {
 	return e.state.GetEnergy(addr, e.blockTime)
 }
 
 // Add add amount of energy to given address.
-func (e *Energy) Add(addr thor.Address, amount *big.Int) {
+func (e *Energy) Add(addr .Address, amount *big.Int) {
 	if amount.Sign() == 0 {
 		return
 	}
@@ -113,7 +113,7 @@ func (e *Energy) Add(addr thor.Address, amount *big.Int) {
 
 // Sub sub amount of energy from given address.
 // False is returned if no enough energy.
-func (e *Energy) Sub(addr thor.Address, amount *big.Int) bool {
+func (e *Energy) Sub(addr .Address, amount *big.Int) bool {
 	if amount.Sign() == 0 {
 		return true
 	}
