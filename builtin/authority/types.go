@@ -7,23 +7,23 @@
 package authority
 
 import (
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type (
 	entry struct {
-		Endorsor .Address
-		Identity .Bytes32
+		Endorsor powerplay.Address
+		Identity powerplay.Bytes32
 		Active   bool
-		Prev     *.Address `rlp:"nil"`
-		Next     *.Address `rlp:"nil"`
+		Prev     *powerplay.Address `rlp:"nil"`
+		Next     *powerplay.Address `rlp:"nil"`
 	}
 
 	// Candidate candidate of block proposer.
 	Candidate struct {
-		NodeMaster .Address
-		Endorsor   .Address
-		Identity   .Bytes32
+		NodeMaster powerplay.Address
+		Endorsor   powerplay.Address
+		Identity   powerplay.Bytes32
 		Active     bool
 	}
 )
