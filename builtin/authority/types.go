@@ -7,7 +7,7 @@
 package authority
 
 import (
-	"github.com/vechain/thor/thor"
+	"github.com//thor/thor"
 )
 
 type (
