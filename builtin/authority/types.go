@@ -7,7 +7,7 @@
 package authority
 
 import (
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 type (
