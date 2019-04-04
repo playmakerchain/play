@@ -7,12 +7,12 @@
 pragma solidity 0.4.24;
 import "./token.sol";
 
-/// @title Energy implements VIP180(ERC20) standard, to present  sub-token.
+/// @title Energy implements VIP180(ERC20) standard, to present PowerPlay sub-token.
 contract Energy is _Token {
     mapping(address => mapping(address => uint256)) allowed;
 
     function name() public pure returns(string) {
-        return "";
+        return "PowerPlay";
     }
 
     function decimals() public pure returns(uint8) {
