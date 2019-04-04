@@ -7,23 +7,23 @@
 package authority
 
 import (
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//"
 )
 
 type (
 	entry struct {
-		Endorsor thor.Address
-		Identity thor.Bytes32
+		Endorsor .Address
+		Identity .Bytes32
 		Active   bool
-		Prev     *thor.Address `rlp:"nil"`
-		Next     *thor.Address `rlp:"nil"`
+		Prev     *.Address `rlp:"nil"`
+		Next     *.Address `rlp:"nil"`
 	}
 
 	// Candidate candidate of block proposer.
 	Candidate struct {
-		NodeMaster thor.Address
-		Endorsor   thor.Address
-		Identity   thor.Bytes32
+		NodeMaster .Address
+		Endorsor   .Address
+		Identity   .Bytes32
 		Active     bool
 	}
 )
