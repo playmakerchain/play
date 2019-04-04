@@ -20,7 +20,7 @@ contract Energy is _Token {
     }
 
     function symbol() public pure returns(string) {
-        return "";
+        return "PWP";
     }
 
     function totalSupply() public view returns(uint256) {
