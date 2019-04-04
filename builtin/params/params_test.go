@@ -11,17 +11,17 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 func TestParamsGetSet(t *testing.T) {
 	kv, _ := lvldb.NewMem()
-	st, _ := state.New(.Bytes32{}, kv)
+	st, _ := state.New(powerplay.Bytes32{}, kv)
 	setv := big.NewInt(10)
-	key := .BytesToBytes32([]byte("key"))
-	p := New(.BytesToAddress([]byte("par")), st)
+	key := powerplay.BytesToBytes32([]byte("key"))
+	p := New(powerplay.BytesToAddress([]byte("par")), st)
 	p.Set(key, setv)
 
 	getv := p.Get(key)
