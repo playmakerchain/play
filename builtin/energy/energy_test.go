@@ -11,18 +11,18 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 func TestEnergy(t *testing.T) {
 	kv, _ := lvldb.NewMem()
-	st, _ := state.New(.Bytes32{}, kv)
+	st, _ := state.New(powerplay.Bytes32{}, kv)
 
-	acc := .BytesToAddress([]byte("a1"))
+	acc := powerplay.BytesToAddress([]byte("a1"))
 
-	eng := New(.BytesToAddress([]byte("eng")), st, 0)
+	eng := New(powerplay.BytesToAddress([]byte("eng")), st, 0)
 	tests := []struct {
 		ret      interface{}
 		expected interface{}
@@ -43,19 +43,19 @@ func TestEnergy(t *testing.T) {
 
 func TestEnergyGrowth(t *testing.T) {
 	kv, _ := lvldb.NewMem()
-	st, _ := state.New(.Bytes32{}, kv)
+	st, _ := state.New(powerplay.Bytes32{}, kv)
 
-	acc := .BytesToAddress([]byte("a1"))
+	acc := powerplay.BytesToAddress([]byte("a1"))
 
 	st.SetEnergy(acc, &big.Int{}, 10)
 
 	vetBal := big.NewInt(1e18)
 	st.SetBalance(acc, vetBal)
 
-	bal1 := New(.Address{}, st, 1000).
+	bal1 := New(powerplay.Address{}, st, 1000).
 		Get(acc)
 
-	x := new(big.Int).Mul(.EnergyGrowthRate, vetBal)
+	x := new(big.Int).Mul(powerplay.EnergyGrowthRate, vetBal)
 	x.Mul(x, new(big.Int).SetUint64(1000-10))
 	x.Div(x, big.NewInt(1e18))
 
