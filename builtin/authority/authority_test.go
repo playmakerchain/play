@@ -11,9 +11,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/lvldb"
+	"github.com//thor/state"
+	"github.com//thor/thor"
 )
 
 func M(a ...interface{}) []interface{} {
