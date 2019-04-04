@@ -10,29 +10,29 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 var (
-	headKey = .Blake2b([]byte("head"))
-	tailKey = .Blake2b([]byte("tail"))
+	headKey = powerplay.Blake2b([]byte("head"))
+	tailKey = powerplay.Blake2b([]byte("tail"))
 )
 
 // Authority implements native methods of `Authority` contract.
 type Authority struct {
-	addr  .Address
+	addr  powerplay.Address
 	state *state.State
 }
 
 // New create a new instance.
-func New(addr .Address, state *state.State) *Authority {
+func New(addr powerplay.Address, state *state.State) *Authority {
 	return &Authority{addr, state}
 }
 
-func (a *Authority) getEntry(nodeMaster .Address) *entry {
+func (a *Authority) getEntry(nodeMaster powerplay.Address) *entry {
 	var entry entry
-	a.state.DecodeStorage(a.addr, .BytesToBytes32(nodeMaster[:]), func(raw []byte) error {
+	a.state.DecodeStorage(a.addr, powerplay.BytesToBytes32(nodeMaster[:]), func(raw []byte) error {
 		if len(raw) == 0 {
 			return nil
 		}
@@ -41,8 +41,8 @@ func (a *Authority) getEntry(nodeMaster .Address) *entry {
 	return &entry
 }
 
-func (a *Authority) setEntry(nodeMaster .Address, entry *entry) {
-	a.state.EncodeStorage(a.addr, .BytesToBytes32(nodeMaster[:]), func() ([]byte, error) {
+func (a *Authority) setEntry(nodeMaster powerplay.Address, entry *entry) {
+	a.state.EncodeStorage(a.addr, powerplay.BytesToBytes32(nodeMaster[:]), func() ([]byte, error) {
 		if entry.IsEmpty() {
 			return nil, nil
 		}
@@ -50,7 +50,7 @@ func (a *Authority) setEntry(nodeMaster .Address, entry *entry) {
 	})
 }
 
-func (a *Authority) getAddressPtr(key .Bytes32) (addr *.Address) {
+func (a *Authority) getAddressPtr(key powerplay.Bytes32) (addr *powerplay.Address) {
 	a.state.DecodeStorage(a.addr, key, func(raw []byte) error {
 		if len(raw) == 0 {
 			return nil
@@ -60,7 +60,7 @@ func (a *Authority) getAddressPtr(key .Bytes32) (addr *.Address) {
 	return
 }
 
-func (a *Authority) setAddressPtr(key .Bytes32, addr *.Address) {
+func (a *Authority) setAddressPtr(key powerplay.Bytes32, addr *powerplay.Address) {
 	a.state.EncodeStorage(a.addr, key, func() ([]byte, error) {
 		if addr == nil {
 			return nil, nil
@@ -70,7 +70,7 @@ func (a *Authority) setAddressPtr(key .Bytes32, addr *.Address) {
 }
 
 // Get get candidate by node master address.
-func (a *Authority) Get(nodeMaster .Address) (listed bool, endorsor .Address, identity .Bytes32, active bool) {
+func (a *Authority) Get(nodeMaster powerplay.Address) (listed bool, endorsor powerplay.Address, identity powerplay.Bytes32, active bool) {
 	entry := a.getEntry(nodeMaster)
 	if entry.IsLinked() {
 		return true, entry.Endorsor, entry.Identity, entry.Active
@@ -83,7 +83,7 @@ func (a *Authority) Get(nodeMaster .Address) (listed bool, endorsor .Address, id
 }
 
 // Add add a new candidate.
-func (a *Authority) Add(nodeMaster .Address, endorsor .Address, identity .Bytes32) bool {
+func (a *Authority) Add(nodeMaster powerplay.Address, endorsor powerplay.Address, identity powerplay.Bytes32) bool {
 	entry := a.getEntry(nodeMaster)
 	if !entry.IsEmpty() {
 		return false
@@ -111,7 +111,7 @@ func (a *Authority) Add(nodeMaster .Address, endorsor .Address, identity .Bytes3
 
 // Revoke revoke candidate by given node master address.
 // The entry is not removed, but set unlisted and inactive.
-func (a *Authority) Revoke(nodeMaster .Address) bool {
+func (a *Authority) Revoke(nodeMaster powerplay.Address) bool {
 	entry := a.getEntry(nodeMaster)
 	if !entry.IsLinked() {
 		return false
@@ -141,7 +141,7 @@ func (a *Authority) Revoke(nodeMaster .Address) bool {
 }
 
 // Update update candidate's status.
-func (a *Authority) Update(nodeMaster .Address, active bool) bool {
+func (a *Authority) Update(nodeMaster powerplay.Address, active bool) bool {
 	entry := a.getEntry(nodeMaster)
 	if !entry.IsLinked() {
 		return false
@@ -171,11 +171,11 @@ func (a *Authority) Candidates(endorsement *big.Int, limit uint64) []*Candidate 
 }
 
 // First returns node master address of first entry.
-func (a *Authority) First() *.Address {
+func (a *Authority) First() *powerplay.Address {
 	return a.getAddressPtr(headKey)
 }
 
 // Next returns address of next node master address after given node master address.
-func (a *Authority) Next(nodeMaster .Address) *.Address {
+func (a *Authority) Next(nodeMaster powerplay.Address) *powerplay.Address {
 	return a.getEntry(nodeMaster).Next
 }
