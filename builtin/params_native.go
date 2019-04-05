@@ -10,8 +10,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/xenv"
+	"github.com//thor/thor"
+	"github.com//thor/xenv"
 )
 
 func init() {
