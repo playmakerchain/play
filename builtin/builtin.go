@@ -8,15 +8,15 @@ package builtin
 
 import (
 	"github.com/pkg/errors"
-	"github.com//thor/abi"
-	"github.com//thor/builtin/authority"
-	"github.com//thor/builtin/energy"
-	"github.com//thor/builtin/gen"
-	"github.com//thor/builtin/params"
-	"github.com//thor/builtin/prototype"
-	"github.com//thor/state"
-	"github.com//thor/thor"
-	"github.com//thor/xenv"
+	"github.com/playmakerchain/thor/abi"
+	"github.com/playmakerchain/thor/builtin/authority"
+	"github.com/playmakerchain/thor/builtin/energy"
+	"github.com/playmakerchain/thor/builtin/gen"
+	"github.com/playmakerchain/thor/builtin/params"
+	"github.com/playmakerchain/thor/builtin/prototype"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/xenv"
 )
 
 // Builtin contracts binding.
