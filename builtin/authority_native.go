@@ -8,8 +8,8 @@ package builtin
 
 import (
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//xenv"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 func init() {
@@ -18,8 +18,8 @@ func init() {
 		run  func(env *xenv.Environment) []interface{}
 	}{
 		{"native_executor", func(env *xenv.Environment) []interface{} {
-			env.UseGas(.SloadGas)
-			addr := .BytesToAddress(Params.Native(env.State()).Get(.KeyExecutorAddress).Bytes())
+			env.UseGas(powerplay.SloadGas)
+			addr := powerplay.BytesToAddress(Params.Native(env.State()).Get(powerplay.KeyExecutorAddress).Bytes())
 			return []interface{}{addr}
 		}},
 		{"native_add", func(env *xenv.Environment) []interface{} {
@@ -30,15 +30,15 @@ func init() {
 			}
 			env.ParseArgs(&args)
 
-			env.UseGas(.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			ok := Authority.Native(env.State()).Add(
-				.Address(args.NodeMaster),
-				.Address(args.Endorsor),
-				.Bytes32(args.Identity))
+				powerplay.Address(args.NodeMaster),
+				powerplay.Address(args.Endorsor),
+				powerplay.Bytes32(args.Identity))
 
 			if ok {
-				env.UseGas(.SstoreSetGas)
-				env.UseGas(.SstoreResetGas)
+				env.UseGas(powerplay.SstoreSetGas)
+				env.UseGas(powerplay.SstoreResetGas)
 			}
 			return []interface{}{ok}
 		}},
@@ -46,10 +46,10 @@ func init() {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(.SloadGas)
-			ok := Authority.Native(env.State()).Revoke(.Address(nodeMaster))
+			env.UseGas(powerplay.SloadGas)
+			ok := Authority.Native(env.State()).Revoke(powerplay.Address(nodeMaster))
 			if ok {
-				env.UseGas(.SstoreResetGas * 3)
+				env.UseGas(powerplay.SstoreResetGas * 3)
 			}
 			return []interface{}{ok}
 		}},
@@ -57,43 +57,43 @@ func init() {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(.SloadGas * 2)
-			listed, endorsor, identity, active := Authority.Native(env.State()).Get(.Address(nodeMaster))
+			env.UseGas(powerplay.SloadGas * 2)
+			listed, endorsor, identity, active := Authority.Native(env.State()).Get(powerplay.Address(nodeMaster))
 
 			return []interface{}{listed, endorsor, identity, active}
 		}},
 		{"native_first", func(env *xenv.Environment) []interface{} {
-			env.UseGas(.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			if nodeMaster := Authority.Native(env.State()).First(); nodeMaster != nil {
 				return []interface{}{*nodeMaster}
 			}
-			return []interface{}{.Address{}}
+			return []interface{}{powerplay.Address{}}
 		}},
 		{"native_next", func(env *xenv.Environment) []interface{} {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(.SloadGas)
-			if next := Authority.Native(env.State()).Next(.Address(nodeMaster)); next != nil {
+			env.UseGas(powerplay.SloadGas)
+			if next := Authority.Native(env.State()).Next(powerplay.Address(nodeMaster)); next != nil {
 				return []interface{}{*next}
 			}
-			return []interface{}{.Address{}}
+			return []interface{}{powerplay.Address{}}
 		}},
 		{"native_isEndorsed", func(env *xenv.Environment) []interface{} {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(.SloadGas * 2)
-			listed, endorsor, _, _ := Authority.Native(env.State()).Get(.Address(nodeMaster))
+			env.UseGas(powerplay.SloadGas * 2)
+			listed, endorsor, _, _ := Authority.Native(env.State()).Get(powerplay.Address(nodeMaster))
 			if !listed {
 				return []interface{}{false}
 			}
 
-			env.UseGas(.GetBalanceGas)
+			env.UseGas(powerplay.GetBalanceGas)
 			bal := env.State().GetBalance(endorsor)
 
-			env.UseGas(.SloadGas)
-			endorsement := Params.Native(env.State()).Get(.KeyProposerEndorsement)
+			env.UseGas(powerplay.SloadGas)
+			endorsement := Params.Native(env.State()).Get(powerplay.KeyProposerEndorsement)
 			return []interface{}{bal.Cmp(endorsement) >= 0}
 		}},
 	}
