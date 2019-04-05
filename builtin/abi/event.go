@@ -8,12 +8,12 @@ package abi
 
 import (
 	ethabi "github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // Event see abi.Event in go-ethereum.
 type Event struct {
-	id                 .Bytes32
+	id                 powerplay.Bytes32
 	event              *ethabi.Event
 	argsWithoutIndexed ethabi.Arguments
 }
@@ -26,14 +26,14 @@ func newEvent(event *ethabi.Event) *Event {
 		}
 	}
 	return &Event{
-		.Bytes32(event.Id()),
+		powerplay.Bytes32(event.Id()),
 		event,
 		argsWithoutIndexed,
 	}
 }
 
 // ID returns event id.
-func (e *Event) ID() .Bytes32 {
+func (e *Event) ID() powerplay.Bytes32 {
 	return e.id
 }
 
