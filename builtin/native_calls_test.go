@@ -408,7 +408,7 @@ func TestEnergyNative(t *testing.T) {
 	}
 
 	test.Case("name").
-		ShouldOutput("").
+		ShouldOutput("PowerPlay").
 		Assert(t)
 
 	test.Case("decimals").
