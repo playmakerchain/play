@@ -8,12 +8,12 @@ package abi
 
 import (
 	ethabi "github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//"
 )
 
 // Event see abi.Event in go-ethereum.
 type Event struct {
-	id                 play.Bytes32
+	id                 .Bytes32
 	event              *ethabi.Event
 	argsWithoutIndexed ethabi.Arguments
 }
@@ -26,14 +26,14 @@ func newEvent(event *ethabi.Event) *Event {
 		}
 	}
 	return &Event{
-		play.Bytes32(event.Id()),
+		.Bytes32(event.Id()),
 		event,
 		argsWithoutIndexed,
 	}
 }
 
 // ID returns event id.
-func (e *Event) ID() play.Bytes32 {
+func (e *Event) ID() .Bytes32 {
 	return e.id
 }
 
