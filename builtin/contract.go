@@ -10,9 +10,9 @@ import (
 	"encoding/hex"
 
 	"github.com/pkg/errors"
-	"github.com//thor/abi"
-	"github.com//thor/builtin/gen"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/abi"
+	"github.com/playmakerchain/thor/builtin/gen"
+	"github.com/playmakerchain/thor/thor"
 )
 
 type contract struct {
