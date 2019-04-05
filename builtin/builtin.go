@@ -8,15 +8,15 @@ package builtin
 
 import (
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//abi"
-	"github.com/playmakerchain//builtin/authority"
-	"github.com/playmakerchain//builtin/energy"
-	"github.com/playmakerchain//builtin/gen"
-	"github.com/playmakerchain//builtin/params"
-	"github.com/playmakerchain//builtin/prototype"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//xenv"
+	"github.com/playmakerchain/powerplay/abi"
+	"github.com/playmakerchain/powerplay/builtin/authority"
+	"github.com/playmakerchain/powerplay/builtin/energy"
+	"github.com/playmakerchain/powerplay/builtin/gen"
+	"github.com/playmakerchain/powerplay/builtin/params"
+	"github.com/playmakerchain/powerplay/builtin/prototype"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 // Builtin contracts binding.
@@ -71,14 +71,14 @@ type nativeMethod struct {
 }
 
 type methodKey struct {
-	.Address
+	powerplay.Address
 	abi.MethodID
 }
 
 var nativeMethods = make(map[methodKey]*nativeMethod)
 
 // FindNativeCall find native calls.
-func FindNativeCall(to .Address, input []byte) (*abi.Method, func(*xenv.Environment) []interface{}, bool) {
+func FindNativeCall(to powerplay.Address, input []byte) (*abi.Method, func(*xenv.Environment) []interface{}, bool) {
 	methodID, err := abi.ExtractMethodID(input)
 	if err != nil {
 		return nil, nil, false
