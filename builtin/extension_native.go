@@ -7,8 +7,8 @@
 package builtin
 
 import (
-	"github.com//thor/thor"
-	"github.com//thor/xenv"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/xenv"
 )
 
 const (
