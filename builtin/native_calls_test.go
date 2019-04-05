@@ -18,18 +18,18 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//abi"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//builtin"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//genesis"
-	"github.com/playmakerchain//kv"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//runtime"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
-	"github.com/playmakerchain//xenv"
+	"github.com/playmakerchain/powerplay/abi"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/genesis"
+	"github.com/playmakerchain/powerplay/kv"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/runtime"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 var errReverted = errors.New("evm: execution reverted")
@@ -37,18 +37,18 @@ var errReverted = errors.New("evm: execution reverted")
 type ctest struct {
 	rt         *runtime.Runtime
 	abi        *abi.ABI
-	to, caller .Address
+	to, caller powerplay.Address
 }
 
 type ccase struct {
 	rt         *runtime.Runtime
 	abi        *abi.ABI
-	to, caller .Address
+	to, caller powerplay.Address
 	name       string
 	args       []interface{}
 	events     tx.Events
 	provedWork *big.Int
-	txID       .Bytes32
+	txID       powerplay.Bytes32
 	blockRef   tx.BlockRef
 	expiration uint32
 
@@ -67,12 +67,12 @@ func (c *ctest) Case(name string, args ...interface{}) *ccase {
 	}
 }
 
-func (c *ccase) To(to .Address) *ccase {
+func (c *ccase) To(to powerplay.Address) *ccase {
 	c.to = to
 	return c
 }
 
-func (c *ccase) Caller(caller .Address) *ccase {
+func (c *ccase) Caller(caller powerplay.Address) *ccase {
 	c.caller = caller
 	return c
 }
@@ -82,7 +82,7 @@ func (c *ccase) ProvedWork(provedWork *big.Int) *ccase {
 	return c
 }
 
-func (c *ccase) TxID(txID .Bytes32) *ccase {
+func (c *ccase) TxID(txID powerplay.Bytes32) *ccase {
 	c.txID = txID
 	return c
 }
@@ -180,11 +180,11 @@ func buildGenesis(kv kv.GetPutter, proc func(state *state.State) error) *block.B
 }
 
 func TestParamsNative(t *testing.T) {
-	executor := .BytesToAddress([]byte("e"))
+	executor := powerplay.BytesToAddress([]byte("e"))
 	kv, _ := lvldb.NewMem()
 	b0 := buildGenesis(kv, func(state *state.State) error {
 		state.SetCode(builtin.Params.Address, builtin.Params.RuntimeBytecodes())
-		builtin.Params.Native(state).Set(.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))
+		builtin.Params.Native(state).Set(powerplay.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))
 		return nil
 	})
 	c, _ := chain.New(kv, b0)
@@ -203,14 +203,14 @@ func TestParamsNative(t *testing.T) {
 		to:  builtin.Params.Address,
 	}
 
-	key := .BytesToBytes32([]byte("key"))
+	key := powerplay.BytesToBytes32([]byte("key"))
 	value := big.NewInt(999)
-	setEvent := func(key .Bytes32, value *big.Int) *tx.Event {
+	setEvent := func(key powerplay.Bytes32, value *big.Int) *tx.Event {
 		ev, _ := builtin.Params.ABI.EventByName("Set")
 		data, _ := ev.Encode(value)
 		return &tx.Event{
 			Address: builtin.Params.Address,
-			Topics:  [].Bytes32{ev.ID(), key},
+			Topics:  []powerplay.Bytes32{ev.ID(), key},
 			Data:    data,
 		}
 	}
@@ -236,27 +236,27 @@ func TestParamsNative(t *testing.T) {
 
 func TestAuthorityNative(t *testing.T) {
 	var (
-		master1   = .BytesToAddress([]byte("master1"))
-		endorsor1 = .BytesToAddress([]byte("endorsor1"))
-		identity1 = .BytesToBytes32([]byte("identity1"))
+		master1   = powerplay.BytesToAddress([]byte("master1"))
+		endorsor1 = powerplay.BytesToAddress([]byte("endorsor1"))
+		identity1 = powerplay.BytesToBytes32([]byte("identity1"))
 
-		master2   = .BytesToAddress([]byte("master2"))
-		endorsor2 = .BytesToAddress([]byte("endorsor2"))
-		identity2 = .BytesToBytes32([]byte("identity2"))
+		master2   = powerplay.BytesToAddress([]byte("master2"))
+		endorsor2 = powerplay.BytesToAddress([]byte("endorsor2"))
+		identity2 = powerplay.BytesToBytes32([]byte("identity2"))
 
-		master3   = .BytesToAddress([]byte("master3"))
-		endorsor3 = .BytesToAddress([]byte("endorsor3"))
-		identity3 = .BytesToBytes32([]byte("identity3"))
-		executor  = .BytesToAddress([]byte("e"))
+		master3   = powerplay.BytesToAddress([]byte("master3"))
+		endorsor3 = powerplay.BytesToAddress([]byte("endorsor3"))
+		identity3 = powerplay.BytesToBytes32([]byte("identity3"))
+		executor  = powerplay.BytesToAddress([]byte("e"))
 	)
 
 	kv, _ := lvldb.NewMem()
 	b0 := buildGenesis(kv, func(state *state.State) error {
 		state.SetCode(builtin.Authority.Address, builtin.Authority.RuntimeBytecodes())
-		state.SetBalance(.Address(endorsor1), .InitialProposerEndorsement)
+		state.SetBalance(powerplay.Address(endorsor1), powerplay.InitialProposerEndorsement)
 		state.SetCode(builtin.Params.Address, builtin.Params.RuntimeBytecodes())
-		builtin.Params.Native(state).Set(.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))
-		builtin.Params.Native(state).Set(.KeyProposerEndorsement, .InitialProposerEndorsement)
+		builtin.Params.Native(state).Set(powerplay.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))
+		builtin.Params.Native(state).Set(powerplay.KeyProposerEndorsement, powerplay.InitialProposerEndorsement)
 		return nil
 	})
 	c, _ := chain.New(kv, b0)
@@ -269,14 +269,14 @@ func TestAuthorityNative(t *testing.T) {
 
 	rt := runtime.New(seeker, st, &xenv.BlockContext{})
 
-	candidateEvent := func(nodeMaster .Address, action string) *tx.Event {
+	candidateEvent := func(nodeMaster powerplay.Address, action string) *tx.Event {
 		ev, _ := builtin.Authority.ABI.EventByName("Candidate")
-		var b32 .Bytes32
+		var b32 powerplay.Bytes32
 		copy(b32[:], action)
 		data, _ := ev.Encode(b32)
 		return &tx.Event{
 			Address: builtin.Authority.Address,
-			Topics:  [].Bytes32{ev.ID(), .BytesToBytes32(nodeMaster[:])},
+			Topics:  []powerplay.Bytes32{ev.ID(), powerplay.BytesToBytes32(nodeMaster[:])},
 			Data:    data,
 		}
 	}
@@ -293,7 +293,7 @@ func TestAuthorityNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("first").
-		ShouldOutput(.Address{}).
+		ShouldOutput(powerplay.Address{}).
 		Assert(t)
 
 	test.Case("add", master1, endorsor1, identity1).
@@ -325,11 +325,11 @@ func TestAuthorityNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("next", master3).
-		ShouldOutput(.Address{}).
+		ShouldOutput(powerplay.Address{}).
 		Assert(t)
 
 	test.Case("add", master1, endorsor1, identity1).
-		Caller(.BytesToAddress([]byte("other"))).
+		Caller(powerplay.BytesToAddress([]byte("other"))).
 		ShouldVMError(errReverted).
 		Assert(t)
 
@@ -349,16 +349,16 @@ func TestAuthorityNative(t *testing.T) {
 	// any one can revoke a candidate if out of endorsement
 	st.SetBalance(endorsor2, big.NewInt(1))
 	test.Case("revoke", master2).
-		Caller(.BytesToAddress([]byte("some one"))).
+		Caller(powerplay.BytesToAddress([]byte("some one"))).
 		Assert(t)
 
 }
 
 func TestEnergyNative(t *testing.T) {
 	var (
-		addr   = .BytesToAddress([]byte("addr"))
-		to     = .BytesToAddress([]byte("to"))
-		master = .BytesToAddress([]byte("master"))
+		addr   = powerplay.BytesToAddress([]byte("addr"))
+		to     = powerplay.BytesToAddress([]byte("to"))
+		master = powerplay.BytesToAddress([]byte("master"))
 		eng    = big.NewInt(1000)
 	)
 
@@ -380,21 +380,21 @@ func TestEnergyNative(t *testing.T) {
 	st.SetEnergy(addr, eng, b0.Header().Timestamp())
 	builtin.Energy.Native(st, b0.Header().Timestamp()).SetInitialSupply(&big.Int{}, eng)
 
-	transferEvent := func(from, to .Address, value *big.Int) *tx.Event {
+	transferEvent := func(from, to powerplay.Address, value *big.Int) *tx.Event {
 		ev, _ := builtin.Energy.ABI.EventByName("Transfer")
 		data, _ := ev.Encode(value)
 		return &tx.Event{
 			Address: builtin.Energy.Address,
-			Topics:  [].Bytes32{ev.ID(), .BytesToBytes32(from[:]), .BytesToBytes32(to[:])},
+			Topics:  []powerplay.Bytes32{ev.ID(), powerplay.BytesToBytes32(from[:]), powerplay.BytesToBytes32(to[:])},
 			Data:    data,
 		}
 	}
-	approvalEvent := func(owner, spender .Address, value *big.Int) *tx.Event {
+	approvalEvent := func(owner, spender powerplay.Address, value *big.Int) *tx.Event {
 		ev, _ := builtin.Energy.ABI.EventByName("Approval")
 		data, _ := ev.Encode(value)
 		return &tx.Event{
 			Address: builtin.Energy.Address,
-			Topics:  [].Bytes32{ev.ID(), .BytesToBytes32(owner[:]), .BytesToBytes32(spender[:])},
+			Topics:  []powerplay.Bytes32{ev.ID(), powerplay.BytesToBytes32(owner[:]), powerplay.BytesToBytes32(spender[:])},
 			Data:    data,
 		}
 	}
@@ -438,7 +438,7 @@ func TestEnergyNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("transfer", to, big.NewInt(10)).
-		Caller(.BytesToAddress([]byte("some one"))).
+		Caller(powerplay.BytesToAddress([]byte("some one"))).
 		ShouldVMError(errReverted).
 		Assert(t)
 
@@ -449,7 +449,7 @@ func TestEnergyNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("move", addr, to, big.NewInt(10)).
-		Caller(.BytesToAddress([]byte("some one"))).
+		Caller(powerplay.BytesToAddress([]byte("some one"))).
 		ShouldVMError(errReverted).
 		Assert(t)
 
@@ -463,14 +463,14 @@ func TestEnergyNative(t *testing.T) {
 		ShouldOutput(big.NewInt(10)).
 		Assert(t)
 
-	test.Case("transferFrom", addr, .BytesToAddress([]byte("some one")), big.NewInt(10)).
+	test.Case("transferFrom", addr, powerplay.BytesToAddress([]byte("some one")), big.NewInt(10)).
 		Caller(to).
-		ShouldLog(transferEvent(addr, .BytesToAddress([]byte("some one")), big.NewInt(10))).
+		ShouldLog(transferEvent(addr, powerplay.BytesToAddress([]byte("some one")), big.NewInt(10))).
 		ShouldOutput(true).
 		Assert(t)
 
 	test.Case("transferFrom", addr, to, big.NewInt(10)).
-		Caller(.BytesToAddress([]byte("some one"))).
+		Caller(powerplay.BytesToAddress([]byte("some one"))).
 		ShouldVMError(errReverted).
 		Assert(t)
 
@@ -478,22 +478,22 @@ func TestEnergyNative(t *testing.T) {
 
 func TestPrototypeNative(t *testing.T) {
 	var (
-		acc1 = .BytesToAddress([]byte("acc1"))
-		acc2 = .BytesToAddress([]byte("acc2"))
+		acc1 = powerplay.BytesToAddress([]byte("acc1"))
+		acc2 = powerplay.BytesToAddress([]byte("acc2"))
 
-		master    = .BytesToAddress([]byte("master"))
-		notmaster = .BytesToAddress([]byte("notmaster"))
-		user      = .BytesToAddress([]byte("user"))
-		notuser   = .BytesToAddress([]byte("notuser"))
+		master    = powerplay.BytesToAddress([]byte("master"))
+		notmaster = powerplay.BytesToAddress([]byte("notmaster"))
+		user      = powerplay.BytesToAddress([]byte("user"))
+		notuser   = powerplay.BytesToAddress([]byte("notuser"))
 
 		credit       = big.NewInt(1000)
 		recoveryRate = big.NewInt(10)
-		sponsor      = .BytesToAddress([]byte("sponsor"))
-		notsponsor   = .BytesToAddress([]byte("notsponsor"))
+		sponsor      = powerplay.BytesToAddress([]byte("sponsor"))
+		notsponsor   = powerplay.BytesToAddress([]byte("notsponsor"))
 
-		key      = .BytesToBytes32([]byte("account-key"))
-		value    = .BytesToBytes32([]byte("account-value"))
-		contract .Address
+		key      = powerplay.BytesToBytes32([]byte("account-key"))
+		value    = powerplay.BytesToBytes32([]byte("account-value"))
+		contract powerplay.Address
 	)
 
 	kv, _ := lvldb.NewMem()
@@ -507,49 +507,49 @@ func TestPrototypeNative(t *testing.T) {
 		assert.Nil(t, seeker.Err())
 	}()
 
-	st.SetStorage(.Address(acc1), key, value)
-	st.SetBalance(.Address(acc1), big.NewInt(1))
+	st.SetStorage(powerplay.Address(acc1), key, value)
+	st.SetBalance(powerplay.Address(acc1), big.NewInt(1))
 
-	masterEvent := func(self, newMaster .Address) *tx.Event {
+	masterEvent := func(self, newMaster powerplay.Address) *tx.Event {
 		ev, _ := builtin.Prototype.Events().EventByName("$Master")
 		data, _ := ev.Encode(newMaster)
 		return &tx.Event{
 			Address: self,
-			Topics:  [].Bytes32{ev.ID()},
+			Topics:  []powerplay.Bytes32{ev.ID()},
 			Data:    data,
 		}
 	}
 
-	creditPlanEvent := func(self .Address, credit, recoveryRate *big.Int) *tx.Event {
+	creditPlanEvent := func(self powerplay.Address, credit, recoveryRate *big.Int) *tx.Event {
 		ev, _ := builtin.Prototype.Events().EventByName("$CreditPlan")
 		data, _ := ev.Encode(credit, recoveryRate)
 		return &tx.Event{
 			Address: self,
-			Topics:  [].Bytes32{ev.ID()},
+			Topics:  []powerplay.Bytes32{ev.ID()},
 			Data:    data,
 		}
 	}
 
-	userEvent := func(self, user .Address, action string) *tx.Event {
+	userEvent := func(self, user powerplay.Address, action string) *tx.Event {
 		ev, _ := builtin.Prototype.Events().EventByName("$User")
-		var b32 .Bytes32
+		var b32 powerplay.Bytes32
 		copy(b32[:], action)
 		data, _ := ev.Encode(b32)
 		return &tx.Event{
 			Address: self,
-			Topics:  [].Bytes32{ev.ID(), .BytesToBytes32(user.Bytes())},
+			Topics:  []powerplay.Bytes32{ev.ID(), powerplay.BytesToBytes32(user.Bytes())},
 			Data:    data,
 		}
 	}
 
-	sponsorEvent := func(self, sponsor .Address, action string) *tx.Event {
+	sponsorEvent := func(self, sponsor powerplay.Address, action string) *tx.Event {
 		ev, _ := builtin.Prototype.Events().EventByName("$Sponsor")
-		var b32 .Bytes32
+		var b32 powerplay.Bytes32
 		copy(b32[:], action)
 		data, _ := ev.Encode(b32)
 		return &tx.Event{
 			Address: self,
-			Topics:  [].Bytes32{ev.ID(), .BytesToBytes32(sponsor.Bytes())},
+			Topics:  []powerplay.Bytes32{ev.ID(), powerplay.BytesToBytes32(sponsor.Bytes())},
 			Data:    data,
 		}
 	}
@@ -561,7 +561,7 @@ func TestPrototypeNative(t *testing.T) {
 
 	code, _ := hex.DecodeString("60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820edd8a93b651b5aac38098767f0537d9b25433278c9d155da2135efc06927fc960029")
 	out := rt.ExecuteClause(tx.NewClause(nil).WithData(code), 0, math.MaxUint64, &xenv.TransactionContext{
-		ID:         .Bytes32{},
+		ID:         powerplay.Bytes32{},
 		Origin:     master,
 		GasPrice:   &big.Int{},
 		ProvedWork: &big.Int{}})
@@ -578,7 +578,7 @@ func TestPrototypeNative(t *testing.T) {
 	}
 
 	test.Case("master", acc1).
-		ShouldOutput(.Address{}).
+		ShouldOutput(powerplay.Address{}).
 		Assert(t)
 
 	test.Case("master", contract).
@@ -691,7 +691,7 @@ func TestPrototypeNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("currentSponsor", contract).
-		ShouldOutput(.Address{}).
+		ShouldOutput(powerplay.Address{}).
 		Assert(t)
 
 	test.Case("selectSponsor", contract, sponsor).
@@ -733,13 +733,13 @@ func TestPrototypeNative(t *testing.T) {
 	test.Case("storageFor", acc1, key).
 		ShouldOutput(value).
 		Assert(t)
-	test.Case("storageFor", acc1, .BytesToBytes32([]byte("some-key"))).
-		ShouldOutput(.Bytes32{}).
+	test.Case("storageFor", acc1, powerplay.BytesToBytes32([]byte("some-key"))).
+		ShouldOutput(powerplay.Bytes32{}).
 		Assert(t)
 
 	// should be hash of rlp raw
-	test.Case("storageFor", builtin.Prototype.Address, .Blake2b(contract.Bytes(), []byte("credit-plan"))).
-		ShouldOutput(st.GetStorage(builtin.Prototype.Address, .Blake2b(contract.Bytes(), []byte("credit-plan")))).
+	test.Case("storageFor", builtin.Prototype.Address, powerplay.Blake2b(contract.Bytes(), []byte("credit-plan"))).
+		ShouldOutput(st.GetStorage(builtin.Prototype.Address, powerplay.Blake2b(contract.Bytes(), []byte("credit-plan")))).
 		Assert(t)
 
 	test.Case("balance", acc1, big.NewInt(0)).
@@ -764,7 +764,7 @@ func TestPrototypeNative(t *testing.T) {
 
 func TestPrototypeNativeWithLongerBlockNumber(t *testing.T) {
 	var (
-		acc1 = .BytesToAddress([]byte("acc1"))
+		acc1 = powerplay.BytesToAddress([]byte("acc1"))
 	)
 
 	kv, _ := lvldb.NewMem()
@@ -794,7 +794,7 @@ func TestPrototypeNativeWithLongerBlockNumber(t *testing.T) {
 		assert.Nil(t, seeker.Err())
 	}()
 	rt := runtime.New(seeker, st, &xenv.BlockContext{
-		Number: .MaxBackTrackingBlockNumber + 1,
+		Number: powerplay.MaxBackTrackingBlockNumber + 1,
 		Time:   c.BestBlock().Header().Timestamp(),
 	})
 
@@ -832,7 +832,7 @@ func TestPrototypeNativeWithLongerBlockNumber(t *testing.T) {
 
 func TestPrototypeNativeWithBlockNumber(t *testing.T) {
 	var (
-		acc1 = .BytesToAddress([]byte("acc1"))
+		acc1 = powerplay.BytesToAddress([]byte("acc1"))
 	)
 
 	kv, _ := lvldb.NewMem()
@@ -898,7 +898,7 @@ func newBlock(parent *block.Block, score uint64, timestamp uint64, privateKey *e
 
 func TestExtensionNative(t *testing.T) {
 	kv, _ := lvldb.NewMem()
-	st, _ := state.New(.Bytes32{}, kv)
+	st, _ := state.New(powerplay.Bytes32{}, kv)
 	gene := genesis.NewDevnet()
 	genesisBlock, _, _ := gene.Build(state.NewCreator(kv))
 	c, _ := chain.New(kv, genesisBlock)
@@ -937,7 +937,7 @@ func TestExtensionNative(t *testing.T) {
 	}
 
 	test.Case("blake2b256", []byte("hello world")).
-		ShouldOutput(.Blake2b([]byte("hello world"))).
+		ShouldOutput(powerplay.Blake2b([]byte("hello world"))).
 		Assert(t)
 
 	test.Case("totalSupply").
@@ -960,16 +960,16 @@ func TestExtensionNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("txID").
-		TxID(.BytesToBytes32([]byte("txID"))).
-		ShouldOutput(.BytesToBytes32([]byte("txID"))).
+		TxID(powerplay.BytesToBytes32([]byte("txID"))).
+		ShouldOutput(powerplay.BytesToBytes32([]byte("txID"))).
 		Assert(t)
 
 	test.Case("blockID", big.NewInt(3)).
-		ShouldOutput(.Bytes32{}).
+		ShouldOutput(powerplay.Bytes32{}).
 		Assert(t)
 
 	test.Case("blockID", big.NewInt(2)).
-		ShouldOutput(.Bytes32{}).
+		ShouldOutput(powerplay.Bytes32{}).
 		Assert(t)
 
 	test.Case("blockID", big.NewInt(1)).
@@ -1013,7 +1013,7 @@ func TestExtensionNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("blockSigner", big.NewInt(3)).
-		ShouldOutput(.Address{}).
+		ShouldOutput(powerplay.Address{}).
 		Assert(t)
 
 	test.Case("blockSigner", big.NewInt(2)).
