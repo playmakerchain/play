@@ -10,8 +10,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/xenv"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//xenv"
 )
 
 func init() {
@@ -20,16 +20,16 @@ func init() {
 		run  func(env *xenv.Environment) []interface{}
 	}{
 		{"native_executor", func(env *xenv.Environment) []interface{} {
-			env.UseGas(thor.SloadGas)
-			addr := thor.BytesToAddress(Params.Native(env.State()).Get(thor.KeyExecutorAddress).Bytes())
+			env.UseGas(.SloadGas)
+			addr := .BytesToAddress(Params.Native(env.State()).Get(.KeyExecutorAddress).Bytes())
 			return []interface{}{addr}
 		}},
 		{"native_get", func(env *xenv.Environment) []interface{} {
 			var key common.Hash
 			env.ParseArgs(&key)
 
-			env.UseGas(thor.SloadGas)
-			v := Params.Native(env.State()).Get(thor.Bytes32(key))
+			env.UseGas(.SloadGas)
+			v := Params.Native(env.State()).Get(.Bytes32(key))
 			return []interface{}{v}
 		}},
 		{"native_set", func(env *xenv.Environment) []interface{} {
@@ -39,8 +39,8 @@ func init() {
 			}
 			env.ParseArgs(&args)
 
-			env.UseGas(thor.SstoreSetGas)
-			Params.Native(env.State()).Set(thor.Bytes32(args.Key), args.Value)
+			env.UseGas(.SstoreSetGas)
+			Params.Native(env.State()).Set(.Bytes32(args.Key), args.Value)
 			return nil
 		}},
 	}
