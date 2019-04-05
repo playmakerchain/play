@@ -10,8 +10,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//xenv"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 func init() {
@@ -20,16 +20,16 @@ func init() {
 		run  func(env *xenv.Environment) []interface{}
 	}{
 		{"native_executor", func(env *xenv.Environment) []interface{} {
-			env.UseGas(.SloadGas)
-			addr := .BytesToAddress(Params.Native(env.State()).Get(.KeyExecutorAddress).Bytes())
+			env.UseGas(powerplay.SloadGas)
+			addr := powerplay.BytesToAddress(Params.Native(env.State()).Get(powerplay.KeyExecutorAddress).Bytes())
 			return []interface{}{addr}
 		}},
 		{"native_get", func(env *xenv.Environment) []interface{} {
 			var key common.Hash
 			env.ParseArgs(&key)
 
-			env.UseGas(.SloadGas)
-			v := Params.Native(env.State()).Get(.Bytes32(key))
+			env.UseGas(powerplay.SloadGas)
+			v := Params.Native(env.State()).Get(powerplay.Bytes32(key))
 			return []interface{}{v}
 		}},
 		{"native_set", func(env *xenv.Environment) []interface{} {
@@ -39,8 +39,8 @@ func init() {
 			}
 			env.ParseArgs(&args)
 
-			env.UseGas(.SstoreSetGas)
-			Params.Native(env.State()).Set(.Bytes32(args.Key), args.Value)
+			env.UseGas(powerplay.SstoreSetGas)
+			Params.Native(env.State()).Set(powerplay.Bytes32(args.Key), args.Value)
 			return nil
 		}},
 	}
