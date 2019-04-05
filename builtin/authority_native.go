@@ -8,8 +8,8 @@ package builtin
 
 import (
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/xenv"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//xenv"
 )
 
 func init() {
@@ -18,8 +18,8 @@ func init() {
 		run  func(env *xenv.Environment) []interface{}
 	}{
 		{"native_executor", func(env *xenv.Environment) []interface{} {
-			env.UseGas(thor.SloadGas)
-			addr := thor.BytesToAddress(Params.Native(env.State()).Get(thor.KeyExecutorAddress).Bytes())
+			env.UseGas(.SloadGas)
+			addr := .BytesToAddress(Params.Native(env.State()).Get(.KeyExecutorAddress).Bytes())
 			return []interface{}{addr}
 		}},
 		{"native_add", func(env *xenv.Environment) []interface{} {
@@ -30,15 +30,15 @@ func init() {
 			}
 			env.ParseArgs(&args)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			ok := Authority.Native(env.State()).Add(
-				thor.Address(args.NodeMaster),
-				thor.Address(args.Endorsor),
-				thor.Bytes32(args.Identity))
+				.Address(args.NodeMaster),
+				.Address(args.Endorsor),
+				.Bytes32(args.Identity))
 
 			if ok {
-				env.UseGas(thor.SstoreSetGas)
-				env.UseGas(thor.SstoreResetGas)
+				env.UseGas(.SstoreSetGas)
+				env.UseGas(.SstoreResetGas)
 			}
 			return []interface{}{ok}
 		}},
@@ -46,10 +46,10 @@ func init() {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(thor.SloadGas)
-			ok := Authority.Native(env.State()).Revoke(thor.Address(nodeMaster))
+			env.UseGas(.SloadGas)
+			ok := Authority.Native(env.State()).Revoke(.Address(nodeMaster))
 			if ok {
-				env.UseGas(thor.SstoreResetGas * 3)
+				env.UseGas(.SstoreResetGas * 3)
 			}
 			return []interface{}{ok}
 		}},
@@ -57,43 +57,43 @@ func init() {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(thor.SloadGas * 2)
-			listed, endorsor, identity, active := Authority.Native(env.State()).Get(thor.Address(nodeMaster))
+			env.UseGas(.SloadGas * 2)
+			listed, endorsor, identity, active := Authority.Native(env.State()).Get(.Address(nodeMaster))
 
 			return []interface{}{listed, endorsor, identity, active}
 		}},
 		{"native_first", func(env *xenv.Environment) []interface{} {
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			if nodeMaster := Authority.Native(env.State()).First(); nodeMaster != nil {
 				return []interface{}{*nodeMaster}
 			}
-			return []interface{}{thor.Address{}}
+			return []interface{}{.Address{}}
 		}},
 		{"native_next", func(env *xenv.Environment) []interface{} {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(thor.SloadGas)
-			if next := Authority.Native(env.State()).Next(thor.Address(nodeMaster)); next != nil {
+			env.UseGas(.SloadGas)
+			if next := Authority.Native(env.State()).Next(.Address(nodeMaster)); next != nil {
 				return []interface{}{*next}
 			}
-			return []interface{}{thor.Address{}}
+			return []interface{}{.Address{}}
 		}},
 		{"native_isEndorsed", func(env *xenv.Environment) []interface{} {
 			var nodeMaster common.Address
 			env.ParseArgs(&nodeMaster)
 
-			env.UseGas(thor.SloadGas * 2)
-			listed, endorsor, _, _ := Authority.Native(env.State()).Get(thor.Address(nodeMaster))
+			env.UseGas(.SloadGas * 2)
+			listed, endorsor, _, _ := Authority.Native(env.State()).Get(.Address(nodeMaster))
 			if !listed {
 				return []interface{}{false}
 			}
 
-			env.UseGas(thor.GetBalanceGas)
+			env.UseGas(.GetBalanceGas)
 			bal := env.State().GetBalance(endorsor)
 
-			env.UseGas(thor.SloadGas)
-			endorsement := Params.Native(env.State()).Get(thor.KeyProposerEndorsement)
+			env.UseGas(.SloadGas)
+			endorsement := Params.Native(env.State()).Get(.KeyProposerEndorsement)
 			return []interface{}{bal.Cmp(endorsement) >= 0}
 		}},
 	}
