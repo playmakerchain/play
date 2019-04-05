@@ -11,9 +11,9 @@ import (
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/playmakerchain/play/abi"
-	"github.com/playmakerchain/play/builtin/gen"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//abi"
+	"github.com/playmakerchain//builtin/gen"
+	"github.com/playmakerchain//"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -30,7 +30,7 @@ func TestABI(t *testing.T) {
 		assert.NotNil(t, method)
 		assert.Equal(t, name, method.Name())
 
-		key := play.BytesToBytes32([]byte("k"))
+		key := .BytesToBytes32([]byte("k"))
 		value := big.NewInt(1)
 
 		input, err := method.EncodeInput(key, value)
@@ -45,7 +45,7 @@ func TestABI(t *testing.T) {
 			Value *big.Int
 		}
 		assert.Nil(t, method.DecodeInput(input, &v))
-		assert.Equal(t, key, play.Bytes32(v.Key))
+		assert.Equal(t, key, .Bytes32(v.Key))
 		assert.Equal(t, value, v.Value)
 	}
 
