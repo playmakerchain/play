@@ -7,8 +7,8 @@
 package builtin
 
 import (
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/xenv"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//xenv"
 )
 
 const (
@@ -25,17 +25,17 @@ func init() {
 			var data []byte
 			env.ParseArgs(&data)
 			env.UseGas(uint64(len(data)+31)/32*blake2b256WordGas + blake2b256Gas)
-			output := thor.Blake2b(data)
+			output := .Blake2b(data)
 			return []interface{}{output}
 		}},
 		{"native_blockID", func(env *xenv.Environment) []interface{} {
 			var blockNum uint32
 			env.ParseArgs(&blockNum)
 			if blockNum >= env.BlockContext().Number {
-				return []interface{}{thor.Bytes32{}}
+				return []interface{}{.Bytes32{}}
 			}
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			output := env.Seeker().GetID(blockNum)
 			return []interface{}{output}
 		}},
@@ -51,10 +51,10 @@ func init() {
 				return []interface{}{env.BlockContext().TotalScore}
 			}
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			id := env.Seeker().GetID(blockNum)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			header := env.Seeker().GetHeader(id)
 			return []interface{}{header.TotalScore()}
 		}},
@@ -70,10 +70,10 @@ func init() {
 				return []interface{}{env.BlockContext().Time}
 			}
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			id := env.Seeker().GetID(blockNum)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			header := env.Seeker().GetHeader(id)
 			return []interface{}{header.Timestamp()}
 		}},
@@ -82,23 +82,23 @@ func init() {
 			env.ParseArgs(&blockNum)
 
 			if blockNum > env.BlockContext().Number {
-				return []interface{}{thor.Address{}}
+				return []interface{}{.Address{}}
 			}
 
 			if blockNum == env.BlockContext().Number {
 				return []interface{}{env.BlockContext().Signer}
 			}
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			id := env.Seeker().GetID(blockNum)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			header := env.Seeker().GetHeader(id)
 			signer, _ := header.Signer()
 			return []interface{}{signer}
 		}},
 		{"native_totalSupply", func(env *xenv.Environment) []interface{} {
-			env.UseGas(thor.SloadGas)
+			env.UseGas(.SloadGas)
 			output := Energy.Native(env.State(), env.BlockContext().Time).TokenTotalSupply()
 			return []interface{}{output}
 		}},
