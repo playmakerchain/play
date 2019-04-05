@@ -416,7 +416,7 @@ func TestEnergyNative(t *testing.T) {
 		Assert(t)
 
 	test.Case("symbol").
-		ShouldOutput("").
+		ShouldOutput("PWP").
 		Assert(t)
 
 	test.Case("totalSupply").
