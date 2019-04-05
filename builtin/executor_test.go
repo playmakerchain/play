@@ -15,14 +15,14 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/builtin"
-	"github.com/vechain/thor/chain"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/runtime"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
-	"github.com/vechain/thor/xenv"
+	"github.com//thor/builtin"
+	"github.com//thor/chain"
+	"github.com//thor/lvldb"
+	"github.com//thor/runtime"
+	"github.com//thor/state"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
+	"github.com//thor/xenv"
 )
 
 func approverEvent(approver thor.Address, action string) *tx.Event {
