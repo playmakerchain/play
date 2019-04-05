@@ -10,14 +10,14 @@ import (
 	"encoding/hex"
 
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//abi"
-	"github.com/playmakerchain//builtin/gen"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/abi"
+	"github.com/playmakerchain/powerplay/builtin/gen"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type contract struct {
 	name    string
-	Address .Address
+	Address powerplay.Address
 	ABI     *abi.ABI
 }
 
@@ -31,7 +31,7 @@ func mustLoadContract(name string) *contract {
 
 	return &contract{
 		name,
-		.BytesToAddress([]byte(name)),
+		powerplay.BytesToAddress([]byte(name)),
 		abi,
 	}
 }
