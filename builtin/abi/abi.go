@@ -11,7 +11,7 @@ import (
 	"errors"
 
 	ethabi "github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//"
 )
 
 // ABI holds information about methods and events of contract.
@@ -22,7 +22,7 @@ type ABI struct {
 	nameToMethod map[string]*Method
 	nameToEvent  map[string]*Event
 	idToMethod   map[MethodID]*Method
-	idToEvent    map[play.Bytes32]*Event
+	idToEvent    map[.Bytes32]*Event
 }
 
 // New create an ABI instance.
@@ -44,7 +44,7 @@ func New(data []byte) (*ABI, error) {
 		nameToMethod: make(map[string]*Method),
 		nameToEvent:  make(map[string]*Event),
 		idToMethod:   make(map[MethodID]*Method),
-		idToEvent:    make(map[play.Bytes32]*Event),
+		idToEvent:    make(map[.Bytes32]*Event),
 	}
 
 	for _, field := range fields {
@@ -131,7 +131,7 @@ func (a *ABI) EventByName(name string) (*Event, bool) {
 }
 
 // EventByID returns the event for the given event id.
-func (a *ABI) EventByID(id play.Bytes32) (*Event, bool) {
+func (a *ABI) EventByID(id .Bytes32) (*Event, bool) {
 	e, found := a.idToEvent[id]
 	return e, found
 }
