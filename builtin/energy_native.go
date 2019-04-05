@@ -10,8 +10,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//xenv"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 func init() {
@@ -20,12 +20,12 @@ func init() {
 		run  func(env *xenv.Environment) []interface{}
 	}{
 		{"native_totalSupply", func(env *xenv.Environment) []interface{} {
-			env.UseGas(.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			supply := Energy.Native(env.State(), env.BlockContext().Time).TotalSupply()
 			return []interface{}{supply}
 		}},
 		{"native_totalBurned", func(env *xenv.Environment) []interface{} {
-			env.UseGas(.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			burned := Energy.Native(env.State(), env.BlockContext().Time).TotalBurned()
 			return []interface{}{burned}
 		}},
@@ -33,8 +33,8 @@ func init() {
 			var addr common.Address
 			env.ParseArgs(&addr)
 
-			env.UseGas(.GetBalanceGas)
-			bal := Energy.Native(env.State(), env.BlockContext().Time).Get(.Address(addr))
+			env.UseGas(powerplay.GetBalanceGas)
+			bal := Energy.Native(env.State(), env.BlockContext().Time).Get(powerplay.Address(addr))
 			return []interface{}{bal}
 		}},
 		{"native_add", func(env *xenv.Environment) []interface{} {
@@ -47,13 +47,13 @@ func init() {
 				return nil
 			}
 
-			env.UseGas(.GetBalanceGas)
-			if env.State().Exists(.Address(args.Addr)) {
-				env.UseGas(.SstoreResetGas)
+			env.UseGas(powerplay.GetBalanceGas)
+			if env.State().Exists(powerplay.Address(args.Addr)) {
+				env.UseGas(powerplay.SstoreResetGas)
 			} else {
-				env.UseGas(.SstoreSetGas)
+				env.UseGas(powerplay.SstoreSetGas)
 			}
-			Energy.Native(env.State(), env.BlockContext().Time).Add(.Address(args.Addr), args.Amount)
+			Energy.Native(env.State(), env.BlockContext().Time).Add(powerplay.Address(args.Addr), args.Amount)
 			return nil
 		}},
 		{"native_sub", func(env *xenv.Environment) []interface{} {
@@ -66,10 +66,10 @@ func init() {
 				return []interface{}{true}
 			}
 
-			env.UseGas(.GetBalanceGas)
-			ok := Energy.Native(env.State(), env.BlockContext().Time).Sub(.Address(args.Addr), args.Amount)
+			env.UseGas(powerplay.GetBalanceGas)
+			ok := Energy.Native(env.State(), env.BlockContext().Time).Sub(powerplay.Address(args.Addr), args.Amount)
 			if ok {
-				env.UseGas(.SstoreResetGas)
+				env.UseGas(powerplay.SstoreResetGas)
 			}
 			return []interface{}{ok}
 		}},
@@ -77,8 +77,8 @@ func init() {
 			var addr common.Address
 			env.ParseArgs(&addr)
 
-			env.UseGas(.GetBalanceGas)
-			master := env.State().GetMaster(.Address(addr))
+			env.UseGas(powerplay.GetBalanceGas)
+			master := env.State().GetMaster(powerplay.Address(addr))
 			return []interface{}{master}
 		}},
 	}
