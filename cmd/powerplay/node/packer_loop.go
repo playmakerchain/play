@@ -15,8 +15,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/mclock"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//packer"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/packer"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 func (n *Node) packerLoop(ctx context.Context) {
@@ -84,7 +84,7 @@ func (n *Node) packerLoop(ctx context.Context) {
 
 func (n *Node) pack(flow *packer.Flow) error {
 	txs := n.txPool.Executables()
-	var txsToRemove [].Bytes32
+	var txsToRemove []powerplay.Bytes32
 	defer func() {
 		for _, id := range txsToRemove {
 			n.txPool.Remove(id)
@@ -138,7 +138,7 @@ func (n *Node) pack(flow *packer.Flow) error {
 			gasUsed := newBlock.Header().GasUsed()
 			// calc target gas limit only if gas used above third of gas limit
 			if gasUsed > newBlock.Header().GasLimit()/3 {
-				targetGasLimit := uint64(math.Log2(float64(newBlock.Header().Number()+1))*float64(.TolerableBlockPackingTime)*float64(gasUsed)) / (32 * uint64(execElapsed))
+				targetGasLimit := uint64(math.Log2(float64(newBlock.Header().Number()+1))*float64(powerplay.TolerableBlockPackingTime)*float64(gasUsed)) / (32 * uint64(execElapsed))
 				n.packer.SetTargetGasLimit(targetGasLimit)
 				log.Debug("reset target gas limit", "value", targetGasLimit)
 			}
