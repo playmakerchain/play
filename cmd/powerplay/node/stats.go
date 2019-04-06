@@ -11,8 +11,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/block"
+	"github.com//thor/thor"
 )
 
 type blockStats struct {
