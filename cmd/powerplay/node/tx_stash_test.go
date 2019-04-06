@@ -14,9 +14,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/thor/genesis"
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//tx"
 )
 
 func newTx() *tx.Transaction {
