@@ -10,9 +10,9 @@ import (
 	"container/list"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/vechain/thor/kv"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/kv"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 // to stash non-executable txs.
