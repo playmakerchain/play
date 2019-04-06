@@ -57,7 +57,7 @@ func main() {
 	app := cli.App{
 		Version:   fullVersion(),
 		Name:      "PowerPlay",
-		Usage:     "Node of  Network",
+		Usage:     "Node of PowerPlay Network",
 		Copyright: "2018 VeChain Foundation <https://playmakerchain.org/>",
 		Flags: []cli.Flag{
 			networkFlag,
