@@ -10,9 +10,9 @@ import (
 	"container/list"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//thor/kv"
-	"github.com//thor/thor"
-	"github.com//thor/tx"
+	"github.com/playmakerchain//kv"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 // to stash non-executable txs.
@@ -46,7 +46,7 @@ func (ts *txStash) Save(tx *tx.Transaction) error {
 	}
 	ts.fifo.PushBack(tx.ID())
 	for ts.fifo.Len() > ts.maxSize {
-		keyToDelete := ts.fifo.Remove(ts.fifo.Front()).(thor.Bytes32).Bytes()
+		keyToDelete := ts.fifo.Remove(ts.fifo.Front()).(.Bytes32).Bytes()
 		if err := ts.kv.Delete(keyToDelete); err != nil {
 			return err
 		}
