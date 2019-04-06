@@ -20,15 +20,15 @@ import (
 	isatty "github.com/mattn/go-isatty"
 	"github.com/pborman/uuid"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/thor/api"
-	"github.com/playmakerchain/thor/cmd/thor/node"
-	"github.com/playmakerchain/thor/cmd/thor/solo"
-	"github.com/playmakerchain/thor/genesis"
-	"github.com/playmakerchain/thor/logdb"
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/txpool"
+	"github.com/playmakerchain//api"
+	"github.com/playmakerchain//cmd//node"
+	"github.com/playmakerchain//cmd//solo"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//logdb"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//txpool"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
@@ -238,7 +238,7 @@ func masterKeyAction(ctx *cli.Context) error {
 		if err := crypto.SaveECDSA(masterKeyPath(ctx), key.PrivateKey); err != nil {
 			return err
 		}
-		fmt.Println("Master key imported:", thor.Address(key.Address))
+		fmt.Println("Master key imported:", .Address(key.Address))
 		return nil
 	}
 
