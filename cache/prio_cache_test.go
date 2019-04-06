@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/cache"
+	"github.com/playmakerchain/thor/cache"
 )
 
 func TestPrioCacheAddRemove(t *testing.T) {
