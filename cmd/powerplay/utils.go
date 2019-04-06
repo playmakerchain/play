@@ -2,7 +2,7 @@
 // Copyright (c) 2019 The PlayMaker developers
 
 // Distributed under the GNU Lesser General Public License v3.0 software license, see the accompanying
-// file LICENSE or <https://www.gnu.org/licenses/lgpl-3.0.html>
+// file LICENSE or <https://www.gnu.com/licenses/lgpl-3.0.html>
 
 package main
 
@@ -69,7 +69,7 @@ func loadOrGeneratePrivateKey(path string) (*ecdsa.PrivateKey, error) {
 
 func defaultConfigDir() string {
 	if home := homeDir(); home != "" {
-		return filepath.Join(home, ".org.playmakerchain.powerplay")
+		return filepath.Join(home, ".com.playmakerchain.powerplay")
 	}
 	return ""
 }
@@ -79,11 +79,11 @@ func defaultDataDir() string {
 	// Try to place the data folder in the user's home dir
 	if home := homeDir(); home != "" {
 		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", "Application Support", "org.playmakerchain.powerplay")
+			return filepath.Join(home, "Library", "Application Support", "com.playmakerchain.powerplay")
 		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", "org.playmakerchain.powerplay")
+			return filepath.Join(home, "AppData", "Roaming", "com.playmakerchain.powerplay")
 		} else {
-			return filepath.Join(home, ".org.playmakerchain.powerplay")
+			return filepath.Join(home, ".com.playmakerchain.powerplay")
 		}
 	}
 	// As we cannot guess a stable location, return empty and handle later
