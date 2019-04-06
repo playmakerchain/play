@@ -15,8 +15,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/mclock"
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/packer"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/packer"
+	"github.com//thor/thor"
 )
 
 func (n *Node) packerLoop(ctx context.Context) {
