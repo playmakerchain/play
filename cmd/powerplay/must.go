@@ -299,7 +299,7 @@ func printStartupMessage(
     Instance dir [ %v ]
     API portal   [ %v ]
 `,
-		common.MakeName("Thor", fullVersion()),
+		common.MakeName("", fullVersion()),
 		gene.ID(), gene.Name(),
 		bestBlock.Header().ID(), bestBlock.Header().Number(), time.Unix(int64(bestBlock.Header().Timestamp()), 0),
 		powerplay.GetForkConfig(gene.ID()),
@@ -353,7 +353,7 @@ func printSoloStartupMessage(
     Forks       [ %v ]
     Data dir    [ %v ]
     API portal  [ %v ]`,
-		common.MakeName("Thor solo", fullVersion()),
+		common.MakeName(" solo", fullVersion()),
 		gene.ID(), gene.Name(),
 		bestBlock.Header().ID(), bestBlock.Header().Number(), time.Unix(int64(bestBlock.Header().Timestamp()), 0),
 		powerplay.GetForkConfig(gene.ID()),
