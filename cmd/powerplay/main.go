@@ -56,7 +56,7 @@ func fullVersion() string {
 func main() {
 	app := cli.App{
 		Version:   fullVersion(),
-		Name:      "",
+		Name:      "PowerPlay",
 		Usage:     "Node of VeChain Thor Network",
 		Copyright: "2018 VeChain Foundation <https://playmakerchain.org/>",
 		Flags: []cli.Flag{
