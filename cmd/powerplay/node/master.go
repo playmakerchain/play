@@ -10,14 +10,14 @@ import (
 	"crypto/ecdsa"
 
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type Master struct {
 	PrivateKey  *ecdsa.PrivateKey
-	Beneficiary *.Address
+	Beneficiary *powerplay.Address
 }
 
-func (m *Master) Address() .Address {
-	return .Address(crypto.PubkeyToAddress(m.PrivateKey.PublicKey))
+func (m *Master) Address() powerplay.Address {
+	return powerplay.Address(crypto.PubkeyToAddress(m.PrivateKey.PublicKey))
 }
