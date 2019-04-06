@@ -58,7 +58,7 @@ func main() {
 		Version:   fullVersion(),
 		Name:      "PowerPlay",
 		Usage:     "Node of PowerPlay Network",
-		Copyright: "2018 VeChain Foundation <https://playmakerchain.org/>",
+		Copyright: "20 <https://playmakerchain.org/>",
 		Flags: []cli.Flag{
 			networkFlag,
 			configDirFlag,
