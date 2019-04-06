@@ -23,8 +23,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	tty "github.com/mattn/go-tty"
-	"github.com/playmakerchain//api/doc"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/api/doc"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 func fatal(args ...interface{}) {
@@ -69,7 +69,7 @@ func loadOrGeneratePrivateKey(path string) (*ecdsa.PrivateKey, error) {
 
 func defaultConfigDir() string {
 	if home := homeDir(); home != "" {
-		return filepath.Join(home, ".org.playmakerchain.")
+		return filepath.Join(home, ".org.playmakerchain.powerplay")
 	}
 	return ""
 }
@@ -79,11 +79,11 @@ func defaultDataDir() string {
 	// Try to place the data folder in the user's home dir
 	if home := homeDir(); home != "" {
 		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", "Application Support", "org.playmakerchain.")
+			return filepath.Join(home, "Library", "Application Support", "org.playmakerchain.powerplay")
 		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", "org.playmakerchain.")
+			return filepath.Join(home, "AppData", "Roaming", "org.playmakerchain.powerplay")
 		} else {
-			return filepath.Join(home, ".org.playmakerchain.")
+			return filepath.Join(home, ".org.playmakerchain.powerplay")
 		}
 	}
 	// As we cannot guess a stable location, return empty and handle later
@@ -124,7 +124,7 @@ func requestBodyLimit(h http.Handler) http.Handler {
 }
 
 // middleware to verify 'x-genesis-id' header in request, and set to response headers.
-func handleXGenesisID(h http.Handler, genesisID .Bytes32) http.Handler {
+func handleXGenesisID(h http.Handler, genesisID powerplay.Bytes32) http.Handler {
 	const headerKey = "x-genesis-id"
 	expectedID := genesisID.String()
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
