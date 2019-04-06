@@ -11,8 +11,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//"
 )
 
 type blockStats struct {
@@ -48,6 +48,6 @@ func (s *blockStats) LogContext(last *block.Header) []interface{} {
 	}
 }
 
-func shortID(id thor.Bytes32) string {
+func shortID(id .Bytes32) string {
 	return fmt.Sprintf("[#%v…%x]", block.Number(id), id[28:])
 }
