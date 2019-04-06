@@ -58,7 +58,7 @@ func main() {
 		Version:   fullVersion(),
 		Name:      "PowerPlay",
 		Usage:     "Node of PowerPlay Network",
-		Copyright: "20 <https://playmakerchain.org/>",
+		Copyright: "2019 PlayMaker Chain <https://playmakerchain.com/>",
 		Flags: []cli.Flag{
 			networkFlag,
 			configDirFlag,
