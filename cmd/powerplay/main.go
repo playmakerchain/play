@@ -20,15 +20,15 @@ import (
 	isatty "github.com/mattn/go-isatty"
 	"github.com/pborman/uuid"
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/api"
-	"github.com/vechain/thor/cmd/thor/node"
-	"github.com/vechain/thor/cmd/thor/solo"
-	"github.com/vechain/thor/genesis"
-	"github.com/vechain/thor/logdb"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/txpool"
+	"github.com//thor/api"
+	"github.com//thor/cmd/thor/node"
+	"github.com//thor/cmd/thor/solo"
+	"github.com//thor/genesis"
+	"github.com//thor/logdb"
+	"github.com//thor/lvldb"
+	"github.com//thor/state"
+	"github.com//thor/thor"
+	"github.com//thor/txpool"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
@@ -58,7 +58,7 @@ func main() {
 		Version:   fullVersion(),
 		Name:      "Thor",
 		Usage:     "Node of VeChain Thor Network",
-		Copyright: "2018 VeChain Foundation <https://vechain.org/>",
+		Copyright: "2018 VeChain Foundation <https://.org/>",
 		Flags: []cli.Flag{
 			networkFlag,
 			configDirFlag,
