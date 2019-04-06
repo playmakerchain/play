@@ -19,19 +19,19 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/inconshreveable/log15"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//cache"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//co"
-	"github.com/playmakerchain//comm"
-	"github.com/playmakerchain//consensus"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//packer"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
-	"github.com/playmakerchain//txpool"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/cache"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/co"
+	"github.com/playmakerchain/powerplay/comm"
+	"github.com/playmakerchain/powerplay/consensus"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/packer"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/txpool"
 )
 
 var log = log15.New("pkg", "node")
@@ -130,7 +130,7 @@ func (n *Node) houseKeeping(ctx context.Context) {
 	newBlockCh := make(chan *comm.NewBlockEvent)
 	scope.Track(n.comm.SubscribeBlock(newBlockCh))
 
-	futureTicker := time.NewTicker(time.Duration(.BlockInterval) * time.Second)
+	futureTicker := time.NewTicker(time.Duration(powerplay.BlockInterval) * time.Second)
 	defer futureTicker.Stop()
 
 	connectivityTicker := time.NewTicker(time.Second)
@@ -286,7 +286,7 @@ func (n *Node) commitBlock(newBlock *block.Block, receipts tx.Receipts) (*chain.
 		return nil, err
 	}
 
-	forkIDs := make([].Bytes32, 0, len(fork.Branch))
+	forkIDs := make([]powerplay.Bytes32, 0, len(fork.Branch))
 	for _, header := range fork.Branch {
 		forkIDs = append(forkIDs, header.ID())
 	}
@@ -338,7 +338,7 @@ func checkClockOffset() {
 		log.Debug("failed to access NTP", "err", err)
 		return
 	}
-	if resp.ClockOffset > time.Duration(.BlockInterval)*time.Second/2 {
+	if resp.ClockOffset > time.Duration(powerplay.BlockInterval)*time.Second/2 {
 		log.Warn("clock offset detected", "offset", common.PrettyDuration(resp.ClockOffset))
 	}
 }
