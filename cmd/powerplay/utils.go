@@ -23,8 +23,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	tty "github.com/mattn/go-tty"
-	"github.com//thor/api/doc"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/api/doc"
+	"github.com/playmakerchain/thor/thor"
 )
 
 func fatal(args ...interface{}) {
@@ -69,7 +69,7 @@ func loadOrGeneratePrivateKey(path string) (*ecdsa.PrivateKey, error) {
 
 func defaultConfigDir() string {
 	if home := homeDir(); home != "" {
-		return filepath.Join(home, ".org..thor")
+		return filepath.Join(home, ".org.playmakerchain.thor")
 	}
 	return ""
 }
@@ -79,11 +79,11 @@ func defaultDataDir() string {
 	// Try to place the data folder in the user's home dir
 	if home := homeDir(); home != "" {
 		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", "Application Support", "org..thor")
+			return filepath.Join(home, "Library", "Application Support", "org.playmakerchain.thor")
 		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", "org..thor")
+			return filepath.Join(home, "AppData", "Roaming", "org.playmakerchain.thor")
 		} else {
-			return filepath.Join(home, ".org..thor")
+			return filepath.Join(home, ".org.playmakerchain.thor")
 		}
 	}
 	// As we cannot guess a stable location, return empty and handle later
