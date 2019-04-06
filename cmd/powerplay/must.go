@@ -23,17 +23,17 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/inconshreveable/log15"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//cmd//node"
-	"github.com/playmakerchain//co"
-	"github.com/playmakerchain//comm"
-	"github.com/playmakerchain//genesis"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//p2psrv"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//txpool"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/cmd/powerplay/node"
+	"github.com/playmakerchain/powerplay/co"
+	"github.com/playmakerchain/powerplay/comm"
+	"github.com/playmakerchain/powerplay/genesis"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/p2psrv"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/txpool"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
@@ -143,7 +143,7 @@ func initChain(gene *genesis.Genesis, mainDB *lvldb.LevelDB, logDB *logdb.LogDB)
 	}
 
 	if err := logDB.Prepare(genesisBlock.Header()).
-		ForTransaction(.Bytes32{}, .Address{}).
+		ForTransaction(powerplay.Bytes32{}, powerplay.Address{}).
 		Insert(genesisEvents, nil).Commit(); err != nil {
 		fatal("write genesis events: ", err)
 	}
@@ -155,12 +155,12 @@ func masterKeyPath(ctx *cli.Context) string {
 	return filepath.Join(configDir, "master.key")
 }
 
-func beneficiary(ctx *cli.Context) *.Address {
+func beneficiary(ctx *cli.Context) *powerplay.Address {
 	value := ctx.String(beneficiaryFlag.Name)
 	if value == "" {
 		return nil
 	}
-	addr, err := .ParseAddress(value)
+	addr, err := powerplay.ParseAddress(value)
 	if err != nil {
 		fatal("invalid beneficiary:", err)
 	}
@@ -205,7 +205,7 @@ func newP2PComm(ctx *cli.Context, chain *chain.Chain, txPool *txpool.TxPool, ins
 		os.Exit(1)
 	}
 	opts := &p2psrv.Options{
-		Name:           common.MakeName("", fullVersion()),
+		Name:           common.MakeName("powerplay", fullVersion()),
 		PrivateKey:     key,
 		MaxPeers:       ctx.Int(maxPeersFlag.Name),
 		ListenAddr:     fmt.Sprintf(":%v", ctx.Int(p2pPortFlag.Name)),
@@ -257,7 +257,7 @@ func (p *p2pComm) Stop() {
 	}
 }
 
-func startAPIServer(ctx *cli.Context, handler http.Handler, genesisID .Bytes32) (string, func()) {
+func startAPIServer(ctx *cli.Context, handler http.Handler, genesisID powerplay.Bytes32) (string, func()) {
 	addr := ctx.String(apiAddrFlag.Name)
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
@@ -302,7 +302,7 @@ func printStartupMessage(
 		common.MakeName("Thor", fullVersion()),
 		gene.ID(), gene.Name(),
 		bestBlock.Header().ID(), bestBlock.Header().Number(), time.Unix(int64(bestBlock.Header().Timestamp()), 0),
-		.GetForkConfig(gene.ID()),
+		powerplay.GetForkConfig(gene.ID()),
 		master.Address(),
 		func() string {
 			if master.Beneficiary == nil {
@@ -356,7 +356,7 @@ func printSoloStartupMessage(
 		common.MakeName("Thor solo", fullVersion()),
 		gene.ID(), gene.Name(),
 		bestBlock.Header().ID(), bestBlock.Header().Number(), time.Unix(int64(bestBlock.Header().Timestamp()), 0),
-		.GetForkConfig(gene.ID()),
+		powerplay.GetForkConfig(gene.ID()),
 		dataDir,
 		apiURL)
 
@@ -365,7 +365,7 @@ func printSoloStartupMessage(
 	for _, a := range genesis.DevAccounts() {
 		info += fmt.Sprintf(tableContent,
 			a.Address,
-			.BytesToBytes32(crypto.FromECDSA(a.PrivateKey)),
+			powerplay.BytesToBytes32(crypto.FromECDSA(a.PrivateKey)),
 		)
 	}
 	info += tableEnd + "\r\n"
