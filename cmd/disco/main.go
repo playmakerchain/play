@@ -126,7 +126,7 @@ func main() {
 	app := cli.App{
 		Version:   fmt.Sprintf("%s-%s-%s", version, gitCommit, versionMeta),
 		Name:      "Disco",
-		Usage:     " Thor bootstrap node",
+		Usage:     "PowerPlay bootstrap node",
 		Copyright: "2018 VeChain Foundation <https://vechain.org/>",
 		Flags:     flags,
 		Action:    run,
