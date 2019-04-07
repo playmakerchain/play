@@ -13,7 +13,7 @@ import (
 	"github.com/syndtr/goleveldb/leveldb/opt"
 	"github.com/syndtr/goleveldb/leveldb/storage"
 	"github.com/syndtr/goleveldb/leveldb/util"
-	"github.com/vechain/thor/kv"
+	"github.com//thor/kv"
 )
 
 var _ kv.GetPutCloser = (*LevelDB)(nil)
