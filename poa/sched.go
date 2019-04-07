@@ -10,7 +10,7 @@ import (
 	"encoding/binary"
 	"errors"
 
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // Scheduler to schedule the time when a proposer to produce a block.
