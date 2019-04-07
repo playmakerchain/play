@@ -44,7 +44,7 @@ func loadOrGenerateKeyFile(keyFile string) (key *ecdsa.PrivateKey, err error) {
 }
 
 func defaultKeyFile() string {
-	return filepath.Join(mustHomeDir(), ".-disco.key")
+	return filepath.Join(mustHomeDir(), ".powerplay-disco.key")
 }
 
 func mustHomeDir() string {
