@@ -6,7 +6,7 @@
 
 package solo
 
-import "github.com//thor/comm"
+import "github.com/playmakerchain/thor/comm"
 
 // Communicator in solo is a fake one just for api handler
 type Communicator struct {
