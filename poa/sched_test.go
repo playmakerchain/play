@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/poa"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/poa"
+	"github.com//thor/thor"
 )
 
 var (
