@@ -13,9 +13,9 @@ import (
 	"math/big"
 
 	sqlite3 "github.com/mattn/go-sqlite3"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 type LogDB struct {
@@ -222,18 +222,18 @@ func (db *LogDB) queryEvents(ctx context.Context, stmt string, args ...interface
 			return nil, err
 		}
 		event := &Event{
-			BlockID:     .BytesToBytes32(blockID),
+			BlockID:     powerplay.BytesToBytes32(blockID),
 			Index:       index,
 			BlockNumber: blockNumber,
 			BlockTime:   blockTime,
-			TxID:        .BytesToBytes32(txID),
-			TxOrigin:    .BytesToAddress(txOrigin),
-			Address:     .BytesToAddress(address),
+			TxID:        powerplay.BytesToBytes32(txID),
+			TxOrigin:    powerplay.BytesToAddress(txOrigin),
+			Address:     powerplay.BytesToAddress(address),
 			Data:        data,
 		}
 		for i, topic := range topics {
 			if len(topic) > 0 {
-				h := .BytesToBytes32(topic)
+				h := powerplay.BytesToBytes32(topic)
 				event.Topics[i] = &h
 			}
 		}
@@ -283,14 +283,14 @@ func (db *LogDB) queryTransfers(ctx context.Context, stmt string, args ...interf
 			return nil, err
 		}
 		trans := &Transfer{
-			BlockID:     .BytesToBytes32(blockID),
+			BlockID:     powerplay.BytesToBytes32(blockID),
 			Index:       index,
 			BlockNumber: blockNumber,
 			BlockTime:   blockTime,
-			TxID:        .BytesToBytes32(txID),
-			TxOrigin:    .BytesToAddress(txOrigin),
-			Sender:      .BytesToAddress(sender),
-			Recipient:   .BytesToAddress(recipient),
+			TxID:        powerplay.BytesToBytes32(txID),
+			TxOrigin:    powerplay.BytesToAddress(txOrigin),
+			Sender:      powerplay.BytesToAddress(sender),
+			Recipient:   powerplay.BytesToAddress(recipient),
 			Amount:      new(big.Int).SetBytes(amount),
 		}
 		transfers = append(transfers, trans)
@@ -301,7 +301,7 @@ func (db *LogDB) queryTransfers(ctx context.Context, stmt string, args ...interf
 	return transfers, nil
 }
 
-func topicValue(topic *.Bytes32) []byte {
+func topicValue(topic *powerplay.Bytes32) []byte {
 	if topic == nil {
 		return nil
 	}
@@ -327,7 +327,7 @@ func (bb *BlockBatch) execInTx(proc func(*sql.Tx) error) (err error) {
 	return tx.Commit()
 }
 
-func (bb *BlockBatch) Commit(abandonedBlocks ....Bytes32) error {
+func (bb *BlockBatch) Commit(abandonedBlocks ...powerplay.Bytes32) error {
 	return bb.execInTx(func(tx *sql.Tx) error {
 		for _, event := range bb.events {
 			if _, err := tx.Exec("INSERT OR REPLACE INTO event(blockID ,eventIndex, blockNumber ,blockTime ,txID ,txOrigin ,address ,topic0 ,topic1 ,topic2 ,topic3 ,topic4, data) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
@@ -376,7 +376,7 @@ func (bb *BlockBatch) Commit(abandonedBlocks ....Bytes32) error {
 	})
 }
 
-func (bb *BlockBatch) ForTransaction(txID .Bytes32, txOrigin .Address) struct {
+func (bb *BlockBatch) ForTransaction(txID powerplay.Bytes32, txOrigin powerplay.Address) struct {
 	Insert func(tx.Events, tx.Transfers) *BlockBatch
 } {
 	return struct {
