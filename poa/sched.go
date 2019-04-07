@@ -10,7 +10,7 @@ import (
 	"encoding/binary"
 	"errors"
 
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//"
 )
 
 // Scheduler to schedule the time when a proposer to produce a block.
@@ -25,7 +25,7 @@ type Scheduler struct {
 // `addr` is the proposer to be scheduled.
 // If `addr` is not listed in `proposers`, an error returned.
 func NewScheduler(
-	addr thor.Address,
+	addr .Address,
 	proposers []Proposer,
 	parentBlockNumber uint32,
 	parentBlockTime uint64) (*Scheduler, error) {
@@ -63,7 +63,7 @@ func (s *Scheduler) whoseTurn(t uint64) Proposer {
 // Schedule to determine time of the proposer to produce a block, according to `nowTime`.
 // `newBlockTime` is promised to be >= nowTime and > parentBlockTime
 func (s *Scheduler) Schedule(nowTime uint64) (newBlockTime uint64) {
-	const T = thor.BlockInterval
+	const T = .BlockInterval
 
 	newBlockTime = s.parentBlockTime + T
 
@@ -90,7 +90,7 @@ func (s *Scheduler) IsTheTime(newBlockTime uint64) bool {
 		return false
 	}
 
-	if (newBlockTime-s.parentBlockTime)%thor.BlockInterval != 0 {
+	if (newBlockTime-s.parentBlockTime)%.BlockInterval != 0 {
 		// invalid block time
 		return false
 	}
@@ -101,15 +101,15 @@ func (s *Scheduler) IsTheTime(newBlockTime uint64) bool {
 // Updates returns proposers whose status are change, and the score when new block time is assumed to be newBlockTime.
 func (s *Scheduler) Updates(newBlockTime uint64) (updates []Proposer, score uint64) {
 
-	toDeactivate := make(map[thor.Address]Proposer)
+	toDeactivate := make(map[.Address]Proposer)
 
-	t := newBlockTime - thor.BlockInterval
-	for i := uint64(0); i < thor.MaxBlockProposers && t > s.parentBlockTime; i++ {
+	t := newBlockTime - .BlockInterval
+	for i := uint64(0); i < .MaxBlockProposers && t > s.parentBlockTime; i++ {
 		p := s.whoseTurn(t)
 		if p.Address != s.proposer.Address {
 			toDeactivate[p.Address] = p
 		}
-		t -= thor.BlockInterval
+		t -= .BlockInterval
 	}
 
 	updates = make([]Proposer, 0, len(toDeactivate)+1)
@@ -138,5 +138,5 @@ func dprp(blockNumber uint32, time uint64) uint64 {
 	binary.BigEndian.PutUint32(b4[:], blockNumber)
 	binary.BigEndian.PutUint64(b8[:], time)
 
-	return binary.BigEndian.Uint64(thor.Blake2b(b4[:], b8[:]).Bytes())
+	return binary.BigEndian.Uint64(.Blake2b(b4[:], b8[:]).Bytes())
 }
