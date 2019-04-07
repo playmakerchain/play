@@ -14,10 +14,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 func TestEvents(t *testing.T) {
@@ -28,15 +28,15 @@ func TestEvents(t *testing.T) {
 	defer db.Close()
 
 	txEvent := &tx.Event{
-		Address: .BytesToAddress([]byte("addr")),
-		Topics:  [].Bytes32{.BytesToBytes32([]byte("topic0")), .BytesToBytes32([]byte("topic1"))},
+		Address: powerplay.BytesToAddress([]byte("addr")),
+		Topics:  []powerplay.Bytes32{powerplay.BytesToBytes32([]byte("topic0")), powerplay.BytesToBytes32([]byte("topic1"))},
 		Data:    []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 97, 48},
 	}
 
 	header := new(block.Builder).Build().Header()
 
 	for i := 0; i < 100; i++ {
-		if err := db.Prepare(header).ForTransaction(.BytesToBytes32([]byte("txID")), .BytesToAddress([]byte("txOrigin"))).
+		if err := db.Prepare(header).ForTransaction(powerplay.BytesToBytes32([]byte("txID")), powerplay.BytesToAddress([]byte("txOrigin"))).
 			Insert(tx.Events{txEvent}, nil).Commit(); err != nil {
 			t.Fatal(err)
 		}
@@ -45,9 +45,9 @@ func TestEvents(t *testing.T) {
 	}
 
 	limit := 5
-	t0 := .BytesToBytes32([]byte("topic0"))
-	t1 := .BytesToBytes32([]byte("topic1"))
-	addr := .BytesToAddress([]byte("addr"))
+	t0 := powerplay.BytesToBytes32([]byte("topic0"))
+	t1 := powerplay.BytesToBytes32([]byte("topic1"))
+	addr := powerplay.BytesToAddress([]byte("addr"))
 	es, err := db.FilterEvents(context.Background(), &logdb.EventFilter{
 		Range: &logdb.Range{
 			Unit: logdb.Block,
@@ -62,7 +62,7 @@ func TestEvents(t *testing.T) {
 		CriteriaSet: []*logdb.EventCriteria{
 			&logdb.EventCriteria{
 				Address: &addr,
-				Topics: [5]*.Bytes32{nil,
+				Topics: [5]*powerplay.Bytes32{nil,
 					nil,
 					nil,
 					nil,
@@ -70,7 +70,7 @@ func TestEvents(t *testing.T) {
 			},
 			&logdb.EventCriteria{
 				Address: &addr,
-				Topics: [5]*.Bytes32{&t0,
+				Topics: [5]*powerplay.Bytes32{&t0,
 					&t1,
 					nil,
 					nil,
@@ -91,8 +91,8 @@ func TestTransfers(t *testing.T) {
 	}
 	defer db.Close()
 
-	from := .BytesToAddress([]byte("from"))
-	to := .BytesToAddress([]byte("to"))
+	from := powerplay.BytesToAddress([]byte("from"))
+	to := powerplay.BytesToAddress([]byte("to"))
 	value := big.NewInt(10)
 	header := new(block.Builder).Build().Header()
 	count := 100
@@ -103,7 +103,7 @@ func TestTransfers(t *testing.T) {
 			Amount:    value,
 		}
 		header = new(block.Builder).ParentID(header.ID()).Build().Header()
-		if err := db.Prepare(header).ForTransaction(.Bytes32{}, from).Insert(nil, tx.Transfers{transLog}).
+		if err := db.Prepare(header).ForTransaction(powerplay.Bytes32{}, from).Insert(nil, tx.Transfers{transLog}).
 			Commit(); err != nil {
 			t.Fatal(err)
 		}
@@ -164,8 +164,8 @@ func BenchmarkLog(b *testing.B) {
 		b.Fatal(err)
 	}
 	l := &tx.Event{
-		Address: .BytesToAddress([]byte("addr")),
-		Topics:  [].Bytes32{.BytesToBytes32([]byte("topic0")), .BytesToBytes32([]byte("topic1"))},
+		Address: powerplay.BytesToAddress([]byte("addr")),
+		Topics:  []powerplay.Bytes32{powerplay.BytesToBytes32([]byte("topic0")), powerplay.BytesToBytes32([]byte("topic1"))},
 		Data:    []byte("data"),
 	}
 
@@ -173,7 +173,7 @@ func BenchmarkLog(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		header := new(block.Builder).Build().Header()
 		batch := db.Prepare(header)
-		txBatch := batch.ForTransaction(.BytesToBytes32([]byte("txID")), .BytesToAddress([]byte("txOrigin")))
+		txBatch := batch.ForTransaction(powerplay.BytesToBytes32([]byte("txID")), powerplay.BytesToAddress([]byte("txOrigin")))
 		for j := 0; j < 100; j++ {
 			txBatch.Insert(tx.Events{l}, nil)
 			header = new(block.Builder).ParentID(header.ID()).Build().Header()
