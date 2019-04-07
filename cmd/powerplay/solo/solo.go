@@ -16,16 +16,16 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/inconshreveable/log15"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/chain"
-	"github.com/playmakerchain/thor/co"
-	"github.com/playmakerchain/thor/genesis"
-	"github.com/playmakerchain/thor/logdb"
-	"github.com/playmakerchain/thor/packer"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/tx"
-	"github.com/playmakerchain/thor/txpool"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//co"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//logdb"
+	"github.com/playmakerchain//packer"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain//txpool"
 )
 
 var log = log15.New()
@@ -119,7 +119,7 @@ func (s *Solo) loop(ctx context.Context) {
 
 func (s *Solo) packing(pendingTxs tx.Transactions) error {
 	best := s.chain.BestBlock()
-	var txsToRemove []thor.Bytes32
+	var txsToRemove [].Bytes32
 	defer func() {
 		for _, id := range txsToRemove {
 			s.txPool.Remove(id)
