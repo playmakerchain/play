@@ -10,16 +10,16 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//poa"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/poa"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 var (
-	p1 = .BytesToAddress([]byte("p1"))
-	p2 = .BytesToAddress([]byte("p2"))
-	p3 = .BytesToAddress([]byte("p3"))
-	p4 = .BytesToAddress([]byte("p4"))
-	p5 = .BytesToAddress([]byte("p5"))
+	p1 = powerplay.BytesToAddress([]byte("p1"))
+	p2 = powerplay.BytesToAddress([]byte("p2"))
+	p3 = powerplay.BytesToAddress([]byte("p3"))
+	p4 = powerplay.BytesToAddress([]byte("p4"))
+	p5 = powerplay.BytesToAddress([]byte("p5"))
 
 	proposers = []poa.Proposer{
 		{p1, false},
@@ -34,13 +34,13 @@ var (
 
 func TestSchedule(t *testing.T) {
 
-	_, err := poa.NewScheduler(.BytesToAddress([]byte("px")), proposers, 1, parentTime)
+	_, err := poa.NewScheduler(powerplay.BytesToAddress([]byte("px")), proposers, 1, parentTime)
 	assert.NotNil(t, err)
 
 	sched, _ := poa.NewScheduler(p1, proposers, 1, parentTime)
 
 	for i := uint64(0); i < 100; i++ {
-		now := parentTime + i*.BlockInterval/2
+		now := parentTime + i*powerplay.BlockInterval/2
 		nbt := sched.Schedule(now)
 		assert.True(t, nbt >= now)
 		assert.True(t, sched.IsTheTime(nbt))
@@ -55,8 +55,8 @@ func TestIsTheTime(t *testing.T) {
 		want bool
 	}{
 		{parentTime - 1, false},
-		{parentTime + .BlockInterval/2, false},
-		{parentTime + .BlockInterval, true},
+		{parentTime + powerplay.BlockInterval/2, false},
+		{parentTime + powerplay.BlockInterval, true},
 	}
 
 	for _, tt := range tests {
@@ -72,8 +72,8 @@ func TestUpdates(t *testing.T) {
 		newBlockTime uint64
 		want         uint64
 	}{
-		{parentTime + .BlockInterval, 2},
-		{parentTime + .BlockInterval*30, 1},
+		{parentTime + powerplay.BlockInterval, 2},
+		{parentTime + powerplay.BlockInterval*30, 1},
 	}
 
 	for _, tt := range tests {
