@@ -9,26 +9,26 @@ package logdb
 import (
 	"math/big"
 
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 //Event represents tx.Event that can be stored in db.
 type Event struct {
-	BlockID     .Bytes32
+	BlockID     powerplay.Bytes32
 	Index       uint32
 	BlockNumber uint32
 	BlockTime   uint64
-	TxID        .Bytes32
-	TxOrigin    .Address //contract caller
-	Address     .Address // always a contract address
-	Topics      [5]*.Bytes32
+	TxID        powerplay.Bytes32
+	TxOrigin    powerplay.Address //contract caller
+	Address     powerplay.Address // always a contract address
+	Topics      [5]*powerplay.Bytes32
 	Data        []byte
 }
 
 //newEvent converts tx.Event to Event.
-func newEvent(header *block.Header, index uint32, txID .Bytes32, txOrigin .Address, txEvent *tx.Event) *Event {
+func newEvent(header *block.Header, index uint32, txID powerplay.Bytes32, txOrigin powerplay.Address, txEvent *tx.Event) *Event {
 	ev := &Event{
 		BlockID:     header.ID(),
 		Index:       index,
@@ -47,19 +47,19 @@ func newEvent(header *block.Header, index uint32, txID .Bytes32, txOrigin .Addre
 
 //Transfer represents tx.Transfer that can be stored in db.
 type Transfer struct {
-	BlockID     .Bytes32
+	BlockID     powerplay.Bytes32
 	Index       uint32
 	BlockNumber uint32
 	BlockTime   uint64
-	TxID        .Bytes32
-	TxOrigin    .Address
-	Sender      .Address
-	Recipient   .Address
+	TxID        powerplay.Bytes32
+	TxOrigin    powerplay.Address
+	Sender      powerplay.Address
+	Recipient   powerplay.Address
 	Amount      *big.Int
 }
 
 //newTransfer converts tx.Transfer to Transfer.
-func newTransfer(header *block.Header, index uint32, txID .Bytes32, txOrigin .Address, transfer *tx.Transfer) *Transfer {
+func newTransfer(header *block.Header, index uint32, txID powerplay.Bytes32, txOrigin powerplay.Address, transfer *tx.Transfer) *Transfer {
 	return &Transfer{
 		BlockID:     header.ID(),
 		Index:       index,
@@ -99,8 +99,8 @@ type Options struct {
 }
 
 type EventCriteria struct {
-	Address *.Address // always a contract address
-	Topics  [5]*.Bytes32
+	Address *powerplay.Address // always a contract address
+	Topics  [5]*powerplay.Bytes32
 }
 
 //EventFilter filter
@@ -112,13 +112,13 @@ type EventFilter struct {
 }
 
 type TransferCriteria struct {
-	TxOrigin  *.Address //who send transaction
-	Sender    *.Address //who transferred tokens
-	Recipient *.Address //who recieved tokens
+	TxOrigin  *powerplay.Address //who send transaction
+	Sender    *powerplay.Address //who transferred tokens
+	Recipient *powerplay.Address //who recieved tokens
 }
 
 type TransferFilter struct {
-	TxID        *.Bytes32
+	TxID        *powerplay.Bytes32
 	CriteriaSet []*TransferCriteria
 	Range       *Range
 	Options     *Options
