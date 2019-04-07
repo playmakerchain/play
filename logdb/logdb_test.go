@@ -14,10 +14,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/logdb"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/logdb"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 func TestEvents(t *testing.T) {
