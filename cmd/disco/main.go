@@ -127,7 +127,7 @@ func main() {
 		Version:   fmt.Sprintf("%s-%s-%s", version, gitCommit, versionMeta),
 		Name:      "Disco",
 		Usage:     "PowerPlay bootstrap node",
-		Copyright: "2019 PlayMaker Chain <https://vechain.org/>",
+		Copyright: "2019 PlayMaker Chain <https:///>",
 		Flags:     flags,
 		Action:    run,
 	}
