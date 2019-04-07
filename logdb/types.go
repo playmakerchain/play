@@ -9,26 +9,26 @@ package logdb
 import (
 	"math/big"
 
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 //Event represents tx.Event that can be stored in db.
 type Event struct {
-	BlockID     thor.Bytes32
+	BlockID     .Bytes32
 	Index       uint32
 	BlockNumber uint32
 	BlockTime   uint64
-	TxID        thor.Bytes32
-	TxOrigin    thor.Address //contract caller
-	Address     thor.Address // always a contract address
-	Topics      [5]*thor.Bytes32
+	TxID        .Bytes32
+	TxOrigin    .Address //contract caller
+	Address     .Address // always a contract address
+	Topics      [5]*.Bytes32
 	Data        []byte
 }
 
 //newEvent converts tx.Event to Event.
-func newEvent(header *block.Header, index uint32, txID thor.Bytes32, txOrigin thor.Address, txEvent *tx.Event) *Event {
+func newEvent(header *block.Header, index uint32, txID .Bytes32, txOrigin .Address, txEvent *tx.Event) *Event {
 	ev := &Event{
 		BlockID:     header.ID(),
 		Index:       index,
@@ -47,19 +47,19 @@ func newEvent(header *block.Header, index uint32, txID thor.Bytes32, txOrigin th
 
 //Transfer represents tx.Transfer that can be stored in db.
 type Transfer struct {
-	BlockID     thor.Bytes32
+	BlockID     .Bytes32
 	Index       uint32
 	BlockNumber uint32
 	BlockTime   uint64
-	TxID        thor.Bytes32
-	TxOrigin    thor.Address
-	Sender      thor.Address
-	Recipient   thor.Address
+	TxID        .Bytes32
+	TxOrigin    .Address
+	Sender      .Address
+	Recipient   .Address
 	Amount      *big.Int
 }
 
 //newTransfer converts tx.Transfer to Transfer.
-func newTransfer(header *block.Header, index uint32, txID thor.Bytes32, txOrigin thor.Address, transfer *tx.Transfer) *Transfer {
+func newTransfer(header *block.Header, index uint32, txID .Bytes32, txOrigin .Address, transfer *tx.Transfer) *Transfer {
 	return &Transfer{
 		BlockID:     header.ID(),
 		Index:       index,
@@ -99,8 +99,8 @@ type Options struct {
 }
 
 type EventCriteria struct {
-	Address *thor.Address // always a contract address
-	Topics  [5]*thor.Bytes32
+	Address *.Address // always a contract address
+	Topics  [5]*.Bytes32
 }
 
 //EventFilter filter
@@ -112,13 +112,13 @@ type EventFilter struct {
 }
 
 type TransferCriteria struct {
-	TxOrigin  *thor.Address //who send transaction
-	Sender    *thor.Address //who transferred tokens
-	Recipient *thor.Address //who recieved tokens
+	TxOrigin  *.Address //who send transaction
+	Sender    *.Address //who transferred tokens
+	Recipient *.Address //who recieved tokens
 }
 
 type TransferFilter struct {
-	TxID        *thor.Bytes32
+	TxID        *.Bytes32
 	CriteriaSet []*TransferCriteria
 	Range       *Range
 	Options     *Options
