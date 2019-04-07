@@ -13,9 +13,9 @@ import (
 	"math/big"
 
 	sqlite3 "github.com/mattn/go-sqlite3"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 type LogDB struct {
