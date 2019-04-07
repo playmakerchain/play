@@ -9,9 +9,9 @@ package logdb
 import (
 	"math/big"
 
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 //Event represents tx.Event that can be stored in db.
