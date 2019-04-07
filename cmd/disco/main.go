@@ -127,7 +127,7 @@ func main() {
 		Version:   fmt.Sprintf("%s-%s-%s", version, gitCommit, versionMeta),
 		Name:      "Disco",
 		Usage:     "PowerPlay bootstrap node",
-		Copyright: "2018 VeChain Foundation <https://vechain.org/>",
+		Copyright: "2019  <https://vechain.org/>",
 		Flags:     flags,
 		Action:    run,
 	}
