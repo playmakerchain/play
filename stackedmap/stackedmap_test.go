@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//stackedmap"
+	"github.com/playmakerchain/powerplay/stackedmap"
 )
 
 func M(a ...interface{}) []interface{} {
