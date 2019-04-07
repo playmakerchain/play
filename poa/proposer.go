@@ -6,11 +6,11 @@
 package poa
 
 import (
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//"
 )
 
 // Proposer address with status.
 type Proposer struct {
-	Address thor.Address
+	Address .Address
 	Active  bool
 }
