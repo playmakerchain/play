@@ -6,7 +6,7 @@
 package poa
 
 import (
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // Proposer address with status.
