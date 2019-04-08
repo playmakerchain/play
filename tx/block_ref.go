@@ -9,7 +9,7 @@ package tx
 import (
 	"encoding/binary"
 
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // BlockRef is block reference.
@@ -27,7 +27,7 @@ func NewBlockRef(blockNum uint32) (br BlockRef) {
 }
 
 // NewBlockRefFromID create block reference from block id.
-func NewBlockRefFromID(blockID .Bytes32) (br BlockRef) {
+func NewBlockRefFromID(blockID powerplay.Bytes32) (br BlockRef) {
 	copy(br[:], blockID[:])
 	return
 }
