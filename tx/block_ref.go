@@ -9,7 +9,7 @@ package tx
 import (
 	"encoding/binary"
 
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // BlockRef is block reference.
