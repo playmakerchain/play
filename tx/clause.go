@@ -12,7 +12,7 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 type clauseBody struct {
