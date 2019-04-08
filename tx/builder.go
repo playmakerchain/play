@@ -9,7 +9,7 @@ package tx
 import (
 	"encoding/binary"
 
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // Builder to make it easy to build transaction.
@@ -60,7 +60,7 @@ func (b *Builder) Nonce(nonce uint64) *Builder {
 }
 
 // DependsOn set depended tx.
-func (b *Builder) DependsOn(txID *.Bytes32) *Builder {
+func (b *Builder) DependsOn(txID *powerplay.Bytes32) *Builder {
 	if txID == nil {
 		b.body.DependsOn = nil
 	} else {
