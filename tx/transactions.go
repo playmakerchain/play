@@ -8,8 +8,8 @@ package tx
 
 import (
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//trie"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/trie"
 )
 
 var (
@@ -20,7 +20,7 @@ var (
 type Transactions []*Transaction
 
 // RootHash computes merkle root hash of transactions.
-func (txs Transactions) RootHash() .Bytes32 {
+func (txs Transactions) RootHash() powerplay.Bytes32 {
 	if len(txs) == 0 {
 		// optimized
 		return emptyRoot
