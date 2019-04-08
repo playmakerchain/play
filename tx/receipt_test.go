@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/playmakerchain//tx"
+	. "github.com/playmakerchain/powerplay/tx"
 )
 
 func TestReceipt(t *testing.T) {
