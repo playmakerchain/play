@@ -12,11 +12,11 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type clauseBody struct {
-	To    *.Address `rlp:"nil"`
+	To    *powerplay.Address `rlp:"nil"`
 	Value *big.Int
 	Data  []byte
 }
@@ -27,7 +27,7 @@ type Clause struct {
 }
 
 // NewClause create a new clause instance.
-func NewClause(to *.Address) *Clause {
+func NewClause(to *powerplay.Address) *Clause {
 	if to != nil {
 		// make a copy of 'to'
 		cpy := *to
@@ -57,7 +57,7 @@ func (c *Clause) WithData(data []byte) *Clause {
 }
 
 // To returns 'To' address.
-func (c *Clause) To() *.Address {
+func (c *Clause) To() *powerplay.Address {
 	if c.body.To == nil {
 		return nil
 	}
