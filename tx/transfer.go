@@ -9,13 +9,13 @@ package tx
 import (
 	"math/big"
 
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // Transfer token transfer log.
 type Transfer struct {
-	Sender    .Address
-	Recipient .Address
+	Sender    powerplay.Address
+	Recipient powerplay.Address
 	Amount    *big.Int
 }
 
