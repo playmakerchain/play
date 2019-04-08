@@ -9,7 +9,7 @@ package tx
 import (
 	"math/big"
 
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // Transfer token transfer log.
