@@ -10,10 +10,10 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain//tx"
 )
 
 func TestBlockRef(t *testing.T) {
@@ -21,7 +21,7 @@ func TestBlockRef(t *testing.T) {
 
 	assert.Equal(t, tx.BlockRef{0, 0, 0, 0xff, 0, 0, 0, 0}, tx.NewBlockRef(0xff))
 
-	var bid thor.Bytes32
+	var bid .Bytes32
 	rand.Read(bid[:])
 
 	br := tx.NewBlockRefFromID(bid)
