@@ -10,10 +10,10 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/tx"
+	"github.com/playmakerchain/thor/tx"
 )
 
 func TestBlockRef(t *testing.T) {
