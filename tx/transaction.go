@@ -19,8 +19,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//metric"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/metric"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 var (
@@ -49,7 +49,7 @@ type body struct {
 	Clauses      []*Clause
 	GasPriceCoef uint8
 	Gas          uint64
-	DependsOn    *.Bytes32 `rlp:"nil"`
+	DependsOn    *powerplay.Bytes32 `rlp:"nil"`
 	Nonce        uint64
 	Reserved     []interface{}
 	Signature    []byte
@@ -86,9 +86,9 @@ func (t *Transaction) IsExpired(blockNum uint32) bool {
 // ID returns id of tx.
 // ID = hash(signingHash, signer).
 // It returns zero Bytes32 if signer not available.
-func (t *Transaction) ID() (id .Bytes32) {
+func (t *Transaction) ID() (id powerplay.Bytes32) {
 	if cached := t.cache.id.Load(); cached != nil {
-		return cached.(.Bytes32)
+		return cached.(powerplay.Bytes32)
 	}
 	defer func() { t.cache.id.Store(id) }()
 
@@ -96,7 +96,7 @@ func (t *Transaction) ID() (id .Bytes32) {
 	if err != nil {
 		return
 	}
-	hw := .NewBlake2b()
+	hw := powerplay.NewBlake2b()
 	hw.Write(t.SigningHash().Bytes())
 	hw.Write(signer.Bytes())
 	hw.Sum(id[:0])
@@ -121,8 +121,8 @@ func (t *Transaction) UnprovedWork() (w *big.Int) {
 }
 
 // EvaluateWork try to compute work when tx signer assumed.
-func (t *Transaction) EvaluateWork(signer .Address) func(nonce uint64) *big.Int {
-	hw := .NewBlake2b()
+func (t *Transaction) EvaluateWork(signer powerplay.Address) func(nonce uint64) *big.Int {
+	hw := powerplay.NewBlake2b()
 	rlp.Encode(hw, []interface{}{
 		t.body.ChainTag,
 		t.body.BlockRef,
@@ -135,26 +135,26 @@ func (t *Transaction) EvaluateWork(signer .Address) func(nonce uint64) *big.Int 
 		signer,
 	})
 
-	var hashWithoutNonce .Bytes32
+	var hashWithoutNonce powerplay.Bytes32
 	hw.Sum(hashWithoutNonce[:0])
 
 	return func(nonce uint64) *big.Int {
 		var nonceBytes [8]byte
 		binary.BigEndian.PutUint64(nonceBytes[:], nonce)
-		hash := .Blake2b(hashWithoutNonce[:], nonceBytes[:])
+		hash := powerplay.Blake2b(hashWithoutNonce[:], nonceBytes[:])
 		r := new(big.Int).SetBytes(hash[:])
 		return r.Div(math.MaxBig256, r)
 	}
 }
 
 // SigningHash returns hash of tx excludes signature.
-func (t *Transaction) SigningHash() (hash .Bytes32) {
+func (t *Transaction) SigningHash() (hash powerplay.Bytes32) {
 	if cached := t.cache.signingHash.Load(); cached != nil {
-		return cached.(.Bytes32)
+		return cached.(powerplay.Bytes32)
 	}
 	defer func() { t.cache.signingHash.Store(hash) }()
 
-	hw := .NewBlake2b()
+	hw := powerplay.NewBlake2b()
 	rlp.Encode(hw, []interface{}{
 		t.body.ChainTag,
 		t.body.BlockRef,
@@ -187,7 +187,7 @@ func (t *Transaction) Clauses() []*Clause {
 }
 
 // DependsOn returns depended tx hash.
-func (t *Transaction) DependsOn() *.Bytes32 {
+func (t *Transaction) DependsOn() *powerplay.Bytes32 {
 	if t.body.DependsOn == nil {
 		return nil
 	}
@@ -201,9 +201,9 @@ func (t *Transaction) Signature() []byte {
 }
 
 // Signer extract signer of tx from signature.
-func (t *Transaction) Signer() (signer .Address, err error) {
+func (t *Transaction) Signer() (signer powerplay.Address, err error) {
 	if cached := t.cache.signer.Load(); cached != nil {
-		return cached.(.Address), nil
+		return cached.(powerplay.Address), nil
 	}
 	defer func() {
 		if err == nil {
@@ -213,9 +213,9 @@ func (t *Transaction) Signer() (signer .Address, err error) {
 
 	pub, err := crypto.SigToPub(t.SigningHash().Bytes(), t.body.Signature)
 	if err != nil {
-		return .Address{}, err
+		return powerplay.Address{}, err
 	}
-	signer = .Address(crypto.PubkeyToAddress(*pub))
+	signer = powerplay.Address(crypto.PubkeyToAddress(*pub))
 	return
 }
 
@@ -290,14 +290,14 @@ func (t *Transaction) GasPrice(baseGasPrice *big.Int) *big.Int {
 // ProvedWork returns proved work.
 // Unproved work will be considered as proved work if block ref is do the prefix of a block's ID,
 // and tx delay is less equal to MaxTxWorkDelay.
-func (t *Transaction) ProvedWork(headBlockNum uint32, getBlockID func(uint32) .Bytes32) *big.Int {
+func (t *Transaction) ProvedWork(headBlockNum uint32, getBlockID func(uint32) powerplay.Bytes32) *big.Int {
 	ref := t.BlockRef()
 	refNum := ref.Number()
 	if refNum >= headBlockNum {
 		return &big.Int{}
 	}
 
-	if delay := headBlockNum - refNum; delay > .MaxTxWorkDelay {
+	if delay := headBlockNum - refNum; delay > powerplay.MaxTxWorkDelay {
 		return &big.Int{}
 	}
 
@@ -310,7 +310,7 @@ func (t *Transaction) ProvedWork(headBlockNum uint32, getBlockID func(uint32) .B
 
 // OverallGasPrice calculate overall gas price.
 // overallGasPrice = gasPrice + baseGasPrice * wgas/gas.
-func (t *Transaction) OverallGasPrice(baseGasPrice *big.Int, headBlockNum uint32, getBlockID func(uint32) .Bytes32) *big.Int {
+func (t *Transaction) OverallGasPrice(baseGasPrice *big.Int, headBlockNum uint32, getBlockID func(uint32) powerplay.Bytes32) *big.Int {
 	gasPrice := t.GasPrice(baseGasPrice)
 
 	provedWork := t.ProvedWork(headBlockNum, getBlockID)
@@ -372,10 +372,10 @@ func (t *Transaction) String() string {
 // IntrinsicGas calculate intrinsic gas cost for tx with such clauses.
 func IntrinsicGas(clauses ...*Clause) (uint64, error) {
 	if len(clauses) == 0 {
-		return .TxGas + .ClauseGas, nil
+		return powerplay.TxGas + powerplay.ClauseGas, nil
 	}
 
-	var total = .TxGas
+	var total = powerplay.TxGas
 	var overflow bool
 	for _, c := range clauses {
 		gas, err := dataGas(c.body.Data)
@@ -390,9 +390,9 @@ func IntrinsicGas(clauses ...*Clause) (uint64, error) {
 		var cgas uint64
 		if c.IsCreatingContract() {
 			// contract creation
-			cgas = .ClauseGasContractCreation
+			cgas = powerplay.ClauseGasContractCreation
 		} else {
-			cgas = .ClauseGas
+			cgas = powerplay.ClauseGas
 		}
 
 		total, overflow = math.SafeAdd(total, cgas)
