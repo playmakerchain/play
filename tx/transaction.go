@@ -19,8 +19,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/vechain/thor/metric"
-	"github.com/vechain/thor/thor"
+	"github.com//thor/metric"
+	"github.com//thor/thor"
 )
 
 var (
