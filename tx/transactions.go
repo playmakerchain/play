@@ -8,8 +8,8 @@ package tx
 
 import (
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//thor/thor"
-	"github.com//thor/trie"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/trie"
 )
 
 var (
