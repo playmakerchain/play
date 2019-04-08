@@ -10,7 +10,7 @@ import (
 	"math"
 	"math/big"
 
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 var (
