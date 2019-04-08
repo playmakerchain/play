@@ -9,7 +9,7 @@ package tx
 import (
 	"encoding/binary"
 
-	"github.com/vechain/thor/thor"
+	"github.com//thor/thor"
 )
 
 // Builder to make it easy to build transaction.
