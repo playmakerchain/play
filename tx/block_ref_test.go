@@ -10,10 +10,10 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 func TestBlockRef(t *testing.T) {
@@ -21,7 +21,7 @@ func TestBlockRef(t *testing.T) {
 
 	assert.Equal(t, tx.BlockRef{0, 0, 0, 0xff, 0, 0, 0, 0}, tx.NewBlockRef(0xff))
 
-	var bid .Bytes32
+	var bid powerplay.Bytes32
 	rand.Read(bid[:])
 
 	br := tx.NewBlockRefFromID(bid)
