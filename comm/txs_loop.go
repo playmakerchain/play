@@ -7,8 +7,8 @@
 package comm
 
 import (
-	"github.com//thor/comm/proto"
-	"github.com//thor/txpool"
+	"github.com/playmakerchain/thor/comm/proto"
+	"github.com/playmakerchain/thor/txpool"
 )
 
 func (c *Communicator) txsLoop() {
