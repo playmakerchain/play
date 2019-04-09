@@ -12,13 +12,13 @@ import (
 
 // Constants
 const (
-	Name              = ""
+	Name              = "powerplay"
 	Version    uint   = 1
 	Length     uint64 = 8
 	MaxMsgSize        = 10 * 1024 * 1024
 )
 
-// Protocol messages of 
+// Protocol messages of powerplay
 const (
 	MsgGetStatus = iota
 	MsgNewBlockID
