@@ -16,8 +16,8 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/discover"
 	lru "github.com/hashicorp/golang-lru"
 	"github.com/inconshreveable/log15"
-	"github.com/vechain/powerplay/p2psrv/rpc"
-	"github.com/vechain/powerplay/powerplay"
+	"github.com//powerplay/p2psrv/rpc"
+	"github.com//powerplay/powerplay"
 )
 
 const (
