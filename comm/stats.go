@@ -7,7 +7,7 @@
 package comm
 
 import (
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // type Traffic struct {
