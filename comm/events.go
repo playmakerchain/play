@@ -9,7 +9,7 @@ package comm
 import (
 	"context"
 
-	"github.com/vechain//block"
+	"github.com/vechain/powerplay/block"
 )
 
 // NewBlockEvent event emitted when received block announcement.
