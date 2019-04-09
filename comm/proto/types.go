@@ -10,9 +10,9 @@ import (
 	"context"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 type (
