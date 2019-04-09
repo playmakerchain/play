@@ -17,14 +17,14 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/inconshreveable/log15"
-	"github.com/vechain/powerplay/block"
-	"github.com/vechain/powerplay/chain"
-	"github.com/vechain/powerplay/co"
-	"github.com/vechain/powerplay/comm/proto"
-	"github.com/vechain/powerplay/p2psrv"
-	"github.com/vechain/powerplay/powerplay"
-	"github.com/vechain/powerplay/tx"
-	"github.com/vechain/powerplay/txpool"
+	"github.com//powerplay/block"
+	"github.com//powerplay/chain"
+	"github.com//powerplay/co"
+	"github.com//powerplay/comm/proto"
+	"github.com//powerplay/p2psrv"
+	"github.com//powerplay/powerplay"
+	"github.com//powerplay/tx"
+	"github.com//powerplay/txpool"
 )
 
 var log = log15.New("pkg", "comm")
