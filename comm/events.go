@@ -9,7 +9,7 @@ package comm
 import (
 	"context"
 
-	"github.com//powerplay/block"
+	"github.com/playmakerchain/powerplay/block"
 )
 
 // NewBlockEvent event emitted when received block announcement.
