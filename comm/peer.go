@@ -16,8 +16,8 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/discover"
 	lru "github.com/hashicorp/golang-lru"
 	"github.com/inconshreveable/log15"
-	"github.com/vechain/thor/p2psrv/rpc"
-	"github.com/vechain/thor/thor"
+	"github.com/vechain//p2psrv/rpc"
+	"github.com/vechain//"
 )
 
 const (
@@ -40,7 +40,7 @@ type Peer struct {
 	knownBlocks *lru.Cache
 	head        struct {
 		sync.Mutex
-		id         thor.Bytes32
+		id         .Bytes32
 		totalScore uint64
 	}
 }
@@ -67,14 +67,14 @@ func newPeer(peer *p2p.Peer, rw p2p.MsgReadWriter) *Peer {
 }
 
 // Head returns head block ID and total score.
-func (p *Peer) Head() (id thor.Bytes32, totalScore uint64) {
+func (p *Peer) Head() (id .Bytes32, totalScore uint64) {
 	p.head.Lock()
 	defer p.head.Unlock()
 	return p.head.id, p.head.totalScore
 }
 
 // UpdateHead update ID and total score of head block.
-func (p *Peer) UpdateHead(id thor.Bytes32, totalScore uint64) {
+func (p *Peer) UpdateHead(id .Bytes32, totalScore uint64) {
 	p.head.Lock()
 	defer p.head.Unlock()
 	if totalScore > p.head.totalScore {
@@ -83,22 +83,22 @@ func (p *Peer) UpdateHead(id thor.Bytes32, totalScore uint64) {
 }
 
 // MarkTransaction marks a transaction to known.
-func (p *Peer) MarkTransaction(id thor.Bytes32) {
+func (p *Peer) MarkTransaction(id .Bytes32) {
 	p.knownTxs.Add(id, struct{}{})
 }
 
 // MarkBlock marks a block to known.
-func (p *Peer) MarkBlock(id thor.Bytes32) {
+func (p *Peer) MarkBlock(id .Bytes32) {
 	p.knownBlocks.Add(id, struct{}{})
 }
 
 // IsTransactionKnown returns if the transaction is known.
-func (p *Peer) IsTransactionKnown(id thor.Bytes32) bool {
+func (p *Peer) IsTransactionKnown(id .Bytes32) bool {
 	return p.knownTxs.Contains(id)
 }
 
 // IsBlockKnown returns if the block is known.
-func (p *Peer) IsBlockKnown(id thor.Bytes32) bool {
+func (p *Peer) IsBlockKnown(id .Bytes32) bool {
 	return p.knownBlocks.Contains(id)
 }
 
