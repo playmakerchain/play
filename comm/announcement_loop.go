@@ -9,9 +9,9 @@ package comm
 import (
 	"github.com/ethereum/go-ethereum/p2p/discover"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//thor/block"
-	"github.com//thor/comm/proto"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/comm/proto"
+	"github.com/playmakerchain/thor/thor"
 )
 
 type announcement struct {
