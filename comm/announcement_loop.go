@@ -9,13 +9,13 @@ package comm
 import (
 	"github.com/ethereum/go-ethereum/p2p/discover"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//comm/proto"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/comm/proto"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type announcement struct {
-	newBlockID .Bytes32
+	newBlockID powerplay.Bytes32
 	peer       *Peer
 }
 
@@ -23,7 +23,7 @@ func (c *Communicator) announcementLoop() {
 	const maxFetches = 3 // per block ID
 
 	fetchingPeers := map[discover.NodeID]bool{}
-	fetchingBlockIDs := map[.Bytes32]int{}
+	fetchingBlockIDs := map[powerplay.Bytes32]int{}
 
 	fetchDone := make(chan *announcement)
 
@@ -59,7 +59,7 @@ func (c *Communicator) announcementLoop() {
 	}
 }
 
-func (c *Communicator) fetchBlockByID(peer *Peer, newBlockID .Bytes32) {
+func (c *Communicator) fetchBlockByID(peer *Peer, newBlockID powerplay.Bytes32) {
 	if _, err := c.chain.GetBlockHeader(newBlockID); err != nil {
 		if !c.chain.IsNotFound(err) {
 			peer.logger.Error("failed to get block header", "err", err)
