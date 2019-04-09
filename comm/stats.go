@@ -7,7 +7,7 @@
 package comm
 
 import (
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//"
 )
 
 // type Traffic struct {
@@ -19,7 +19,7 @@ import (
 // PeerStats records stats of a peer.
 type PeerStats struct {
 	Name        string
-	BestBlockID thor.Bytes32
+	BestBlockID .Bytes32
 	TotalScore  uint64
 	PeerID      string
 	NetAddr     string
