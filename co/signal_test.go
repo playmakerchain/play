@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/co"
+	"github.com/playmakerchain/thor/co"
 )
 
 func TestSignal_SignalBeforeWait(t *testing.T) {
