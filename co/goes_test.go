@@ -9,7 +9,7 @@ package co_test
 import (
 	"testing"
 
-	"github.com//thor/co"
+	"github.com/playmakerchain/thor/co"
 )
 
 func TestGoes(t *testing.T) {
