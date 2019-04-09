@@ -12,13 +12,13 @@ import (
 
 // Constants
 const (
-	Name              = "thor"
+	Name              = ""
 	Version    uint   = 1
 	Length     uint64 = 8
 	MaxMsgSize        = 10 * 1024 * 1024
 )
 
-// Protocol messages of thor
+// Protocol messages of 
 const (
 	MsgGetStatus = iota
 	MsgNewBlockID
