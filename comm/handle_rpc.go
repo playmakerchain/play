@@ -13,11 +13,11 @@ import (
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//comm/proto"
-	"github.com/playmakerchain//metric"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/comm/proto"
+	"github.com/playmakerchain/powerplay/metric"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 // peer will be disconnected if error returned
@@ -55,7 +55,7 @@ func (c *Communicator) handleRPC(peer *Peer, msg *p2p.Msg, write func(interface{
 		c.newBlockFeed.Send(&NewBlockEvent{Block: newBlock})
 		write(&struct{}{})
 	case proto.MsgNewBlockID:
-		var newBlockID .Bytes32
+		var newBlockID powerplay.Bytes32
 		if err := msg.Decode(&newBlockID); err != nil {
 			return errors.WithMessage(err, "decode msg")
 		}
@@ -74,7 +74,7 @@ func (c *Communicator) handleRPC(peer *Peer, msg *p2p.Msg, write func(interface{
 		c.txPool.StrictlyAdd(newTx)
 		write(&struct{}{})
 	case proto.MsgGetBlockByID:
-		var blockID .Bytes32
+		var blockID powerplay.Bytes32
 		if err := msg.Decode(&blockID); err != nil {
 			return errors.WithMessage(err, "decode msg")
 		}
@@ -99,7 +99,7 @@ func (c *Communicator) handleRPC(peer *Peer, msg *p2p.Msg, write func(interface{
 			if !c.chain.IsNotFound(err) {
 				log.Error("failed to get block id by number", "err", err)
 			}
-			write(.Bytes32{})
+			write(powerplay.Bytes32{})
 		} else {
 			write(id)
 		}
