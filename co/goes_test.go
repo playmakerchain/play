@@ -9,7 +9,7 @@ package co_test
 import (
 	"testing"
 
-	"github.com/vechain/thor/co"
+	"github.com//thor/co"
 )
 
 func TestGoes(t *testing.T) {
