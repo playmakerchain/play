@@ -12,9 +12,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/co"
-	"github.com/playmakerchain/thor/comm/proto"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//co"
+	"github.com/playmakerchain//comm/proto"
 )
 
 func (c *Communicator) sync(peer *Peer, headNum uint32, handler HandleBlockStream) error {
