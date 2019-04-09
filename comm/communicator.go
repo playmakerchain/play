@@ -17,14 +17,14 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/inconshreveable/log15"
-	"github.com/vechain//block"
-	"github.com/vechain//chain"
-	"github.com/vechain//co"
-	"github.com/vechain//comm/proto"
-	"github.com/vechain//p2psrv"
-	"github.com/vechain//"
-	"github.com/vechain//tx"
-	"github.com/vechain//txpool"
+	"github.com/vechain/powerplay/block"
+	"github.com/vechain/powerplay/chain"
+	"github.com/vechain/powerplay/co"
+	"github.com/vechain/powerplay/comm/proto"
+	"github.com/vechain/powerplay/p2psrv"
+	"github.com/vechain/powerplay/powerplay"
+	"github.com/vechain/powerplay/tx"
+	"github.com/vechain/powerplay/txpool"
 )
 
 var log = log15.New("pkg", "comm")
@@ -77,7 +77,7 @@ func (c *Communicator) Sync(handler HandleBlockStream) {
 		shouldSynced := func() bool {
 			bestBlockTime := c.chain.BestBlock().Header().Timestamp()
 			now := uint64(time.Now().Unix())
-			if bestBlockTime+.BlockInterval >= now {
+			if bestBlockTime+powerplay.BlockInterval >= now {
 				return true
 			}
 			if syncCount > 2 {
@@ -197,7 +197,7 @@ func (c *Communicator) runPeer(peer *Peer) {
 	if localClock < remoteClock {
 		diff = remoteClock - localClock
 	}
-	if diff > .BlockInterval*2 {
+	if diff > powerplay.BlockInterval*2 {
 		peer.logger.Debug("failed to handshake", "err", "sys time diff too large")
 		return
 	}
