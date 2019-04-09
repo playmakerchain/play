@@ -13,11 +13,11 @@ import (
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/comm/proto"
-	"github.com/vechain/thor/metric"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/comm/proto"
+	"github.com//thor/metric"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 // peer will be disconnected if error returned
