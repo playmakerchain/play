@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vechain/thor/co"
+	"github.com//thor/co"
 )
 
 func TestParallel(t *testing.T) {
