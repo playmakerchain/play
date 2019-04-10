@@ -15,13 +15,13 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/inconshreveable/log15"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//builtin"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//co"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/co"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 const (
@@ -219,7 +219,7 @@ func (p *TxPool) StrictlyAdd(newTx *tx.Transaction) error {
 }
 
 // Remove removes tx from pool by its ID.
-func (p *TxPool) Remove(txID .Bytes32) bool {
+func (p *TxPool) Remove(txID powerplay.Bytes32) bool {
 	if p.all.Remove(txID) {
 		log.Debug("tx removed", "id", txID)
 		return true
@@ -256,7 +256,7 @@ func (p *TxPool) Dump() tx.Transactions {
 // this method should only be called in housekeeping go routine
 func (p *TxPool) wash(headBlock *block.Header) (executables tx.Transactions, removed int, err error) {
 	all := p.all.ToTxObjects()
-	var toRemove [].Bytes32
+	var toRemove []powerplay.Bytes32
 	defer func() {
 		if err != nil {
 			// in case of error, simply cut pool size to limit
@@ -281,7 +281,7 @@ func (p *TxPool) wash(headBlock *block.Header) (executables tx.Transactions, rem
 	}
 	var (
 		seeker            = p.chain.NewSeeker(headBlock.ID())
-		baseGasPrice      = builtin.Params.Native(state).Get(.KeyBaseGasPrice)
+		baseGasPrice      = builtin.Params.Native(state).Get(powerplay.KeyBaseGasPrice)
 		executableObjs    = make([]*txObject, 0, len(all))
 		nonExecutableObjs = make([]*txObject, 0, len(all))
 		now               = time.Now().UnixNano()
@@ -369,5 +369,5 @@ func isChainSynced(nowTimestamp, blockTimestamp uint64) bool {
 	if blockTimestamp > nowTimestamp {
 		timeDiff = blockTimestamp - nowTimestamp
 	}
-	return timeDiff < .BlockInterval*6
+	return timeDiff < powerplay.BlockInterval*6
 }
