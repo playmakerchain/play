@@ -12,12 +12,12 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/vechain/powerplay/block"
-	"github.com/vechain/powerplay/chain"
-	"github.com/vechain/powerplay/runtime"
-	"github.com/vechain/powerplay/state"
-	"github.com/vechain/powerplay/powerplay"
-	"github.com/vechain/powerplay/tx"
+	"github.com//powerplay/block"
+	"github.com//powerplay/chain"
+	"github.com//powerplay/runtime"
+	"github.com//powerplay/state"
+	"github.com//powerplay/powerplay"
+	"github.com//powerplay/tx"
 )
 
 type txObject struct {
