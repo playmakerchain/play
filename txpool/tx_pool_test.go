@@ -12,13 +12,13 @@ import (
 
 	"github.com/inconshreveable/log15"
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/block"
-	"github.com//thor/genesis"
-	"github.com//thor/lvldb"
-	"github.com//thor/state"
-	"github.com//thor/thor"
-	"github.com//thor/tx"
-	Tx "github.com//thor/tx"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/genesis"
+	"github.com/playmakerchain/thor/lvldb"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/tx"
+	Tx "github.com/playmakerchain/thor/tx"
 )
 
 func init() {
