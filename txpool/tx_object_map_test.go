@@ -11,9 +11,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/powerplay/genesis"
-	"github.com/vechain/powerplay/lvldb"
-	"github.com/vechain/powerplay/tx"
+	"github.com//powerplay/genesis"
+	"github.com//powerplay/lvldb"
+	"github.com//powerplay/tx"
 )
 
 func TestTxObjMap(t *testing.T) {
