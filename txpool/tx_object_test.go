@@ -14,14 +14,14 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com//thor/block"
-	"github.com//thor/chain"
-	"github.com//thor/genesis"
-	"github.com//thor/kv"
-	"github.com//thor/lvldb"
-	"github.com//thor/state"
-	"github.com//thor/thor"
-	"github.com//thor/tx"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/chain"
+	"github.com/playmakerchain/thor/genesis"
+	"github.com/playmakerchain/thor/kv"
+	"github.com/playmakerchain/thor/lvldb"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/tx"
 )
 
 func newChain(kv kv.GetPutter) *chain.Chain {
