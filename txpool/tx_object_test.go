@@ -14,14 +14,14 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/chain"
-	"github.com/playmakerchain/thor/genesis"
-	"github.com/playmakerchain/thor/kv"
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//kv"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 func newChain(kv kv.GetPutter) *chain.Chain {
@@ -36,7 +36,7 @@ func signTx(tx *tx.Transaction, acc genesis.DevAccount) *tx.Transaction {
 	return tx.WithSignature(sig)
 }
 
-func newTx(chainTag byte, clauses []*tx.Clause, gas uint64, blockRef tx.BlockRef, expiration uint32, dependsOn *thor.Bytes32, from genesis.DevAccount) *tx.Transaction {
+func newTx(chainTag byte, clauses []*tx.Clause, gas uint64, blockRef tx.BlockRef, expiration uint32, dependsOn *.Bytes32, from genesis.DevAccount) *tx.Transaction {
 	builder := new(tx.Builder).ChainTag(chainTag)
 	for _, c := range clauses {
 		builder.Clause(c)
@@ -95,7 +95,7 @@ func TestExecutable(t *testing.T) {
 		{newTx(0, nil, math.MaxUint64, tx.BlockRef{}, 100, nil, acc), false, "gas too large"},
 		{newTx(0, nil, 21000, tx.BlockRef{1}, 100, nil, acc), true, "block ref out of schedule"},
 		{newTx(0, nil, 21000, tx.BlockRef{0}, 0, nil, acc), true, "expired"},
-		{newTx(0, nil, 21000, tx.BlockRef{0}, 100, &thor.Bytes32{}, acc), false, ""},
+		{newTx(0, nil, 21000, tx.BlockRef{0}, 100, &.Bytes32{}, acc), false, ""},
 	}
 
 	for _, tt := range tests {
