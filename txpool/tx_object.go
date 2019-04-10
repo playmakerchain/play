@@ -12,12 +12,12 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com//powerplay/block"
-	"github.com//powerplay/chain"
-	"github.com//powerplay/runtime"
-	"github.com//powerplay/state"
-	"github.com//powerplay/powerplay"
-	"github.com//powerplay/tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/runtime"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 type txObject struct {
