@@ -15,13 +15,13 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/inconshreveable/log15"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/builtin"
-	"github.com/playmakerchain/thor/chain"
-	"github.com/playmakerchain/thor/co"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//builtin"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//co"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 const (
@@ -219,7 +219,7 @@ func (p *TxPool) StrictlyAdd(newTx *tx.Transaction) error {
 }
 
 // Remove removes tx from pool by its ID.
-func (p *TxPool) Remove(txID thor.Bytes32) bool {
+func (p *TxPool) Remove(txID .Bytes32) bool {
 	if p.all.Remove(txID) {
 		log.Debug("tx removed", "id", txID)
 		return true
@@ -256,7 +256,7 @@ func (p *TxPool) Dump() tx.Transactions {
 // this method should only be called in housekeeping go routine
 func (p *TxPool) wash(headBlock *block.Header) (executables tx.Transactions, removed int, err error) {
 	all := p.all.ToTxObjects()
-	var toRemove []thor.Bytes32
+	var toRemove [].Bytes32
 	defer func() {
 		if err != nil {
 			// in case of error, simply cut pool size to limit
@@ -281,7 +281,7 @@ func (p *TxPool) wash(headBlock *block.Header) (executables tx.Transactions, rem
 	}
 	var (
 		seeker            = p.chain.NewSeeker(headBlock.ID())
-		baseGasPrice      = builtin.Params.Native(state).Get(thor.KeyBaseGasPrice)
+		baseGasPrice      = builtin.Params.Native(state).Get(.KeyBaseGasPrice)
 		executableObjs    = make([]*txObject, 0, len(all))
 		nonExecutableObjs = make([]*txObject, 0, len(all))
 		now               = time.Now().UnixNano()
@@ -369,5 +369,5 @@ func isChainSynced(nowTimestamp, blockTimestamp uint64) bool {
 	if blockTimestamp > nowTimestamp {
 		timeDiff = blockTimestamp - nowTimestamp
 	}
-	return timeDiff < thor.BlockInterval*6
+	return timeDiff < .BlockInterval*6
 }
