@@ -10,25 +10,25 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 // txObjectMap to maintain mapping of ID to tx object, and account quota.
 type txObjectMap struct {
 	lock     sync.RWMutex
-	txObjMap map[.Bytes32]*txObject
-	quota    map[.Address]int
+	txObjMap map[powerplay.Bytes32]*txObject
+	quota    map[powerplay.Address]int
 }
 
 func newTxObjectMap() *txObjectMap {
 	return &txObjectMap{
-		txObjMap: make(map[.Bytes32]*txObject),
-		quota:    make(map[.Address]int),
+		txObjMap: make(map[powerplay.Bytes32]*txObject),
+		quota:    make(map[powerplay.Address]int),
 	}
 }
 
-func (m *txObjectMap) Contains(txID .Bytes32) bool {
+func (m *txObjectMap) Contains(txID powerplay.Bytes32) bool {
 	m.lock.RLock()
 	defer m.lock.RUnlock()
 	_, found := m.txObjMap[txID]
@@ -52,7 +52,7 @@ func (m *txObjectMap) Add(txObj *txObject, limitPerAccount int) error {
 	return nil
 }
 
-func (m *txObjectMap) Remove(txID .Bytes32) bool {
+func (m *txObjectMap) Remove(txID powerplay.Bytes32) bool {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
