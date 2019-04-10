@@ -10,8 +10,8 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 // txObjectMap to maintain mapping of ID to tx object, and account quota.
