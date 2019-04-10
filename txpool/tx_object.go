@@ -12,12 +12,12 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/vechain//block"
-	"github.com/vechain//chain"
-	"github.com/vechain//runtime"
-	"github.com/vechain//state"
-	"github.com/vechain//"
-	"github.com/vechain//tx"
+	"github.com/vechain/powerplay/block"
+	"github.com/vechain/powerplay/chain"
+	"github.com/vechain/powerplay/runtime"
+	"github.com/vechain/powerplay/state"
+	"github.com/vechain/powerplay/powerplay"
+	"github.com/vechain/powerplay/tx"
 )
 
 type txObject struct {
@@ -42,7 +42,7 @@ func resolveTx(tx *tx.Transaction) (*txObject, error) {
 	}, nil
 }
 
-func (o *txObject) Origin() .Address {
+func (o *txObject) Origin() powerplay.Address {
 	return o.resolved.Origin
 }
 
@@ -52,7 +52,7 @@ func (o *txObject) Executable(chain *chain.Chain, state *state.State, headBlock 
 		return false, errors.New("gas too large")
 	case o.IsExpired(headBlock.Number()):
 		return false, errors.New("expired")
-	case o.BlockRef().Number() > headBlock.Number()+uint32(3600*24/.BlockInterval):
+	case o.BlockRef().Number() > headBlock.Number()+uint32(3600*24/powerplay.BlockInterval):
 		return false, errors.New("block ref out of schedule")
 	}
 
@@ -84,7 +84,7 @@ func (o *txObject) Executable(chain *chain.Chain, state *state.State, headBlock 
 	checkpoint := state.NewCheckpoint()
 	defer state.RevertTo(checkpoint)
 
-	if _, _, _, _, err := o.resolved.BuyGas(state, headBlock.Timestamp()+.BlockInterval); err != nil {
+	if _, _, _, _, err := o.resolved.BuyGas(state, headBlock.Timestamp()+powerplay.BlockInterval); err != nil {
 		return false, err
 	}
 	return true, nil
