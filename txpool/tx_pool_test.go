@@ -1,4 +1,5 @@
 // Copyright (c) 2018 The VeChainThor developers
+// Copyright (c) 2019 The PlayMaker developers
 
 // Distributed under the GNU Lesser General Public License v3.0 software license, see the accompanying
 // file LICENSE or <https://www.gnu.org/licenses/lgpl-3.0.html>
@@ -11,13 +12,13 @@ import (
 
 	"github.com/inconshreveable/log15"
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/genesis"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
-	Tx "github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/genesis"
+	"github.com//thor/lvldb"
+	"github.com//thor/state"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
+	Tx "github.com//thor/tx"
 )
 
 func init() {
