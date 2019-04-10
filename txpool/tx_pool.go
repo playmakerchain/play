@@ -15,13 +15,13 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/inconshreveable/log15"
 	"github.com/pkg/errors"
-	"github.com//thor/block"
-	"github.com//thor/builtin"
-	"github.com//thor/chain"
-	"github.com//thor/co"
-	"github.com//thor/state"
-	"github.com//thor/thor"
-	"github.com//thor/tx"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/builtin"
+	"github.com/playmakerchain/thor/chain"
+	"github.com/playmakerchain/thor/co"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/tx"
 )
 
 const (
