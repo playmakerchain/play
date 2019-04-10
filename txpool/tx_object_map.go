@@ -10,8 +10,8 @@ import (
 	"errors"
 	"sync"
 
-	"github.com//thor/thor"
-	"github.com//thor/tx"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/tx"
 )
 
 // txObjectMap to maintain mapping of ID to tx object, and account quota.
