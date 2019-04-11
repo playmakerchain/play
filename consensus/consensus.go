@@ -7,12 +7,12 @@
 package consensus
 
 import (
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/chain"
-	"github.com/playmakerchain/thor/runtime"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/tx"
-	"github.com/playmakerchain/thor/xenv"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//runtime"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain//xenv"
 )
 
 // Consensus check whether the block is verified,
