@@ -17,15 +17,15 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/builtin"
-	"github.com/vechain/thor/chain"
-	"github.com/vechain/thor/genesis"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/packer"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com/vechain//block"
+	"github.com/vechain//builtin"
+	"github.com/vechain//chain"
+	"github.com/vechain//genesis"
+	"github.com/vechain//lvldb"
+	"github.com/vechain//packer"
+	"github.com/vechain//state"
+	"github.com/vechain//"
+	"github.com/vechain//tx"
 )
 
 func TestConsensus(t *testing.T) {
@@ -39,7 +39,7 @@ func TestConsensus(t *testing.T) {
 }
 
 func txBuilder(tag byte) *tx.Builder {
-	address := thor.BytesToAddress([]byte("addr"))
+	address := .BytesToAddress([]byte("addr"))
 	return new(tx.Builder).
 		GasPriceCoef(1).
 		Gas(1000000).
@@ -74,16 +74,16 @@ func newTestConsensus(t *testing.T) *testConsensus {
 
 	launchTime := uint64(1526400000)
 	gen := new(genesis.Builder).
-		GasLimit(thor.InitialGasLimit).
+		GasLimit(.InitialGasLimit).
 		Timestamp(launchTime).
 		State(func(state *state.State) error {
 			bal, _ := new(big.Int).SetString("1000000000000000000000000000", 10)
 			state.SetCode(builtin.Authority.Address, builtin.Authority.RuntimeBytecodes())
-			builtin.Params.Native(state).Set(thor.KeyExecutorAddress, new(big.Int).SetBytes(genesis.DevAccounts()[0].Address[:]))
+			builtin.Params.Native(state).Set(.KeyExecutorAddress, new(big.Int).SetBytes(genesis.DevAccounts()[0].Address[:]))
 			for _, acc := range genesis.DevAccounts() {
 				state.SetBalance(acc.Address, bal)
 				state.SetEnergy(acc.Address, bal, launchTime)
-				builtin.Authority.Native(state).Add(acc.Address, acc.Address, thor.Bytes32{})
+				builtin.Authority.Native(state).Add(acc.Address, acc.Address, .Bytes32{})
 			}
 			return nil
 		})
@@ -196,7 +196,7 @@ func (tc *testConsensus) TestValidateBlockHeader() {
 	}
 	triggers["triggerErrFutureBlock"] = func() {
 		build := tc.originalBuilder()
-		blk := tc.sign(build.Timestamp(tc.time + thor.BlockInterval*2).Build())
+		blk := tc.sign(build.Timestamp(tc.time + .BlockInterval*2).Build())
 		err := tc.consent(blk)
 		tc.assert.Equal(err, errFutureBlock)
 	}
@@ -352,7 +352,7 @@ func (tc *testConsensus) TestValidateProposer() {
 		expect := consensusError(
 			fmt.Sprintf(
 				"block signer invalid: %v unauthorized block proposer",
-				thor.Address(crypto.PubkeyToAddress(pk.PublicKey)),
+				.Address(crypto.PubkeyToAddress(pk.PublicKey)),
 			),
 		)
 		tc.assert.Equal(err, expect)
@@ -366,7 +366,7 @@ func (tc *testConsensus) TestValidateProposer() {
 			fmt.Sprintf(
 				"block timestamp unscheduled: t %v, s %v",
 				blk.Header().Timestamp(),
-				thor.Address(crypto.PubkeyToAddress(genesis.DevAccounts()[1].PrivateKey.PublicKey)),
+				.Address(crypto.PubkeyToAddress(genesis.DevAccounts()[1].PrivateKey.PublicKey)),
 			),
 		)
 		tc.assert.Equal(err, expect)
