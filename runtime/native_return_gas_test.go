@@ -11,12 +11,12 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/powerplay/builtin"
-	"github.com/vechain/powerplay/lvldb"
-	"github.com/vechain/powerplay/state"
-	"github.com/vechain/powerplay/powerplay"
-	"github.com/vechain/powerplay/tx"
-	"github.com/vechain/powerplay/xenv"
+	"github.com//powerplay/builtin"
+	"github.com//powerplay/lvldb"
+	"github.com//powerplay/state"
+	"github.com//powerplay/powerplay"
+	"github.com//powerplay/tx"
+	"github.com//powerplay/xenv"
 )
 
 func TestNativeCallReturnGas(t *testing.T) {
