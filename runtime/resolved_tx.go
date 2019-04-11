@@ -11,11 +11,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/pkg/errors"
-	"github.com//powerplay/builtin"
-	"github.com//powerplay/state"
-	"github.com//powerplay/powerplay"
-	"github.com//powerplay/tx"
-	"github.com//powerplay/xenv"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 // ResolvedTransaction resolve the transaction according to given state.
