@@ -16,14 +16,14 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//builtin"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//genesis"
-	"github.com/playmakerchain//lvldb"
-	"github.com/playmakerchain//runtime"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/genesis"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/runtime"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 func TestResolvedTx(t *testing.T) {
@@ -91,7 +91,7 @@ func (tr *testResolvedTransaction) TestResolveTransaction() {
 	_, err = runtime.ResolveTransaction(txSign(txBuild().Gas(21000 - 1)))
 	tr.assert.NotNil(err)
 
-	address := .BytesToAddress([]byte("addr"))
+	address := powerplay.BytesToAddress([]byte("addr"))
 	_, err = runtime.ResolveTransaction(txSign(txBuild().Clause(tx.NewClause(&address).WithValue(big.NewInt(-10)).WithData(nil))))
 	tr.assert.NotNil(err)
 
@@ -126,7 +126,7 @@ func (tr *testResolvedTransaction) TestCommonTo() {
 
 	commonTo(txSign(txBuild().Clause(clause()).Clause(tx.NewClause(nil))), tr.assert.Nil)
 
-	address := .BytesToAddress([]byte("addr1"))
+	address := powerplay.BytesToAddress([]byte("addr1"))
 	commonTo(txSign(txBuild().
 		Clause(clause()).
 		Clause(tx.NewClause(&address)),
@@ -145,9 +145,9 @@ func (tr *testResolvedTransaction) TestBuyGas() {
 		return txBuilder(tr.chain.Tag())
 	}
 
-	targetTime := tr.chain.BestBlock().Header().Timestamp() + .BlockInterval
+	targetTime := tr.chain.BestBlock().Header().Timestamp() + powerplay.BlockInterval
 
-	buyGas := func(tx *tx.Transaction) .Address {
+	buyGas := func(tx *tx.Transaction) powerplay.Address {
 		resolve, err := runtime.ResolveTransaction(tx)
 		if err != nil {
 			tr.t.Fatal(err)
