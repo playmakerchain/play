@@ -11,17 +11,17 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/pkg/errors"
-	"github.com/vechain//builtin"
-	"github.com/vechain//state"
-	"github.com/vechain//"
-	"github.com/vechain//tx"
-	"github.com/vechain//xenv"
+	"github.com/vechain/powerplay/builtin"
+	"github.com/vechain/powerplay/state"
+	"github.com/vechain/powerplay/powerplay"
+	"github.com/vechain/powerplay/tx"
+	"github.com/vechain/powerplay/xenv"
 )
 
 // ResolvedTransaction resolve the transaction according to given state.
 type ResolvedTransaction struct {
 	tx           *tx.Transaction
-	Origin       .Address
+	Origin       powerplay.Address
 	IntrinsicGas uint64
 	Clauses      []*tx.Clause
 }
@@ -64,7 +64,7 @@ func ResolveTransaction(tx *tx.Transaction) (*ResolvedTransaction, error) {
 
 // CommonTo returns common 'To' field of clauses if any.
 // Nil returned if no common 'To'.
-func (r *ResolvedTransaction) CommonTo() *.Address {
+func (r *ResolvedTransaction) CommonTo() *powerplay.Address {
 	if len(r.Clauses) == 0 {
 		return nil
 	}
@@ -90,10 +90,10 @@ func (r *ResolvedTransaction) CommonTo() *.Address {
 func (r *ResolvedTransaction) BuyGas(state *state.State, blockTime uint64) (
 	baseGasPrice *big.Int,
 	gasPrice *big.Int,
-	payer .Address,
+	payer powerplay.Address,
 	returnGas func(uint64), err error) {
 
-	baseGasPrice = builtin.Params.Native(state).Get(.KeyBaseGasPrice)
+	baseGasPrice = builtin.Params.Native(state).Get(powerplay.KeyBaseGasPrice)
 	gasPrice = r.tx.GasPrice(baseGasPrice)
 
 	energy := builtin.Energy.Native(state, blockTime)
@@ -132,11 +132,11 @@ func (r *ResolvedTransaction) BuyGas(state *state.State, blockTime uint64) (
 	if energy.Sub(r.Origin, prepaid) {
 		return baseGasPrice, gasPrice, r.Origin, func(rgas uint64) { doReturnGas(rgas) }, nil
 	}
-	return nil, nil, .Address{}, nil, errors.New("insufficient energy")
+	return nil, nil, powerplay.Address{}, nil, errors.New("insufficient energy")
 }
 
 // ToContext create a tx context object.
-func (r *ResolvedTransaction) ToContext(gasPrice *big.Int, blockNumber uint32, getID func(uint32) .Bytes32) *xenv.TransactionContext {
+func (r *ResolvedTransaction) ToContext(gasPrice *big.Int, blockNumber uint32, getID func(uint32) powerplay.Bytes32) *xenv.TransactionContext {
 	return &xenv.TransactionContext{
 		ID:         r.tx.ID(),
 		Origin:     r.Origin,
