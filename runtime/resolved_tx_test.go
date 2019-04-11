@@ -16,14 +16,14 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/thor/builtin"
-	"github.com/playmakerchain/thor/chain"
-	"github.com/playmakerchain/thor/genesis"
-	"github.com/playmakerchain/thor/lvldb"
-	"github.com/playmakerchain/thor/runtime"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain//builtin"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//runtime"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 func TestResolvedTx(t *testing.T) {
@@ -91,7 +91,7 @@ func (tr *testResolvedTransaction) TestResolveTransaction() {
 	_, err = runtime.ResolveTransaction(txSign(txBuild().Gas(21000 - 1)))
 	tr.assert.NotNil(err)
 
-	address := thor.BytesToAddress([]byte("addr"))
+	address := .BytesToAddress([]byte("addr"))
 	_, err = runtime.ResolveTransaction(txSign(txBuild().Clause(tx.NewClause(&address).WithValue(big.NewInt(-10)).WithData(nil))))
 	tr.assert.NotNil(err)
 
@@ -126,7 +126,7 @@ func (tr *testResolvedTransaction) TestCommonTo() {
 
 	commonTo(txSign(txBuild().Clause(clause()).Clause(tx.NewClause(nil))), tr.assert.Nil)
 
-	address := thor.BytesToAddress([]byte("addr1"))
+	address := .BytesToAddress([]byte("addr1"))
 	commonTo(txSign(txBuild().
 		Clause(clause()).
 		Clause(tx.NewClause(&address)),
@@ -145,9 +145,9 @@ func (tr *testResolvedTransaction) TestBuyGas() {
 		return txBuilder(tr.chain.Tag())
 	}
 
-	targetTime := tr.chain.BestBlock().Header().Timestamp() + thor.BlockInterval
+	targetTime := tr.chain.BestBlock().Header().Timestamp() + .BlockInterval
 
-	buyGas := func(tx *tx.Transaction) thor.Address {
+	buyGas := func(tx *tx.Transaction) .Address {
 		resolve, err := runtime.ResolveTransaction(tx)
 		if err != nil {
 			tr.t.Fatal(err)
