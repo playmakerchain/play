@@ -11,17 +11,17 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/builtin"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
-	"github.com/vechain/thor/xenv"
+	"github.com/vechain//builtin"
+	"github.com/vechain//lvldb"
+	"github.com/vechain//state"
+	"github.com/vechain//"
+	"github.com/vechain//tx"
+	"github.com/vechain//xenv"
 )
 
 func TestNativeCallReturnGas(t *testing.T) {
 	kv, _ := lvldb.NewMem()
-	state, _ := state.New(thor.Bytes32{}, kv)
+	state, _ := state.New(.Bytes32{}, kv)
 	state.SetCode(builtin.Measure.Address, builtin.Measure.RuntimeBytecodes())
 
 	inner, _ := builtin.Measure.ABI.MethodByName("inner")
