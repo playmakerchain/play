@@ -10,14 +10,14 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//builtin"
-	"github.com/playmakerchain//poa"
-	"github.com/playmakerchain//runtime"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
-	"github.com/playmakerchain//xenv"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/poa"
+	"github.com/playmakerchain/powerplay/runtime"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 func (c *Consensus) validate(
@@ -53,11 +53,11 @@ func (c *Consensus) validateBlockHeader(header *block.Header, parent *block.Head
 		return consensusError(fmt.Sprintf("block timestamp behind parents: parent %v, current %v", parent.Timestamp(), header.Timestamp()))
 	}
 
-	if (header.Timestamp()-parent.Timestamp())%.BlockInterval != 0 {
+	if (header.Timestamp()-parent.Timestamp())%powerplay.BlockInterval != 0 {
 		return consensusError(fmt.Sprintf("block interval not rounded: parent %v, current %v", parent.Timestamp(), header.Timestamp()))
 	}
 
-	if header.Timestamp() > nowTimestamp+.BlockInterval {
+	if header.Timestamp() > nowTimestamp+powerplay.BlockInterval {
 		return errFutureBlock
 	}
 
@@ -83,9 +83,9 @@ func (c *Consensus) validateProposer(header *block.Header, parent *block.Header,
 	}
 
 	authority := builtin.Authority.Native(st)
-	endorsement := builtin.Params.Native(st).Get(.KeyProposerEndorsement)
+	endorsement := builtin.Params.Native(st).Get(powerplay.KeyProposerEndorsement)
 
-	candidates := authority.Candidates(endorsement, .MaxBlockProposers)
+	candidates := authority.Candidates(endorsement, powerplay.MaxBlockProposers)
 	proposers := make([]poa.Proposer, 0, len(candidates))
 	for _, c := range candidates {
 		proposers = append(proposers, poa.Proposer{
@@ -146,7 +146,7 @@ func (c *Consensus) verifyBlock(blk *block.Block, state *state.State) (*state.St
 	var totalGasUsed uint64
 	txs := blk.Transactions()
 	receipts := make(tx.Receipts, 0, len(txs))
-	processedTxs := make(map[.Bytes32]bool)
+	processedTxs := make(map[powerplay.Bytes32]bool)
 	header := blk.Header()
 	signer, _ := header.Signer()
 	rt := runtime.New(
@@ -161,7 +161,7 @@ func (c *Consensus) verifyBlock(blk *block.Block, state *state.State) (*state.St
 			TotalScore:  header.TotalScore(),
 		})
 
-	findTx := func(txID .Bytes32) (found bool, reverted bool, err error) {
+	findTx := func(txID powerplay.Bytes32) (found bool, reverted bool, err error) {
 		if reverted, ok := processedTxs[txID]; ok {
 			return true, reverted, nil
 		}
