@@ -20,10 +20,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/vechain/powerplay/lvldb"
-	"github.com/vechain/powerplay/runtime/statedb"
-	State "github.com/vechain/powerplay/state"
-	"github.com/vechain/powerplay/powerplay"
+	"github.com//powerplay/lvldb"
+	"github.com//powerplay/runtime/statedb"
+	State "github.com//powerplay/state"
+	"github.com//powerplay/powerplay"
 )
 
 func TestSnapshotRandom(t *testing.T) {
