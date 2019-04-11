@@ -17,15 +17,15 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com//powerplay/block"
-	"github.com//powerplay/builtin"
-	"github.com//powerplay/chain"
-	"github.com//powerplay/genesis"
-	"github.com//powerplay/lvldb"
-	"github.com//powerplay/packer"
-	"github.com//powerplay/state"
-	"github.com//powerplay/powerplay"
-	"github.com//powerplay/tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/genesis"
+	"github.com/playmakerchain/powerplay/lvldb"
+	"github.com/playmakerchain/powerplay/packer"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 func TestConsensus(t *testing.T) {
