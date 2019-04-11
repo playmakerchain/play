@@ -20,10 +20,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/vechain//lvldb"
-	"github.com/vechain//runtime/statedb"
-	State "github.com/vechain//state"
-	"github.com/vechain//"
+	"github.com/vechain/powerplay/lvldb"
+	"github.com/vechain/powerplay/runtime/statedb"
+	State "github.com/vechain/powerplay/state"
+	"github.com/vechain/powerplay/powerplay"
 )
 
 func TestSnapshotRandom(t *testing.T) {
@@ -186,7 +186,7 @@ func (test *snapshotTest) run() bool {
 	// Run all actions and create snapshots.
 	var (
 		db, _        = lvldb.NewMem()
-		state, _     = State.NewCreator(db).NewState(.Bytes32{})
+		state, _     = State.NewCreator(db).NewState(powerplay.Bytes32{})
 		stateDB      = statedb.New(state)
 		snapshotRevs = make([]int, len(test.snapshots))
 		sindex       = 0
@@ -201,7 +201,7 @@ func (test *snapshotTest) run() bool {
 	// Revert all snapshots in reverse order. Each revert must yield a state
 	// that is equivalent to fresh state with all actions up the snapshot applied.
 	for sindex--; sindex >= 0; sindex-- {
-		state, _ := State.NewCreator(db).NewState(.Bytes32{})
+		state, _ := State.NewCreator(db).NewState(powerplay.Bytes32{})
 		checkStateDB := statedb.New(state)
 		for _, action := range test.actions[:test.snapshots[sindex]] {
 			action.fn(action, checkStateDB)
