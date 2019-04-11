@@ -13,10 +13,10 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	lru "github.com/hashicorp/golang-lru"
-	"github.com//powerplay/stackedmap"
-	"github.com//powerplay/state"
-	"github.com//powerplay/powerplay"
-	"github.com//powerplay/tx"
+	"github.com/playmakerchain/powerplay/stackedmap"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 var codeSizeCache, _ = lru.New(32 * 1024)
