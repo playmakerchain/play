@@ -23,7 +23,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 type hasher struct {
