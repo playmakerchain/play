@@ -26,7 +26,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 func init() {
