@@ -19,7 +19,7 @@ package trie
 import (
 	"fmt"
 
-	"github.com//powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // MissingNodeError is returned by the trie functions (TryGet, TryUpdate, TryDelete)
