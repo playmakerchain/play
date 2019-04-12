@@ -23,7 +23,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type hasher struct {
@@ -35,7 +35,7 @@ type hasher struct {
 // hashers live in a global pool.
 var hasherPool = sync.Pool{
 	New: func() interface{} {
-		return &hasher{tmp: new(bytes.Buffer), sha: .NewBlake2b()}
+		return &hasher{tmp: new(bytes.Buffer), sha: powerplay.NewBlake2b()}
 	},
 }
 
