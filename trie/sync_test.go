@@ -22,14 +22,14 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // makeTestTrie create a sample test trie to test node-wise reconstruction.
 func makeTestTrie() (ethdb.Database, *Trie, map[string][]byte) {
 	// Create an empty trie
 	db := ethdb.NewMemDatabase()
-	trie, _ := New(.Bytes32{}, db)
+	trie, _ := New(powerplay.Bytes32{}, db)
 
 	// Fill it with some arbitrary data
 	content := make(map[string][]byte)
@@ -60,11 +60,11 @@ func makeTestTrie() (ethdb.Database, *Trie, map[string][]byte) {
 // content map.
 func checkTrieContents(t *testing.T, db Database, root []byte, content map[string][]byte) {
 	// Check root availability and trie contents
-	trie, err := New(.BytesToBytes32(root), db)
+	trie, err := New(powerplay.BytesToBytes32(root), db)
 	if err != nil {
 		t.Fatalf("failed to create trie at %x: %v", root, err)
 	}
-	if err := checkTrieConsistency(db, .BytesToBytes32(root)); err != nil {
+	if err := checkTrieConsistency(db, powerplay.BytesToBytes32(root)); err != nil {
 		t.Fatalf("inconsistent trie at %x: %v", root, err)
 	}
 	for key, val := range content {
@@ -75,7 +75,7 @@ func checkTrieContents(t *testing.T, db Database, root []byte, content map[strin
 }
 
 // checkTrieConsistency checks that all nodes in a trie are indeed present.
-func checkTrieConsistency(db Database, root .Bytes32) error {
+func checkTrieConsistency(db Database, root powerplay.Bytes32) error {
 	// Create and iterate a trie rooted in a subnode
 	trie, err := New(root, db)
 	if err != nil {
@@ -89,12 +89,12 @@ func checkTrieConsistency(db Database, root .Bytes32) error {
 
 // Tests that an empty trie is not scheduled for syncing.
 func TestEmptyTrieSync(t *testing.T) {
-	emptyA, _ := New(.Bytes32{}, nil)
+	emptyA, _ := New(powerplay.Bytes32{}, nil)
 	emptyB, _ := New(emptyRoot, nil)
 
 	for i, trie := range []*Trie{emptyA, emptyB} {
 		db := ethdb.NewMemDatabase()
-		if req := NewTrieSync(.BytesToBytes32(trie.Root()), db, nil).Missing(1); len(req) != 0 {
+		if req := NewTrieSync(powerplay.BytesToBytes32(trie.Root()), db, nil).Missing(1); len(req) != 0 {
 			t.Errorf("test %d: content requested for empty trie: %v", i, req)
 		}
 	}
@@ -111,9 +111,9 @@ func testIterativeTrieSync(t *testing.T, batch int) {
 
 	// Create a destination trie and sync with the scheduler
 	dstDb := ethdb.NewMemDatabase()
-	sched := NewTrieSync(.BytesToBytes32(srcTrie.Root()), dstDb, nil)
+	sched := NewTrieSync(powerplay.BytesToBytes32(srcTrie.Root()), dstDb, nil)
 
-	queue := append([].Bytes32{}, sched.Missing(batch)...)
+	queue := append([]powerplay.Bytes32{}, sched.Missing(batch)...)
 	for len(queue) > 0 {
 		results := make([]SyncResult, len(queue))
 		for i, hash := range queue {
@@ -143,9 +143,9 @@ func TestIterativeDelayedTrieSync(t *testing.T) {
 
 	// Create a destination trie and sync with the scheduler
 	dstDb := ethdb.NewMemDatabase()
-	sched := NewTrieSync(.BytesToBytes32(srcTrie.Root()), dstDb, nil)
+	sched := NewTrieSync(powerplay.BytesToBytes32(srcTrie.Root()), dstDb, nil)
 
-	queue := append([].Bytes32{}, sched.Missing(10000)...)
+	queue := append([]powerplay.Bytes32{}, sched.Missing(10000)...)
 	for len(queue) > 0 {
 		// Sync only half of the scheduled nodes
 		results := make([]SyncResult, len(queue)/2+1)
@@ -180,9 +180,9 @@ func testIterativeRandomTrieSync(t *testing.T, batch int) {
 
 	// Create a destination trie and sync with the scheduler
 	dstDb := ethdb.NewMemDatabase()
-	sched := NewTrieSync(.BytesToBytes32(srcTrie.Root()), dstDb, nil)
+	sched := NewTrieSync(powerplay.BytesToBytes32(srcTrie.Root()), dstDb, nil)
 
-	queue := make(map[.Bytes32]struct{})
+	queue := make(map[powerplay.Bytes32]struct{})
 	for _, hash := range sched.Missing(batch) {
 		queue[hash] = struct{}{}
 	}
@@ -203,7 +203,7 @@ func testIterativeRandomTrieSync(t *testing.T, batch int) {
 		if index, err := sched.Commit(dstDb); err != nil {
 			t.Fatalf("failed to commit data #%d: %v", index, err)
 		}
-		queue = make(map[.Bytes32]struct{})
+		queue = make(map[powerplay.Bytes32]struct{})
 		for _, hash := range sched.Missing(batch) {
 			queue[hash] = struct{}{}
 		}
@@ -220,9 +220,9 @@ func TestIterativeRandomDelayedTrieSync(t *testing.T) {
 
 	// Create a destination trie and sync with the scheduler
 	dstDb := ethdb.NewMemDatabase()
-	sched := NewTrieSync(.BytesToBytes32(srcTrie.Root()), dstDb, nil)
+	sched := NewTrieSync(powerplay.BytesToBytes32(srcTrie.Root()), dstDb, nil)
 
-	queue := make(map[.Bytes32]struct{})
+	queue := make(map[powerplay.Bytes32]struct{})
 	for _, hash := range sched.Missing(10000) {
 		queue[hash] = struct{}{}
 	}
@@ -266,10 +266,10 @@ func TestDuplicateAvoidanceTrieSync(t *testing.T) {
 
 	// Create a destination trie and sync with the scheduler
 	dstDb := ethdb.NewMemDatabase()
-	sched := NewTrieSync(.BytesToBytes32(srcTrie.Root()), dstDb, nil)
+	sched := NewTrieSync(powerplay.BytesToBytes32(srcTrie.Root()), dstDb, nil)
 
-	queue := append([].Bytes32{}, sched.Missing(0)...)
-	requested := make(map[.Bytes32]struct{})
+	queue := append([]powerplay.Bytes32{}, sched.Missing(0)...)
+	requested := make(map[powerplay.Bytes32]struct{})
 
 	for len(queue) > 0 {
 		results := make([]SyncResult, len(queue))
@@ -305,10 +305,10 @@ func TestIncompleteTrieSync(t *testing.T) {
 
 	// Create a destination trie and sync with the scheduler
 	dstDb := ethdb.NewMemDatabase()
-	sched := NewTrieSync(.BytesToBytes32(srcTrie.Root()), dstDb, nil)
+	sched := NewTrieSync(powerplay.BytesToBytes32(srcTrie.Root()), dstDb, nil)
 
-	added := [].Bytes32{}
-	queue := append([].Bytes32{}, sched.Missing(1)...)
+	added := []powerplay.Bytes32{}
+	queue := append([]powerplay.Bytes32{}, sched.Missing(1)...)
 	for len(queue) > 0 {
 		// Fetch a batch of trie nodes
 		results := make([]SyncResult, len(queue))
