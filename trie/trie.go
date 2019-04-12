@@ -24,7 +24,7 @@ import (
 	"github.com/ethereum/go-ethereum/log"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/rcrowley/go-metrics"
-	"github.com/vechain/powerplay/powerplay"
+	"github.com//powerplay/powerplay"
 )
 
 var (
