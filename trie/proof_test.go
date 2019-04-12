@@ -26,7 +26,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain//"
 )
 
 func init() {
@@ -83,7 +83,7 @@ func TestVerifyBadProof(t *testing.T) {
 		node, _ := proofs.Get(key)
 		proofs.Delete(key)
 		mutateByte(node)
-		proofs.Put(thor.Blake2b(node).Bytes(), node)
+		proofs.Put(.Blake2b(node).Bytes(), node)
 		if _, err, _ := VerifyProof(root, kv.k, proofs); err == nil {
 			t.Fatalf("expected proof to fail for key %x", kv.k)
 		}
