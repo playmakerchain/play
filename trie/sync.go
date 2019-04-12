@@ -20,7 +20,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/vechain/powerplay/powerplay"
+	"github.com//powerplay/powerplay"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 
