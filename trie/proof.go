@@ -22,7 +22,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/log"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com//powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 // Prove constructs a merkle proof for key. The result contains all
