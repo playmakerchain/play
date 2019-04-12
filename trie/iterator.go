@@ -21,7 +21,7 @@ import (
 	"container/heap"
 	"errors"
 
-	"github.com/vechain/powerplay/powerplay"
+	"github.com//powerplay/powerplay"
 )
 
 // Iterator is a key-value trie iterator that traverses a Trie.
