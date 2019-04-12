@@ -19,7 +19,7 @@ package trie
 import (
 	"fmt"
 
-	"github.com/vechain/powerplay/powerplay"
+	"github.com//powerplay/powerplay"
 )
 
 // MissingNodeError is returned by the trie functions (TryGet, TryUpdate, TryDelete)
