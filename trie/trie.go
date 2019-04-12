@@ -24,14 +24,14 @@ import (
 	"github.com/ethereum/go-ethereum/log"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/rcrowley/go-metrics"
-	"github.com/vechain//"
+	"github.com/vechain/powerplay/powerplay"
 )
 
 var (
 	// This is the known root hash of an empty trie.
-	emptyRoot = .Blake2b(rlp.EmptyString)
+	emptyRoot = powerplay.Blake2b(rlp.EmptyString)
 	// This is the known hash of an empty state trie entry.
-	emptyState = .Blake2b(nil)
+	emptyState = powerplay.Blake2b(nil)
 )
 
 var (
@@ -81,7 +81,7 @@ type DatabaseWriter interface {
 type Trie struct {
 	root         node
 	db           Database
-	originalRoot .Bytes32
+	originalRoot powerplay.Bytes32
 
 	// Cache generation values.
 	// cachegen increases by one with each commit operation.
@@ -107,9 +107,9 @@ func (t *Trie) newFlag() nodeFlag {
 // trie is initially empty and does not require a database. Otherwise,
 // New will panic if db is nil and returns a MissingNodeError if root does
 // not exist in the database. Accessing the trie loads nodes from db on demand.
-func New(root .Bytes32, db Database) (*Trie, error) {
+func New(root powerplay.Bytes32, db Database) (*Trie, error) {
 	trie := &Trie{db: db, originalRoot: root}
-	if (root != .Bytes32{}) && root != emptyRoot {
+	if (root != powerplay.Bytes32{}) && root != emptyRoot {
 		if db == nil {
 			panic("trie.New: cannot use existing root without a database")
 		}
@@ -445,7 +445,7 @@ func (t *Trie) resolveHash(n hashNode, prefix []byte) (node, error) {
 
 	enc, err := t.db.Get(n)
 	if err != nil || enc == nil {
-		return nil, &MissingNodeError{NodeHash: .BytesToBytes32(n), Path: prefix}
+		return nil, &MissingNodeError{NodeHash: powerplay.BytesToBytes32(n), Path: prefix}
 	}
 	dec := mustDecodeNode(n, enc, t.cachegen)
 	return dec, nil
@@ -457,10 +457,10 @@ func (t *Trie) Root() []byte { return t.Hash().Bytes() }
 
 // Hash returns the root hash of the trie. It does not write to the
 // database and can be used even if the trie doesn't have one.
-func (t *Trie) Hash() .Bytes32 {
+func (t *Trie) Hash() powerplay.Bytes32 {
 	hash, cached, _ := t.hashRoot(nil)
 	t.root = cached
-	return .BytesToBytes32(hash.(hashNode))
+	return powerplay.BytesToBytes32(hash.(hashNode))
 }
 
 // Commit writes all nodes to the trie's database.
@@ -468,7 +468,7 @@ func (t *Trie) Hash() .Bytes32 {
 //
 // Committing flushes nodes from memory.
 // Subsequent Get calls will load nodes from the database.
-func (t *Trie) Commit() (root .Bytes32, err error) {
+func (t *Trie) Commit() (root powerplay.Bytes32, err error) {
 	if t.db == nil {
 		panic("Commit called on trie with nil database")
 	}
@@ -482,14 +482,14 @@ func (t *Trie) Commit() (root .Bytes32, err error) {
 // load nodes from the trie's database. Calling code must ensure that
 // the changes made to db are written back to the trie's attached
 // database before using the trie.
-func (t *Trie) CommitTo(db DatabaseWriter) (root .Bytes32, err error) {
+func (t *Trie) CommitTo(db DatabaseWriter) (root powerplay.Bytes32, err error) {
 	hash, cached, err := t.hashRoot(db)
 	if err != nil {
-		return (.Bytes32{}), err
+		return (powerplay.Bytes32{}), err
 	}
 	t.root = cached
 	t.cachegen++
-	return .BytesToBytes32(hash.(hashNode)), nil
+	return powerplay.BytesToBytes32(hash.(hashNode)), nil
 }
 
 func (t *Trie) hashRoot(db DatabaseWriter) (node, node, error) {
