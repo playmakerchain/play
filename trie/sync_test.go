@@ -22,7 +22,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com//thor/thor"
+	"github.com/playmakerchain/thor/thor"
 )
 
 // makeTestTrie create a sample test trie to test node-wise reconstruction.
