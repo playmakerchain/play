@@ -1,3 +1,6 @@
+// Copyright (c) 2018 The VechainThor Developers
+// Copyright (c) 2019 The PlayMaker developers
+
 package trie
 
 import (
