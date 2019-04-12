@@ -22,7 +22,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/log"
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/vechain/powerplay/powerplay"
+	"github.com//powerplay/powerplay"
 )
 
 var keyCache, _ = lru.New(32 * 1024)
