@@ -8,14 +8,14 @@ package packer
 
 import (
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/builtin"
-	"github.com/vechain/thor/chain"
-	"github.com/vechain/thor/poa"
-	"github.com/vechain/thor/runtime"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/xenv"
+	"github.com//thor/block"
+	"github.com//thor/builtin"
+	"github.com//thor/chain"
+	"github.com//thor/poa"
+	"github.com//thor/runtime"
+	"github.com//thor/state"
+	"github.com//thor/thor"
+	"github.com//thor/xenv"
 )
 
 // Packer to pack txs and build new blocks.
