@@ -15,15 +15,15 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
-	"github.com/vechain/thor/builtin"
-	"github.com/vechain/thor/chain"
-	"github.com/vechain/thor/consensus"
-	"github.com/vechain/thor/genesis"
-	"github.com/vechain/thor/lvldb"
-	"github.com/vechain/thor/packer"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com/vechain/powerplay/builtin"
+	"github.com/vechain/powerplay/chain"
+	"github.com/vechain/powerplay/consensus"
+	"github.com/vechain/powerplay/genesis"
+	"github.com/vechain/powerplay/lvldb"
+	"github.com/vechain/powerplay/packer"
+	"github.com/vechain/powerplay/state"
+	"github.com/vechain/powerplay/powerplay"
+	"github.com/vechain/powerplay/tx"
 )
 
 type txIterator struct {
@@ -58,7 +58,7 @@ func (ti *txIterator) Next() *tx.Transaction {
 	return tx
 }
 
-func (ti *txIterator) OnProcessed(txID thor.Bytes32, err error) {
+func (ti *txIterator) OnProcessed(txID powerplay.Bytes32, err error) {
 }
 
 func TestP(t *testing.T) {
