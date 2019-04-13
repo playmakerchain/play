@@ -6,7 +6,7 @@
 
 package doc
 
-//go:generate go-bindata -nometadata -ignore=.DS_Store -pkg doc -o bindata.go swagger-ui/... .yaml
+//go:generate go-bindata -nometadata -ignore=.DS_Store -pkg doc -o bindata.go swagger-ui/... powerplay.yaml
 
 import (
 	yaml "gopkg.in/yaml.v2"
@@ -27,7 +27,7 @@ type openAPIInfo struct {
 
 func init() {
 	var oai openAPIInfo
-	if err := yaml.Unmarshal(MustAsset(".yaml"), &oai); err != nil {
+	if err := yaml.Unmarshal(MustAsset("powerplay.yaml"), &oai); err != nil {
 		panic(err)
 	}
 	version = oai.Info.Version
