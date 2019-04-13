@@ -8,22 +8,22 @@ package packer
 
 import (
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/builtin"
-	"github.com/playmakerchain/thor/chain"
-	"github.com/playmakerchain/thor/poa"
-	"github.com/playmakerchain/thor/runtime"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/xenv"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//builtin"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//poa"
+	"github.com/playmakerchain//runtime"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//xenv"
 )
 
 // Packer to pack txs and build new blocks.
 type Packer struct {
 	chain          *chain.Chain
 	stateCreator   *state.Creator
-	nodeMaster     thor.Address
-	beneficiary    *thor.Address
+	nodeMaster     .Address
+	beneficiary    *.Address
 	targetGasLimit uint64
 }
 
@@ -32,8 +32,8 @@ type Packer struct {
 func New(
 	chain *chain.Chain,
 	stateCreator *state.Creator,
-	nodeMaster thor.Address,
-	beneficiary *thor.Address) *Packer {
+	nodeMaster .Address,
+	beneficiary *.Address) *Packer {
 
 	return &Packer{
 		chain,
@@ -52,11 +52,11 @@ func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow
 	}
 
 	var (
-		endorsement = builtin.Params.Native(state).Get(thor.KeyProposerEndorsement)
+		endorsement = builtin.Params.Native(state).Get(.KeyProposerEndorsement)
 		authority   = builtin.Authority.Native(state)
-		candidates  = authority.Candidates(endorsement, thor.MaxBlockProposers)
+		candidates  = authority.Candidates(endorsement, .MaxBlockProposers)
 		proposers   = make([]poa.Proposer, 0, len(candidates))
-		beneficiary thor.Address
+		beneficiary .Address
 	)
 	if p.beneficiary != nil {
 		beneficiary = *p.beneficiary
