@@ -17,18 +17,18 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/play/api/utils"
-	"github.com/playmakerchain/play/chain"
-	"github.com/playmakerchain/play/consensus"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/runtime"
-	"github.com/playmakerchain/play/state"
-	"github.com/playmakerchain/play/tracers"
-	"github.com/playmakerchain/play/trie"
-	"github.com/playmakerchain/play/vm"
+	"github.com/playmakerchain//api/utils"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//consensus"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//runtime"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//tracers"
+	"github.com/playmakerchain//trie"
+	"github.com/playmakerchain//vm"
 )
 
-var devNetGenesisID = play.MustParseBytes32("0x00000000973ceb7f343a58b08f0693d6701a5fd354ff73d7058af3fba222aea4")
+var devNetGenesisID = .MustParseBytes32("0x00000000973ceb7f343a58b08f0693d6701a5fd354ff73d7058af3fba222aea4")
 
 type Debug struct {
 	chain  *chain.Chain
@@ -42,7 +42,7 @@ func New(chain *chain.Chain, stateC *state.Creator) *Debug {
 	}
 }
 
-func (d *Debug) handleTxEnv(ctx context.Context, blockID play.Bytes32, txIndex uint64, clauseIndex uint64) (*runtime.Runtime, *runtime.TransactionExecutor, error) {
+func (d *Debug) handleTxEnv(ctx context.Context, blockID .Bytes32, txIndex uint64, clauseIndex uint64) (*runtime.Runtime, *runtime.TransactionExecutor, error) {
 	block, err := d.chain.GetBlock(blockID)
 	if err != nil {
 		if d.chain.IsNotFound(err) {
@@ -93,7 +93,7 @@ func (d *Debug) handleTxEnv(ctx context.Context, blockID play.Bytes32, txIndex u
 }
 
 //trace an existed transaction
-func (d *Debug) traceTransaction(ctx context.Context, tracer vm.Tracer, blockID play.Bytes32, txIndex uint64, clauseIndex uint64) (interface{}, error) {
+func (d *Debug) traceTransaction(ctx context.Context, tracer vm.Tracer, blockID .Bytes32, txIndex uint64, clauseIndex uint64) (interface{}, error) {
 	rt, txExec, err := d.handleTxEnv(ctx, blockID, txIndex, clauseIndex)
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func (d *Debug) handleTraceTransaction(w http.ResponseWriter, req *http.Request)
 	return utils.WriteJSON(w, res)
 }
 
-func (d *Debug) debugStorage(ctx context.Context, contractAddress play.Address, blockID play.Bytes32, txIndex uint64, clauseIndex uint64, keyStart []byte, maxResult int) (*StorageRangeResult, error) {
+func (d *Debug) debugStorage(ctx context.Context, contractAddress .Address, blockID .Bytes32, txIndex uint64, clauseIndex uint64, keyStart []byte, maxResult int) (*StorageRangeResult, error) {
 	rt, _, err := d.handleTxEnv(ctx, blockID, txIndex, clauseIndex)
 	if err != nil {
 		return nil, err
@@ -175,16 +175,16 @@ func storageRangeAt(t *trie.SecureTrie, start []byte, maxResult int) (*StorageRa
 		if err != nil {
 			return nil, err
 		}
-		v := play.BytesToBytes32(content)
+		v := .BytesToBytes32(content)
 		e := StorageEntry{Value: &v}
 		if preimage := t.GetKey(it.Key); preimage != nil {
-			preimage := play.BytesToBytes32(preimage)
+			preimage := .BytesToBytes32(preimage)
 			e.Key = &preimage
 		}
-		result.Storage[play.BytesToBytes32(it.Key).String()] = e
+		result.Storage[.BytesToBytes32(it.Key).String()] = e
 	}
 	if it.Next() {
-		next := play.BytesToBytes32(it.Key)
+		next := .BytesToBytes32(it.Key)
 		result.NextKey = &next
 	}
 	return &result, nil
@@ -217,38 +217,38 @@ func (d *Debug) handleDebugStorage(w http.ResponseWriter, req *http.Request) err
 	return utils.WriteJSON(w, res)
 }
 
-func (d *Debug) parseTarget(target string) (blockID play.Bytes32, txIndex uint64, clauseIndex uint64, err error) {
+func (d *Debug) parseTarget(target string) (blockID .Bytes32, txIndex uint64, clauseIndex uint64, err error) {
 	parts := strings.Split(target, "/")
 	if len(parts) != 3 {
-		return play.Bytes32{}, 0, 0, utils.BadRequest(errors.New("target:" + target + " unsupported"))
+		return .Bytes32{}, 0, 0, utils.BadRequest(errors.New("target:" + target + " unsupported"))
 	}
-	blockID, err = play.ParseBytes32(parts[0])
+	blockID, err = .ParseBytes32(parts[0])
 	if err != nil {
-		return play.Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[0]"))
+		return .Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[0]"))
 	}
 	if len(parts[1]) == 64 || len(parts[1]) == 66 {
-		txID, err := play.ParseBytes32(parts[1])
+		txID, err := .ParseBytes32(parts[1])
 		if err != nil {
-			return play.Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[1]"))
+			return .Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[1]"))
 		}
 		txMeta, err := d.chain.GetTransactionMeta(txID, blockID)
 		if err != nil {
 			if d.chain.IsNotFound(err) {
-				return play.Bytes32{}, 0, 0, utils.Forbidden(errors.New("transaction not found"))
+				return .Bytes32{}, 0, 0, utils.Forbidden(errors.New("transaction not found"))
 			}
-			return play.Bytes32{}, 0, 0, err
+			return .Bytes32{}, 0, 0, err
 		}
 		txIndex = txMeta.Index
 	} else {
 		i, err := strconv.ParseUint(parts[1], 0, 0)
 		if err != nil {
-			return play.Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[1]"))
+			return .Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[1]"))
 		}
 		txIndex = i
 	}
 	clauseIndex, err = strconv.ParseUint(parts[2], 0, 0)
 	if err != nil {
-		return play.Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[2]"))
+		return .Bytes32{}, 0, 0, utils.BadRequest(errors.WithMessage(err, "target[2]"))
 	}
 	return
 }
