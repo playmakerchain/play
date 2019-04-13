@@ -17,14 +17,14 @@ import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/play/api/utils"
-	"github.com/playmakerchain/play/block"
-	"github.com/playmakerchain/play/chain"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/runtime"
-	"github.com/playmakerchain/play/state"
-	"github.com/playmakerchain/play/tx"
-	"github.com/playmakerchain/play/xenv"
+	"github.com/playmakerchain/powerplay/api/utils"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/runtime"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 type Accounts struct {
@@ -41,7 +41,7 @@ func New(chain *chain.Chain, stateCreator *state.Creator, callGasLimit uint64) *
 	}
 }
 
-func (a *Accounts) getCode(addr play.Address, stateRoot play.Bytes32) ([]byte, error) {
+func (a *Accounts) getCode(addr powerplay.Address, stateRoot powerplay.Bytes32) ([]byte, error) {
 	state, err := a.stateCreator.NewState(stateRoot)
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (a *Accounts) getCode(addr play.Address, stateRoot play.Bytes32) ([]byte, e
 
 func (a *Accounts) handleGetCode(w http.ResponseWriter, req *http.Request) error {
 	hexAddr := mux.Vars(req)["address"]
-	addr, err := play.ParseAddress(hexAddr)
+	addr, err := powerplay.ParseAddress(hexAddr)
 	if err != nil {
 		return utils.BadRequest(errors.WithMessage(err, "address"))
 	}
@@ -70,7 +70,7 @@ func (a *Accounts) handleGetCode(w http.ResponseWriter, req *http.Request) error
 	return utils.WriteJSON(w, map[string]string{"code": hexutil.Encode(code)})
 }
 
-func (a *Accounts) getAccount(addr play.Address, header *block.Header) (*Account, error) {
+func (a *Accounts) getAccount(addr powerplay.Address, header *block.Header) (*Account, error) {
 	state, err := a.stateCreator.NewState(header.StateRoot())
 	if err != nil {
 		return nil, err
@@ -88,20 +88,20 @@ func (a *Accounts) getAccount(addr play.Address, header *block.Header) (*Account
 	}, nil
 }
 
-func (a *Accounts) getStorage(addr play.Address, key play.Bytes32, stateRoot play.Bytes32) (play.Bytes32, error) {
+func (a *Accounts) getStorage(addr powerplay.Address, key powerplay.Bytes32, stateRoot powerplay.Bytes32) (powerplay.Bytes32, error) {
 	state, err := a.stateCreator.NewState(stateRoot)
 	if err != nil {
-		return play.Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
 	storage := state.GetStorage(addr, key)
 	if err := state.Err(); err != nil {
-		return play.Bytes32{}, err
+		return powerplay.Bytes32{}, err
 	}
 	return storage, nil
 }
 
 func (a *Accounts) handleGetAccount(w http.ResponseWriter, req *http.Request) error {
-	addr, err := play.ParseAddress(mux.Vars(req)["address"])
+	addr, err := powerplay.ParseAddress(mux.Vars(req)["address"])
 	if err != nil {
 		return utils.BadRequest(errors.WithMessage(err, "address"))
 	}
@@ -117,11 +117,11 @@ func (a *Accounts) handleGetAccount(w http.ResponseWriter, req *http.Request) er
 }
 
 func (a *Accounts) handleGetStorage(w http.ResponseWriter, req *http.Request) error {
-	addr, err := play.ParseAddress(mux.Vars(req)["address"])
+	addr, err := powerplay.ParseAddress(mux.Vars(req)["address"])
 	if err != nil {
 		return utils.BadRequest(errors.WithMessage(err, "address"))
 	}
-	key, err := play.ParseBytes32(mux.Vars(req)["key"])
+	key, err := powerplay.ParseBytes32(mux.Vars(req)["key"])
 	if err != nil {
 		return utils.BadRequest(errors.WithMessage(err, "key"))
 	}
@@ -145,9 +145,9 @@ func (a *Accounts) handleCallContract(w http.ResponseWriter, req *http.Request) 
 	if err != nil {
 		return err
 	}
-	var addr *play.Address
+	var addr *powerplay.Address
 	if mux.Vars(req)["address"] != "" {
-		address, err := play.ParseAddress(mux.Vars(req)["address"])
+		address, err := powerplay.ParseAddress(mux.Vars(req)["address"])
 		if err != nil {
 			return utils.BadRequest(errors.WithMessage(err, "address"))
 		}
@@ -238,7 +238,7 @@ func (a *Accounts) batchCall(ctx context.Context, batchCallData *BatchCallData, 
 	return results, nil
 }
 
-func (a *Accounts) handleBatchCallData(batchCallData *BatchCallData) (gas uint64, gasPrice *big.Int, caller *play.Address, clauses []*tx.Clause, err error) {
+func (a *Accounts) handleBatchCallData(batchCallData *BatchCallData) (gas uint64, gasPrice *big.Int, caller *powerplay.Address, clauses []*tx.Clause, err error) {
 	if batchCallData.Gas > a.callGasLimit {
 		return 0, nil, nil, nil, utils.Forbidden(errors.New("gas: exceeds limit"))
 	} else if batchCallData.Gas == 0 {
@@ -252,7 +252,7 @@ func (a *Accounts) handleBatchCallData(batchCallData *BatchCallData) (gas uint64
 		gasPrice = (*big.Int)(batchCallData.GasPrice)
 	}
 	if batchCallData.Caller == nil {
-		caller = &play.Address{}
+		caller = &powerplay.Address{}
 	} else {
 		caller = batchCallData.Caller
 	}
@@ -282,7 +282,7 @@ func (a *Accounts) handleRevision(revision string) (*block.Header, error) {
 		return a.chain.BestBlock().Header(), nil
 	}
 	if len(revision) == 66 || len(revision) == 64 {
-		blockID, err := play.ParseBytes32(revision)
+		blockID, err := powerplay.ParseBytes32(revision)
 		if err != nil {
 			return nil, utils.BadRequest(errors.WithMessage(err, "revision"))
 		}
