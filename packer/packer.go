@@ -8,14 +8,14 @@ package packer
 
 import (
 	"github.com/pkg/errors"
-	"github.com//thor/block"
-	"github.com//thor/builtin"
-	"github.com//thor/chain"
-	"github.com//thor/poa"
-	"github.com//thor/runtime"
-	"github.com//thor/state"
-	"github.com//thor/thor"
-	"github.com//thor/xenv"
+	"github.com/playmakerchain/thor/block"
+	"github.com/playmakerchain/thor/builtin"
+	"github.com/playmakerchain/thor/chain"
+	"github.com/playmakerchain/thor/poa"
+	"github.com/playmakerchain/thor/runtime"
+	"github.com/playmakerchain/thor/state"
+	"github.com/playmakerchain/thor/thor"
+	"github.com/playmakerchain/thor/xenv"
 )
 
 // Packer to pack txs and build new blocks.
