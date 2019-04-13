@@ -8,22 +8,22 @@ package packer
 
 import (
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//builtin"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//poa"
-	"github.com/playmakerchain//runtime"
-	"github.com/playmakerchain//state"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//xenv"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/poa"
+	"github.com/playmakerchain/powerplay/runtime"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 // Packer to pack txs and build new blocks.
 type Packer struct {
 	chain          *chain.Chain
 	stateCreator   *state.Creator
-	nodeMaster     .Address
-	beneficiary    *.Address
+	nodeMaster     powerplay.Address
+	beneficiary    *powerplay.Address
 	targetGasLimit uint64
 }
 
@@ -32,8 +32,8 @@ type Packer struct {
 func New(
 	chain *chain.Chain,
 	stateCreator *state.Creator,
-	nodeMaster .Address,
-	beneficiary *.Address) *Packer {
+	nodeMaster powerplay.Address,
+	beneficiary *powerplay.Address) *Packer {
 
 	return &Packer{
 		chain,
@@ -52,11 +52,11 @@ func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow
 	}
 
 	var (
-		endorsement = builtin.Params.Native(state).Get(.KeyProposerEndorsement)
+		endorsement = builtin.Params.Native(state).Get(powerplay.KeyProposerEndorsement)
 		authority   = builtin.Authority.Native(state)
-		candidates  = authority.Candidates(endorsement, .MaxBlockProposers)
+		candidates  = authority.Candidates(endorsement, powerplay.MaxBlockProposers)
 		proposers   = make([]poa.Proposer, 0, len(candidates))
-		beneficiary .Address
+		beneficiary powerplay.Address
 	)
 	if p.beneficiary != nil {
 		beneficiary = *p.beneficiary
