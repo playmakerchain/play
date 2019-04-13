@@ -11,11 +11,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/block"
-	"github.com/vechain/thor/runtime"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
+	"github.com//thor/block"
+	"github.com//thor/runtime"
+	"github.com//thor/state"
+	"github.com//thor/thor"
+	"github.com//thor/tx"
 )
 
 // Flow the flow of packing a new block.
