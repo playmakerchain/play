@@ -16,8 +16,8 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/discv5"
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/inconshreveable/log15"
-	"github.com/vechain/powerplay/cache"
-	"github.com/vechain/powerplay/co"
+	"github.com//powerplay/cache"
+	"github.com//powerplay/co"
 )
 
 var log = log15.New("pkg", "p2psrv")
@@ -176,7 +176,7 @@ func (s *Server) listenDiscV5() (err error) {
 	realaddr := conn.LocalAddr().(*net.UDPAddr)
 	if s.opts.NAT != nil {
 		if !realaddr.IP.IsLoopback() {
-			s.goes.Go(func() { nat.Map(s.opts.NAT, s.done, "udp", realaddr.Port, realaddr.Port, "vechain discovery") })
+			s.goes.Go(func() { nat.Map(s.opts.NAT, s.done, "udp", realaddr.Port, realaddr.Port, " discovery") })
 		}
 		// TODO: react to external IP changes over time.
 		if ext, err := s.opts.NAT.ExternalIP(); err == nil {
