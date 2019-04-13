@@ -18,15 +18,15 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/play/api/blocks"
-	"github.com/playmakerchain/play/block"
-	"github.com/playmakerchain/play/chain"
-	"github.com/playmakerchain/play/genesis"
-	"github.com/playmakerchain/play/lvldb"
-	"github.com/playmakerchain/play/packer"
-	"github.com/playmakerchain/play/state"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/tx"
+	"github.com/playmakerchain//api/blocks"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//packer"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 const (
@@ -84,7 +84,7 @@ func initBlockServer(t *testing.T) {
 		t.Fatal(err)
 	}
 	chain, _ := chain.New(db, b)
-	addr := play.BytesToAddress([]byte("to"))
+	addr := .BytesToAddress([]byte("to"))
 	cla := tx.NewClause(&addr).WithValue(big.NewInt(10000))
 	tx := new(tx.Builder).
 		ChainTag(chain.Tag()).
