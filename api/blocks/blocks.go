@@ -13,10 +13,10 @@ import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//api/utils"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/api/utils"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type Blocks struct {
@@ -57,7 +57,7 @@ func (b *Blocks) parseRevision(revision string) (interface{}, error) {
 		return nil, nil
 	}
 	if len(revision) == 66 || len(revision) == 64 {
-		blockID, err := .ParseBytes32(revision)
+		blockID, err := powerplay.ParseBytes32(revision)
 		if err != nil {
 			return nil, err
 		}
@@ -75,8 +75,8 @@ func (b *Blocks) parseRevision(revision string) (interface{}, error) {
 
 func (b *Blocks) getBlock(revision interface{}) (*block.Block, error) {
 	switch revision.(type) {
-	case .Bytes32:
-		return b.chain.GetBlock(revision.(.Bytes32))
+	case powerplay.Bytes32:
+		return b.chain.GetBlock(revision.(powerplay.Bytes32))
 	case uint32:
 		return b.chain.GetTrunkBlock(revision.(uint32))
 	default:
@@ -84,7 +84,7 @@ func (b *Blocks) getBlock(revision interface{}) (*block.Block, error) {
 	}
 }
 
-func (b *Blocks) isTrunk(blkID .Bytes32, blkNum uint32) (bool, error) {
+func (b *Blocks) isTrunk(blkID powerplay.Bytes32, blkNum uint32) (bool, error) {
 	best := b.chain.BestBlock()
 	ancestorID, err := b.chain.GetAncestorBlockID(best.Header().ID(), blkNum)
 	if err != nil {
