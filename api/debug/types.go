@@ -6,10 +6,10 @@ package debug
 import (
 	"fmt"
 
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//"
 
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/playmakerchain/play/vm"
+	"github.com/playmakerchain//vm"
 )
 
 type TracerOption struct {
@@ -74,7 +74,7 @@ func formatLogs(logs []vm.StructLog) []StructLogRes {
 }
 
 type StorageRangeOption struct {
-	Address   play.Address
+	Address   .Address
 	KeyStart  string
 	MaxResult int
 	Target    string
@@ -82,12 +82,12 @@ type StorageRangeOption struct {
 
 type StorageRangeResult struct {
 	Storage StorageMap    `json:"storage"`
-	NextKey *play.Bytes32 `json:"nextKey"` // nil if Storage includes the last key in the trie.
+	NextKey *.Bytes32 `json:"nextKey"` // nil if Storage includes the last key in the trie.
 }
 
 type StorageMap map[string]StorageEntry
 
 type StorageEntry struct {
-	Key   *play.Bytes32 `json:"key"`
-	Value *play.Bytes32 `json:"value"`
+	Key   *.Bytes32 `json:"key"`
+	Value *.Bytes32 `json:"value"`
 }
