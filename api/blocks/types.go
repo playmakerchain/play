@@ -7,27 +7,27 @@
 package blocks
 
 import (
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 //Block block
 type Block struct {
 	Number       uint32         `json:"number"`
-	ID           .Bytes32   `json:"id"`
+	ID           powerplay.Bytes32   `json:"id"`
 	Size         uint32         `json:"size"`
-	ParentID     .Bytes32   `json:"parentID"`
+	ParentID     powerplay.Bytes32   `json:"parentID"`
 	Timestamp    uint64         `json:"timestamp"`
 	GasLimit     uint64         `json:"gasLimit"`
-	Beneficiary  .Address   `json:"beneficiary"`
+	Beneficiary  powerplay.Address   `json:"beneficiary"`
 	GasUsed      uint64         `json:"gasUsed"`
 	TotalScore   uint64         `json:"totalScore"`
-	TxsRoot      .Bytes32   `json:"txsRoot"`
-	StateRoot    .Bytes32   `json:"stateRoot"`
-	ReceiptsRoot .Bytes32   `json:"receiptsRoot"`
-	Signer       .Address   `json:"signer"`
+	TxsRoot      powerplay.Bytes32   `json:"txsRoot"`
+	StateRoot    powerplay.Bytes32   `json:"stateRoot"`
+	ReceiptsRoot powerplay.Bytes32   `json:"receiptsRoot"`
+	Signer       powerplay.Address   `json:"signer"`
 	IsTrunk      bool           `json:"isTrunk"`
-	Transactions [].Bytes32 `json:"transactions"`
+	Transactions []powerplay.Bytes32 `json:"transactions"`
 }
 
 func convertBlock(b *block.Block, isTrunk bool) (*Block, error) {
@@ -39,7 +39,7 @@ func convertBlock(b *block.Block, isTrunk bool) (*Block, error) {
 		return nil, err
 	}
 	txs := b.Transactions()
-	txIds := make([].Bytes32, len(txs))
+	txIds := make([]powerplay.Bytes32, len(txs))
 	for i, tx := range txs {
 		txIds[i] = tx.ID()
 	}
