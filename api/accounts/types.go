@@ -9,9 +9,9 @@ package accounts
 import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/playmakerchain/play/api/transactions"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/runtime"
+	"github.com/playmakerchain//api/transactions"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//runtime"
 )
 
 //Account for marshal account
@@ -27,7 +27,7 @@ type CallData struct {
 	Data     string                `json:"data"`
 	Gas      uint64                `json:"gas"`
 	GasPrice *math.HexOrDecimal256 `json:"gasPrice"`
-	Caller   *play.Address         `json:"caller"`
+	Caller   *.Address         `json:"caller"`
 }
 
 type CallResult struct {
@@ -59,7 +59,7 @@ func convertCallResultWithInputGas(vo *runtime.Output, inputGas uint64) *CallRes
 			Address: txEvent.Address,
 			Data:    hexutil.Encode(txEvent.Data),
 		}
-		event.Topics = make([]play.Bytes32, len(txEvent.Topics))
+		event.Topics = make([].Bytes32, len(txEvent.Topics))
 		for k, topic := range txEvent.Topics {
 			event.Topics[k] = topic
 		}
@@ -85,7 +85,7 @@ func convertCallResultWithInputGas(vo *runtime.Output, inputGas uint64) *CallRes
 }
 
 type Clause struct {
-	To    *play.Address         `json:"to"`
+	To    *.Address         `json:"to"`
 	Value *math.HexOrDecimal256 `json:"value"`
 	Data  string                `json:"data"`
 }
@@ -98,7 +98,7 @@ type BatchCallData struct {
 	Clauses  Clauses               `json:"clauses"`
 	Gas      uint64                `json:"gas"`
 	GasPrice *math.HexOrDecimal256 `json:"gasPrice"`
-	Caller   *play.Address         `json:"caller"`
+	Caller   *.Address         `json:"caller"`
 }
 
 type BatchCallResults []*CallResult
