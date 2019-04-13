@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Thorest
   description: |
-    RESTful API to access PlayMaker Play Network
+    RESTful API to access PlayMaker  Network
 
     [Project Home](https://github.com/playmakerchain/powerplay)
   license:
