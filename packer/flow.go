@@ -11,11 +11,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/thor/block"
-	"github.com/playmakerchain/thor/runtime"
-	"github.com/playmakerchain/thor/state"
-	"github.com/playmakerchain/thor/thor"
-	"github.com/playmakerchain/thor/tx"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//runtime"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 // Flow the flow of packing a new block.
@@ -23,7 +23,7 @@ type Flow struct {
 	packer       *Packer
 	parentHeader *block.Header
 	runtime      *runtime.Runtime
-	processedTxs map[thor.Bytes32]bool // txID -> reverted
+	processedTxs map[.Bytes32]bool // txID -> reverted
 	gasUsed      uint64
 	txs          tx.Transactions
 	receipts     tx.Receipts
@@ -38,7 +38,7 @@ func newFlow(
 		packer:       packer,
 		parentHeader: parentHeader,
 		runtime:      runtime,
-		processedTxs: make(map[thor.Bytes32]bool),
+		processedTxs: make(map[.Bytes32]bool),
 	}
 }
 
@@ -52,7 +52,7 @@ func (f *Flow) When() uint64 {
 	return f.runtime.Context().Time
 }
 
-func (f *Flow) findTx(txID thor.Bytes32) (found bool, reverted bool, err error) {
+func (f *Flow) findTx(txID .Bytes32) (found bool, reverted bool, err error) {
 	if reverted, ok := f.processedTxs[txID]; ok {
 		return true, reverted, nil
 	}
@@ -125,7 +125,7 @@ func (f *Flow) Adopt(tx *tx.Transaction) error {
 
 // Pack build and sign the new block.
 func (f *Flow) Pack(privateKey *ecdsa.PrivateKey) (*block.Block, *state.Stage, tx.Receipts, error) {
-	if f.packer.nodeMaster != thor.Address(crypto.PubkeyToAddress(privateKey.PublicKey)) {
+	if f.packer.nodeMaster != .Address(crypto.PubkeyToAddress(privateKey.PublicKey)) {
 		return nil, nil, nil, errors.New("private key mismatch")
 	}
 
