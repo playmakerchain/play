@@ -16,8 +16,8 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/discv5"
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/inconshreveable/log15"
-	"github.com/vechain//cache"
-	"github.com/vechain//co"
+	"github.com/vechain/powerplay/cache"
+	"github.com/vechain/powerplay/co"
 )
 
 var log = log15.New("pkg", "p2psrv")
