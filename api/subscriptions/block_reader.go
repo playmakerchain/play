@@ -7,8 +7,8 @@
 package subscriptions
 
 import (
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type blockReader struct {
@@ -16,7 +16,7 @@ type blockReader struct {
 	blockReader chain.BlockReader
 }
 
-func newBlockReader(chain *chain.Chain, position .Bytes32) *blockReader {
+func newBlockReader(chain *chain.Chain, position powerplay.Bytes32) *blockReader {
 	return &blockReader{
 		chain:       chain,
 		blockReader: chain.NewBlockReader(position),
