@@ -12,9 +12,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//api/utils"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/api/utils"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type EventsLegacy struct {
@@ -48,7 +48,7 @@ func (e *EventsLegacy) handleFilter(w http.ResponseWriter, req *http.Request) er
 	}
 	query := req.URL.Query()
 	if query.Get("address") != "" {
-		addr, err := .ParseAddress(query.Get("address"))
+		addr, err := powerplay.ParseAddress(query.Get("address"))
 		if err != nil {
 			return utils.BadRequest(errors.WithMessage(err, "address"))
 		}
