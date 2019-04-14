@@ -107,9 +107,9 @@ func convertTransfer(header *block.Header, tx *tx.Transaction, transfer *tx.Tran
 type EventMessage struct {
 	Address  powerplay.Address   `json:"address"`
 	Topics   []powerplay.Bytes32 `json:"topics"`
-	Data     string         `json:"data"`
-	Meta     LogMeta        `json:"meta"`
-	Obsolete bool           `json:"obsolete"`
+	Data     string         	 `json:"data"`
+	Meta     LogMeta        	 `json:"meta"`
+	Obsolete bool           	 `json:"obsolete"`
 }
 
 func convertEvent(header *block.Header, tx *tx.Transaction, event *tx.Event, obsolete bool) (*EventMessage, error) {
