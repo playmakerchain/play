@@ -7,8 +7,8 @@
 package subscriptions
 
 import (
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type transferReader struct {
@@ -17,7 +17,7 @@ type transferReader struct {
 	blockReader chain.BlockReader
 }
 
-func newTransferReader(chain *chain.Chain, position .Bytes32, filter *TransferFilter) *transferReader {
+func newTransferReader(chain *chain.Chain, position powerplay.Bytes32, filter *TransferFilter) *transferReader {
 	return &transferReader{
 		chain:       chain,
 		filter:      filter,
