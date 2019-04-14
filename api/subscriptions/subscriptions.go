@@ -14,10 +14,10 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/inconshreveable/log15"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/play/api/utils"
-	"github.com/playmakerchain/play/block"
-	"github.com/playmakerchain/play/chain"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//api/utils"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//"
 )
 
 type Subscriptions struct {
@@ -240,37 +240,37 @@ func (s *Subscriptions) pipe(conn *websocket.Conn, reader msgReader) error {
 	}
 }
 
-func (s *Subscriptions) parsePosition(posStr string) (play.Bytes32, error) {
+func (s *Subscriptions) parsePosition(posStr string) (.Bytes32, error) {
 	bestID := s.chain.BestBlock().Header().ID()
 	if posStr == "" {
 		return bestID, nil
 	}
-	pos, err := play.ParseBytes32(posStr)
+	pos, err := .ParseBytes32(posStr)
 	if err != nil {
-		return play.Bytes32{}, utils.BadRequest(errors.WithMessage(err, "pos"))
+		return .Bytes32{}, utils.BadRequest(errors.WithMessage(err, "pos"))
 	}
 	if block.Number(bestID)-block.Number(pos) > s.backtraceLimit {
-		return play.Bytes32{}, utils.Forbidden(errors.New("pos: backtrace limit exceeded"))
+		return .Bytes32{}, utils.Forbidden(errors.New("pos: backtrace limit exceeded"))
 	}
 	return pos, nil
 }
 
-func parseTopic(t string) (*play.Bytes32, error) {
+func parseTopic(t string) (*.Bytes32, error) {
 	if t == "" {
 		return nil, nil
 	}
-	topic, err := play.ParseBytes32(t)
+	topic, err := .ParseBytes32(t)
 	if err != nil {
 		return nil, err
 	}
 	return &topic, nil
 }
 
-func parseAddress(addr string) (*play.Address, error) {
+func parseAddress(addr string) (*.Address, error) {
 	if addr == "" {
 		return nil, nil
 	}
-	address, err := play.ParseAddress(addr)
+	address, err := .ParseAddress(addr)
 	if err != nil {
 		return nil, err
 	}
