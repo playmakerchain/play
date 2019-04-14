@@ -10,21 +10,21 @@ import (
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/playmakerchain/play/api/transactions"
-	"github.com/playmakerchain/play/logdb"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//api/transactions"
+	"github.com/playmakerchain//logdb"
+	"github.com/playmakerchain//"
 )
 
 type TopicSet struct {
-	Topic0 *play.Bytes32 `json:"topic0"`
-	Topic1 *play.Bytes32 `json:"topic1"`
-	Topic2 *play.Bytes32 `json:"topic2"`
-	Topic3 *play.Bytes32 `json:"topic3"`
-	Topic4 *play.Bytes32 `json:"topic4"`
+	Topic0 *.Bytes32 `json:"topic0"`
+	Topic1 *.Bytes32 `json:"topic1"`
+	Topic2 *.Bytes32 `json:"topic2"`
+	Topic3 *.Bytes32 `json:"topic3"`
+	Topic4 *.Bytes32 `json:"topic4"`
 }
 
 type FilterLegacy struct {
-	Address   *play.Address
+	Address   *.Address
 	TopicSets []*TopicSet
 	Range     *logdb.Range
 	Options   *logdb.Options
@@ -40,7 +40,7 @@ func convertFilter(filter *FilterLegacy) *logdb.EventFilter {
 	if len(filter.TopicSets) > 0 {
 		criterias := make([]*logdb.EventCriteria, len(filter.TopicSets))
 		for i, topicSet := range filter.TopicSets {
-			var topics [5]*play.Bytes32
+			var topics [5]*.Bytes32
 			topics[0] = topicSet.Topic0
 			topics[1] = topicSet.Topic1
 			topics[2] = topicSet.Topic2
@@ -64,8 +64,8 @@ func convertFilter(filter *FilterLegacy) *logdb.EventFilter {
 
 // FilteredEvent only comes from one contract
 type FilteredEvent struct {
-	Address play.Address         `json:"address"`
-	Topics  []*play.Bytes32      `json:"topics"`
+	Address .Address         `json:"address"`
+	Topics  []*.Bytes32      `json:"topics"`
 	Data    string               `json:"data"`
 	Meta    transactions.LogMeta `json:"meta"`
 }
@@ -83,7 +83,7 @@ func convertEvent(event *logdb.Event) *FilteredEvent {
 			TxOrigin:       event.TxOrigin,
 		},
 	}
-	fe.Topics = make([]*play.Bytes32, 0)
+	fe.Topics = make([]*.Bytes32, 0)
 	for i := 0; i < 5; i++ {
 		if event.Topics[i] != nil {
 			fe.Topics = append(fe.Topics, event.Topics[i])
