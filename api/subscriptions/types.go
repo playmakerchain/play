@@ -77,9 +77,9 @@ type LogMeta struct {
 type TransferMessage struct {
 	Sender    powerplay.Address          `json:"sender"`
 	Recipient powerplay.Address          `json:"recipient"`
-	Amount    *math.HexOrDecimal256 `json:"amount"`
-	Meta      LogMeta               `json:"meta"`
-	Obsolete  bool                  `json:"obsolete"`
+	Amount    *math.HexOrDecimal256 	 `json:"amount"`
+	Meta      LogMeta               	 `json:"meta"`
+	Obsolete  bool                  	 `json:"obsolete"`
 }
 
 func convertTransfer(header *block.Header, tx *tx.Transaction, transfer *tx.Transfer, obsolete bool) (*TransferMessage, error) {
