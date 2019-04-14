@@ -66,11 +66,11 @@ func convertBlock(b *chain.Block) (*BlockMessage, error) {
 }
 
 type LogMeta struct {
-	BlockID        powerplay.Bytes32 `json:"blockID"`
-	BlockNumber    uint32       `json:"blockNumber"`
-	BlockTimestamp uint64       `json:"blockTimestamp"`
-	TxID           powerplay.Bytes32 `json:"txID"`
-	TxOrigin       powerplay.Address `json:"txOrigin"`
+	BlockID        powerplay.Bytes32 	`json:"blockID"`
+	BlockNumber    uint32       		`json:"blockNumber"`
+	BlockTimestamp uint64       		`json:"blockTimestamp"`
+	TxID           powerplay.Bytes32 	`json:"txID"`
+	TxOrigin       powerplay.Address 	`json:"txOrigin"`
 }
 
 //TransferMessage transfer piped by websocket
