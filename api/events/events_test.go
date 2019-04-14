@@ -15,15 +15,15 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
-	"github.com/playmakerchain/play/api/events"
-	"github.com/playmakerchain/play/block"
-	"github.com/playmakerchain/play/logdb"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/tx"
+	"github.com/playmakerchain//api/events"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//logdb"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 	"github.com/stretchr/testify/assert"
 )
 
-var contractAddr = play.BytesToAddress([]byte("contract"))
+var contractAddr = .BytesToAddress([]byte("contract"))
 var ts *httptest.Server
 
 func TestEvents(t *testing.T) {
@@ -33,8 +33,8 @@ func TestEvents(t *testing.T) {
 }
 
 func getEvents(t *testing.T) {
-	t0 := play.BytesToBytes32([]byte("topic0"))
-	t1 := play.BytesToBytes32([]byte("topic1"))
+	t0 := .BytesToBytes32([]byte("topic0"))
+	t1 := .BytesToBytes32([]byte("topic1"))
 	limit := 5
 	filter := &events.EventFilter{
 		Range: &logdb.Range{
@@ -76,13 +76,13 @@ func initEventServer(t *testing.T) {
 	}
 	txEv := &tx.Event{
 		Address: contractAddr,
-		Topics:  []play.Bytes32{play.BytesToBytes32([]byte("topic0")), play.BytesToBytes32([]byte("topic1"))},
+		Topics:  [].Bytes32{.BytesToBytes32([]byte("topic0")), .BytesToBytes32([]byte("topic1"))},
 		Data:    []byte("data"),
 	}
 
 	header := new(block.Builder).Build().Header()
 	for i := 0; i < 100; i++ {
-		if err := db.Prepare(header).ForTransaction(play.BytesToBytes32([]byte("txID")), play.BytesToAddress([]byte("txOrigin"))).
+		if err := db.Prepare(header).ForTransaction(.BytesToBytes32([]byte("txID")), .BytesToAddress([]byte("txOrigin"))).
 			Insert(tx.Events{txEv}, nil).Commit(); err != nil {
 			if err != nil {
 				t.Fatal(err)
