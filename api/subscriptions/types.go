@@ -17,21 +17,21 @@ import (
 
 //BlockMessage block piped by websocket
 type BlockMessage struct {
-	Number       uint32         `json:"number"`
-	ID           powerplay.Bytes32   `json:"id"`
-	Size         uint32         `json:"size"`
-	ParentID     powerplay.Bytes32   `json:"parentID"`
-	Timestamp    uint64         `json:"timestamp"`
-	GasLimit     uint64         `json:"gasLimit"`
-	Beneficiary  powerplay.Address   `json:"beneficiary"`
-	GasUsed      uint64         `json:"gasUsed"`
-	TotalScore   uint64         `json:"totalScore"`
-	TxsRoot      powerplay.Bytes32   `json:"txsRoot"`
-	StateRoot    powerplay.Bytes32   `json:"stateRoot"`
-	ReceiptsRoot powerplay.Bytes32   `json:"receiptsRoot"`
-	Signer       powerplay.Address   `json:"signer"`
-	Transactions []powerplay.Bytes32 `json:"transactions"`
-	Obsolete     bool           `json:"obsolete"`
+	Number       uint32         		`json:"number"`
+	ID           powerplay.Bytes32  	`json:"id"`
+	Size         uint32         		`json:"size"`
+	ParentID     powerplay.Bytes32   	`json:"parentID"`
+	Timestamp    uint64         		`json:"timestamp"`
+	GasLimit     uint64         		`json:"gasLimit"`
+	Beneficiary  powerplay.Address   	`json:"beneficiary"`
+	GasUsed      uint64         		`json:"gasUsed"`
+	TotalScore   uint64         		`json:"totalScore"`
+	TxsRoot      powerplay.Bytes32   	`json:"txsRoot"`
+	StateRoot    powerplay.Bytes32   	`json:"stateRoot"`
+	ReceiptsRoot powerplay.Bytes32   	`json:"receiptsRoot"`
+	Signer       powerplay.Address   	`json:"signer"`
+	Transactions []powerplay.Bytes32 	`json:"transactions"`
+	Obsolete     bool           		`json:"obsolete"`
 }
 
 func convertBlock(b *chain.Block) (*BlockMessage, error) {
