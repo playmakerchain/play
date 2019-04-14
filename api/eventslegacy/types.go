@@ -10,21 +10,21 @@ import (
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/playmakerchain//api/transactions"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/api/transactions"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type TopicSet struct {
-	Topic0 *.Bytes32 `json:"topic0"`
-	Topic1 *.Bytes32 `json:"topic1"`
-	Topic2 *.Bytes32 `json:"topic2"`
-	Topic3 *.Bytes32 `json:"topic3"`
-	Topic4 *.Bytes32 `json:"topic4"`
+	Topic0 *powerplay.Bytes32 `json:"topic0"`
+	Topic1 *powerplay.Bytes32 `json:"topic1"`
+	Topic2 *powerplay.Bytes32 `json:"topic2"`
+	Topic3 *powerplay.Bytes32 `json:"topic3"`
+	Topic4 *powerplay.Bytes32 `json:"topic4"`
 }
 
 type FilterLegacy struct {
-	Address   *.Address
+	Address   *powerplay.Address
 	TopicSets []*TopicSet
 	Range     *logdb.Range
 	Options   *logdb.Options
@@ -40,7 +40,7 @@ func convertFilter(filter *FilterLegacy) *logdb.EventFilter {
 	if len(filter.TopicSets) > 0 {
 		criterias := make([]*logdb.EventCriteria, len(filter.TopicSets))
 		for i, topicSet := range filter.TopicSets {
-			var topics [5]*.Bytes32
+			var topics [5]*powerplay.Bytes32
 			topics[0] = topicSet.Topic0
 			topics[1] = topicSet.Topic1
 			topics[2] = topicSet.Topic2
@@ -64,8 +64,8 @@ func convertFilter(filter *FilterLegacy) *logdb.EventFilter {
 
 // FilteredEvent only comes from one contract
 type FilteredEvent struct {
-	Address .Address         `json:"address"`
-	Topics  []*.Bytes32      `json:"topics"`
+	Address powerplay.Address         `json:"address"`
+	Topics  []*powerplay.Bytes32      `json:"topics"`
 	Data    string               `json:"data"`
 	Meta    transactions.LogMeta `json:"meta"`
 }
@@ -83,7 +83,7 @@ func convertEvent(event *logdb.Event) *FilteredEvent {
 			TxOrigin:       event.TxOrigin,
 		},
 	}
-	fe.Topics = make([]*.Bytes32, 0)
+	fe.Topics = make([]*powerplay.Bytes32, 0)
 	for i := 0; i < 5; i++ {
 		if event.Topics[i] != nil {
 			fe.Topics = append(fe.Topics, event.Topics[i])
