@@ -7,8 +7,8 @@
 package node
 
 import (
-	"github.com/playmakerchain/play/comm"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//comm"
+	"github.com/playmakerchain//"
 )
 
 type Network interface {
@@ -17,7 +17,7 @@ type Network interface {
 
 type PeerStats struct {
 	Name        string       `json:"name"`
-	BestBlockID play.Bytes32 `json:"bestBlockID"`
+	BestBlockID .Bytes32 `json:"bestBlockID"`
 	TotalScore  uint64       `json:"totalScore"`
 	PeerID      string       `json:"peerID"`
 	NetAddr     string       `json:"netAddr"`
