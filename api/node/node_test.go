@@ -15,13 +15,13 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain/play/api/node"
-	"github.com/playmakerchain/play/chain"
-	"github.com/playmakerchain/play/comm"
-	"github.com/playmakerchain/play/genesis"
-	"github.com/playmakerchain/play/lvldb"
-	"github.com/playmakerchain/play/state"
-	"github.com/playmakerchain/play/txpool"
+	"github.com/playmakerchain//api/node"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//comm"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//txpool"
 )
 
 var ts *httptest.Server
