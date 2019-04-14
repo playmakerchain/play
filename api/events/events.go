@@ -12,8 +12,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/play/api/utils"
-	"github.com/playmakerchain/play/logdb"
+	"github.com/playmakerchain//api/utils"
+	"github.com/playmakerchain//logdb"
 )
 
 type Events struct {
