@@ -192,11 +192,11 @@ func (tf *TransferFilter) Match(transfer *tx.Transfer, origin powerplay.Address)
 }
 
 type BeatMessage struct {
-	Number    uint32       `json:"number"`
+	Number    uint32       		`json:"number"`
 	ID        powerplay.Bytes32 `json:"id"`
 	ParentID  powerplay.Bytes32 `json:"parentID"`
-	Timestamp uint64       `json:"timestamp"`
-	Bloom     string       `json:"bloom"`
-	K         uint32       `json:"k"`
-	Obsolete  bool         `json:"obsolete"`
+	Timestamp uint64       		`json:"timestamp"`
+	Bloom     string       		`json:"bloom"`
+	K         uint32       		`json:"k"`
+	Obsolete  bool         		`json:"obsolete"`
 }
