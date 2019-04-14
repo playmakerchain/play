@@ -9,28 +9,28 @@ package subscriptions
 import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 //BlockMessage block piped by websocket
 type BlockMessage struct {
 	Number       uint32         `json:"number"`
-	ID           .Bytes32   `json:"id"`
+	ID           powerplay.Bytes32   `json:"id"`
 	Size         uint32         `json:"size"`
-	ParentID     .Bytes32   `json:"parentID"`
+	ParentID     powerplay.Bytes32   `json:"parentID"`
 	Timestamp    uint64         `json:"timestamp"`
 	GasLimit     uint64         `json:"gasLimit"`
-	Beneficiary  .Address   `json:"beneficiary"`
+	Beneficiary  powerplay.Address   `json:"beneficiary"`
 	GasUsed      uint64         `json:"gasUsed"`
 	TotalScore   uint64         `json:"totalScore"`
-	TxsRoot      .Bytes32   `json:"txsRoot"`
-	StateRoot    .Bytes32   `json:"stateRoot"`
-	ReceiptsRoot .Bytes32   `json:"receiptsRoot"`
-	Signer       .Address   `json:"signer"`
-	Transactions [].Bytes32 `json:"transactions"`
+	TxsRoot      powerplay.Bytes32   `json:"txsRoot"`
+	StateRoot    powerplay.Bytes32   `json:"stateRoot"`
+	ReceiptsRoot powerplay.Bytes32   `json:"receiptsRoot"`
+	Signer       powerplay.Address   `json:"signer"`
+	Transactions []powerplay.Bytes32 `json:"transactions"`
 	Obsolete     bool           `json:"obsolete"`
 }
 
@@ -42,7 +42,7 @@ func convertBlock(b *chain.Block) (*BlockMessage, error) {
 	}
 
 	txs := b.Transactions()
-	txIds := make([].Bytes32, len(txs))
+	txIds := make([]powerplay.Bytes32, len(txs))
 	for i, tx := range txs {
 		txIds[i] = tx.ID()
 	}
@@ -66,17 +66,17 @@ func convertBlock(b *chain.Block) (*BlockMessage, error) {
 }
 
 type LogMeta struct {
-	BlockID        .Bytes32 `json:"blockID"`
+	BlockID        powerplay.Bytes32 `json:"blockID"`
 	BlockNumber    uint32       `json:"blockNumber"`
 	BlockTimestamp uint64       `json:"blockTimestamp"`
-	TxID           .Bytes32 `json:"txID"`
-	TxOrigin       .Address `json:"txOrigin"`
+	TxID           powerplay.Bytes32 `json:"txID"`
+	TxOrigin       powerplay.Address `json:"txOrigin"`
 }
 
 //TransferMessage transfer piped by websocket
 type TransferMessage struct {
-	Sender    .Address          `json:"sender"`
-	Recipient .Address          `json:"recipient"`
+	Sender    powerplay.Address          `json:"sender"`
+	Recipient powerplay.Address          `json:"recipient"`
 	Amount    *math.HexOrDecimal256 `json:"amount"`
 	Meta      LogMeta               `json:"meta"`
 	Obsolete  bool                  `json:"obsolete"`
@@ -105,8 +105,8 @@ func convertTransfer(header *block.Header, tx *tx.Transaction, transfer *tx.Tran
 
 //EventMessage event piped by websocket
 type EventMessage struct {
-	Address  .Address   `json:"address"`
-	Topics   [].Bytes32 `json:"topics"`
+	Address  powerplay.Address   `json:"address"`
+	Topics   []powerplay.Bytes32 `json:"topics"`
 	Data     string         `json:"data"`
 	Meta     LogMeta        `json:"meta"`
 	Obsolete bool           `json:"obsolete"`
@@ -134,12 +134,12 @@ func convertEvent(header *block.Header, tx *tx.Transaction, event *tx.Event, obs
 
 // EventFilter contains options for contract event filtering.
 type EventFilter struct {
-	Address *.Address // restricts matches to events created by specific contracts
-	Topic0  *.Bytes32
-	Topic1  *.Bytes32
-	Topic2  *.Bytes32
-	Topic3  *.Bytes32
-	Topic4  *.Bytes32
+	Address *powerplay.Address // restricts matches to events created by specific contracts
+	Topic0  *powerplay.Bytes32
+	Topic1  *powerplay.Bytes32
+	Topic2  *powerplay.Bytes32
+	Topic3  *powerplay.Bytes32
+	Topic4  *powerplay.Bytes32
 }
 
 // Match returs whether event matches filter
@@ -148,7 +148,7 @@ func (ef *EventFilter) Match(event *tx.Event) bool {
 		return false
 	}
 
-	matchTopic := func(topic *.Bytes32, index int) bool {
+	matchTopic := func(topic *powerplay.Bytes32, index int) bool {
 		if topic != nil {
 			if len(event.Topics) <= index {
 				return false
@@ -170,13 +170,13 @@ func (ef *EventFilter) Match(event *tx.Event) bool {
 
 // TransferFilter contains options for contract transfer filtering.
 type TransferFilter struct {
-	TxOrigin  *.Address // who send transaction
-	Sender    *.Address // who transferred tokens
-	Recipient *.Address // who received tokens
+	TxOrigin  *powerplay.Address // who send transaction
+	Sender    *powerplay.Address // who transferred tokens
+	Recipient *powerplay.Address // who received tokens
 }
 
 // Match returs whether transfer matches filter
-func (tf *TransferFilter) Match(transfer *tx.Transfer, origin .Address) bool {
+func (tf *TransferFilter) Match(transfer *tx.Transfer, origin powerplay.Address) bool {
 	if (tf.TxOrigin != nil) && (*tf.TxOrigin != origin) {
 		return false
 	}
@@ -193,8 +193,8 @@ func (tf *TransferFilter) Match(transfer *tx.Transfer, origin .Address) bool {
 
 type BeatMessage struct {
 	Number    uint32       `json:"number"`
-	ID        .Bytes32 `json:"id"`
-	ParentID  .Bytes32 `json:"parentID"`
+	ID        powerplay.Bytes32 `json:"id"`
+	ParentID  powerplay.Bytes32 `json:"parentID"`
 	Timestamp uint64       `json:"timestamp"`
 	Bloom     string       `json:"bloom"`
 	K         uint32       `json:"k"`
