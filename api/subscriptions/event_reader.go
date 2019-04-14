@@ -7,8 +7,8 @@
 package subscriptions
 
 import (
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type eventReader struct {
@@ -17,7 +17,7 @@ type eventReader struct {
 	blockReader chain.BlockReader
 }
 
-func newEventReader(chain *chain.Chain, position .Bytes32, filter *EventFilter) *eventReader {
+func newEventReader(chain *chain.Chain, position powerplay.Bytes32, filter *EventFilter) *eventReader {
 	return &eventReader{
 		chain:       chain,
 		filter:      filter,
