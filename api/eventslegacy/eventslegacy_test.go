@@ -15,16 +15,16 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
-	"github.com/playmakerchain//api/events"
-	"github.com/playmakerchain//api/eventslegacy"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/api/events"
+	"github.com/playmakerchain/powerplay/api/eventslegacy"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 	"github.com/stretchr/testify/assert"
 )
 
-var contractAddr = .BytesToAddress([]byte("contract"))
+var contractAddr = powerplay.BytesToAddress([]byte("contract"))
 var ts *httptest.Server
 
 func TestEvents(t *testing.T) {
@@ -34,8 +34,8 @@ func TestEvents(t *testing.T) {
 }
 
 func getEvents(t *testing.T) {
-	t0 := .BytesToBytes32([]byte("topic0"))
-	t1 := .BytesToBytes32([]byte("topic1"))
+	t0 := powerplay.BytesToBytes32([]byte("topic0"))
+	t1 := powerplay.BytesToBytes32([]byte("topic1"))
 	limit := 5
 	filter := &eventslegacy.FilterLegacy{
 		Range: &logdb.Range{
@@ -73,13 +73,13 @@ func initEventServer(t *testing.T) {
 	}
 	txEv := &tx.Event{
 		Address: contractAddr,
-		Topics:  [].Bytes32{.BytesToBytes32([]byte("topic0")), .BytesToBytes32([]byte("topic1"))},
+		Topics:  []powerplay.Bytes32{powerplay.BytesToBytes32([]byte("topic0")), powerplay.BytesToBytes32([]byte("topic1"))},
 		Data:    []byte("data"),
 	}
 
 	header := new(block.Builder).Build().Header()
 	for i := 0; i < 100; i++ {
-		if err := db.Prepare(header).ForTransaction(.BytesToBytes32([]byte("txID")), .BytesToAddress([]byte("txOrigin"))).
+		if err := db.Prepare(header).ForTransaction(powerplay.BytesToBytes32([]byte("txID")), powerplay.BytesToAddress([]byte("txOrigin"))).
 			Insert(tx.Events{txEv}, nil).Commit(); err != nil {
 			if err != nil {
 				t.Fatal(err)
