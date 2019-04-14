@@ -10,8 +10,8 @@ import (
 	"bytes"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/playmakerchain//chain"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type beatReader struct {
@@ -19,7 +19,7 @@ type beatReader struct {
 	blockReader chain.BlockReader
 }
 
-func newBeatReader(chain *chain.Chain, position .Bytes32) *beatReader {
+func newBeatReader(chain *chain.Chain, position powerplay.Bytes32) *beatReader {
 	return &beatReader{
 		chain:       chain,
 		blockReader: chain.NewBlockReader(position),
@@ -60,8 +60,8 @@ func (br *beatReader) Read() ([]interface{}, bool, error) {
 		bloomContent.add(signer.Bytes())
 		bloomContent.add(header.Beneficiary().Bytes())
 
-		k := .EstimateBloomK(bloomContent.len())
-		bloom := .NewBloom(k)
+		k := powerplay.EstimateBloomK(bloomContent.len())
+		bloom := powerplay.NewBloom(k)
 		for _, item := range bloomContent.items {
 			bloom.Add(item)
 		}
