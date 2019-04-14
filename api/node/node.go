@@ -10,7 +10,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/playmakerchain//api/utils"
+	"github.com/playmakerchain/powerplay/api/utils"
 )
 
 type Node struct {
