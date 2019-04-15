@@ -8,14 +8,14 @@ package transfers
 
 import (
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/playmakerchain//api/transactions"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//"
+	"github.com/playmakerchain/powerplay/api/transactions"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/powerplay"
 )
 
 type FilteredTransfer struct {
-	Sender    .Address          `json:"sender"`
-	Recipient .Address          `json:"recipient"`
+	Sender    powerplay.Address          `json:"sender"`
+	Recipient powerplay.Address          `json:"recipient"`
 	Amount    *math.HexOrDecimal256 `json:"amount"`
 	Meta      transactions.LogMeta  `json:"meta"`
 }
