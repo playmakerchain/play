@@ -22,7 +22,7 @@ import (
 
 // Clause for json marshal
 type Clause struct {
-	To    *powerplay.Address        `json:"to"`
+	To    *powerplay.Address   `json:"to"`
 	Value math.HexOrDecimal256 `json:"value"`
 	Data  string               `json:"data"`
 }
