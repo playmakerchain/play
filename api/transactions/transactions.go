@@ -16,11 +16,11 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/play/api/utils"
-	"github.com/playmakerchain/play/chain"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/tx"
-	"github.com/playmakerchain/play/txpool"
+	"github.com/playmakerchain//api/utils"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain//txpool"
 )
 
 type Transactions struct {
@@ -35,7 +35,7 @@ func New(chain *chain.Chain, pool *txpool.TxPool) *Transactions {
 	}
 }
 
-func (t *Transactions) getRawTransaction(txID play.Bytes32, blockID play.Bytes32) (*rawTransaction, error) {
+func (t *Transactions) getRawTransaction(txID .Bytes32, blockID .Bytes32) (*rawTransaction, error) {
 	txMeta, err := t.chain.GetTransactionMeta(txID, blockID)
 	if err != nil {
 		if t.chain.IsNotFound(err) {
@@ -65,7 +65,7 @@ func (t *Transactions) getRawTransaction(txID play.Bytes32, blockID play.Bytes32
 	}, nil
 }
 
-func (t *Transactions) getTransactionByID(txID play.Bytes32, blockID play.Bytes32) (*Transaction, error) {
+func (t *Transactions) getTransactionByID(txID .Bytes32, blockID .Bytes32) (*Transaction, error) {
 	txMeta, err := t.chain.GetTransactionMeta(txID, blockID)
 	if err != nil {
 		if t.chain.IsNotFound(err) {
@@ -85,7 +85,7 @@ func (t *Transactions) getTransactionByID(txID play.Bytes32, blockID play.Bytes3
 }
 
 //GetTransactionReceiptByID get tx's receipt
-func (t *Transactions) getTransactionReceiptByID(txID play.Bytes32, blockID play.Bytes32) (*Receipt, error) {
+func (t *Transactions) getTransactionReceiptByID(txID .Bytes32, blockID .Bytes32) (*Receipt, error) {
 	txMeta, err := t.chain.GetTransactionMeta(txID, blockID)
 	if err != nil {
 		if t.chain.IsNotFound(err) {
@@ -171,7 +171,7 @@ func (t *Transactions) handleSendTransaction(w http.ResponseWriter, req *http.Re
 
 func (t *Transactions) handleGetTransactionByID(w http.ResponseWriter, req *http.Request) error {
 	id := mux.Vars(req)["id"]
-	txID, err := play.ParseBytes32(id)
+	txID, err := .ParseBytes32(id)
 	if err != nil {
 		return utils.BadRequest(errors.WithMessage(err, "id"))
 	}
@@ -207,7 +207,7 @@ func (t *Transactions) handleGetTransactionByID(w http.ResponseWriter, req *http
 
 func (t *Transactions) handleGetTransactionReceiptByID(w http.ResponseWriter, req *http.Request) error {
 	id := mux.Vars(req)["id"]
-	txID, err := play.ParseBytes32(id)
+	txID, err := .ParseBytes32(id)
 	if err != nil {
 		return utils.BadRequest(errors.WithMessage(err, "id"))
 	}
@@ -229,13 +229,13 @@ func (t *Transactions) handleGetTransactionReceiptByID(w http.ResponseWriter, re
 	return utils.WriteJSON(w, receipt)
 }
 
-func (t *Transactions) parseHead(head string) (play.Bytes32, error) {
+func (t *Transactions) parseHead(head string) (.Bytes32, error) {
 	if head == "" {
 		return t.chain.BestBlock().Header().ID(), nil
 	}
-	h, err := play.ParseBytes32(head)
+	h, err := .ParseBytes32(head)
 	if err != nil {
-		return play.Bytes32{}, err
+		return .Bytes32{}, err
 	}
 	return h, nil
 }
