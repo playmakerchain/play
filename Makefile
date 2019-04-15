@@ -1,23 +1,23 @@
-PACKAGE = github.com/vechain/thor
+PACKAGE = github.com/playmakerchain/powerplay
 
 FAKE_GOPATH_SUFFIX = $(shell [ -e ".fake_gopath_suffix" ] || date +%s > .fake_gopath_suffix; cat .fake_gopath_suffix)
-FAKE_GOPATH = /tmp/thor-build-$(FAKE_GOPATH_SUFFIX)
+FAKE_GOPATH = /tmp/powerplay-build-$(FAKE_GOPATH_SUFFIX)
 export GOPATH = $(FAKE_GOPATH)
 
 SRC_BASE = $(FAKE_GOPATH)/src/$(PACKAGE)
 
 GIT_COMMIT = $(shell git --no-pager log --pretty="%h" -n 1)
 GIT_TAG = $(shell git tag -l --points-at HEAD)
-THOR_VERSION = $(shell cat cmd/thor/VERSION)
+POWERPLAY_VERSION = $(shell cat cmd/powerplay/VERSION)
 DISCO_VERSION = $(shell cat cmd/disco/VERSION)
 
 PACKAGES = `cd $(SRC_BASE) && go list ./... | grep -v '/vendor/'`
 
-.PHONY: thor disco all clean test
+.PHONY: powerplay disco all clean test
 
-thor: |$(SRC_BASE)
+powerplay: |$(SRC_BASE)
 	@echo "building $@..."
-	@cd $(SRC_BASE) && go build -v -i -o $(CURDIR)/bin/$@ -ldflags "-X main.version=$(THOR_VERSION) -X main.gitCommit=$(GIT_COMMIT) -X main.gitTag=$(GIT_TAG)" ./cmd/thor
+	@cd $(SRC_BASE) && go build -v -i -o $(CURDIR)/bin/$@ -ldflags "-X main.version=$(POWERPLAY_VERSION) -X main.gitCommit=$(GIT_COMMIT) -X main.gitTag=$(GIT_TAG)" ./cmd/powerplay
 	@echo "done. executable created at 'bin/$@'"
 
 disco: |$(SRC_BASE)
@@ -36,12 +36,12 @@ $(SRC_BASE):
 	@mkdir -p $(dir $@)
 	@ln -sf $(CURDIR) $@
 
-all: thor disco
+all: powerplay disco
 
 clean:
 	-rm -rf \
 $(FAKE_GOPATH) \
-$(CURDIR)/bin/thor \
+$(CURDIR)/bin/powerplay \
 $(CURDIR)/bin/disco 
 
 test: |$(SRC_BASE)
