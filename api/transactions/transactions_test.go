@@ -20,17 +20,17 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/gorilla/mux"
-	"github.com/playmakerchain/play/api/transactions"
-	"github.com/playmakerchain/play/block"
-	"github.com/playmakerchain/play/chain"
-	"github.com/playmakerchain/play/genesis"
-	"github.com/playmakerchain/play/logdb"
-	"github.com/playmakerchain/play/lvldb"
-	"github.com/playmakerchain/play/packer"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/state"
-	"github.com/playmakerchain/play/tx"
-	"github.com/playmakerchain/play/txpool"
+	"github.com/playmakerchain//api/transactions"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//chain"
+	"github.com/playmakerchain//genesis"
+	"github.com/playmakerchain//logdb"
+	"github.com/playmakerchain//lvldb"
+	"github.com/playmakerchain//packer"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//state"
+	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain//txpool"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -149,8 +149,8 @@ func initTransactionServer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	from := play.BytesToAddress([]byte("from"))
-	to := play.BytesToAddress([]byte("to"))
+	from := .BytesToAddress([]byte("from"))
+	to := .BytesToAddress([]byte("to"))
 	value := big.NewInt(10)
 	header := new(block.Builder).Build().Header()
 	count := 100
@@ -161,7 +161,7 @@ func initTransactionServer(t *testing.T) {
 			Amount:    value,
 		}
 		header = new(block.Builder).ParentID(header.ID()).Build().Header()
-		if err := logDB.Prepare(header).ForTransaction(play.Bytes32{}, from).
+		if err := logDB.Prepare(header).ForTransaction(.Bytes32{}, from).
 			Insert(nil, tx.Transfers{transLog}).Commit(); err != nil {
 			t.Fatal(err)
 		}
@@ -175,7 +175,7 @@ func initTransactionServer(t *testing.T) {
 		t.Fatal(err)
 	}
 	c, _ = chain.New(db, b)
-	addr := play.BytesToAddress([]byte("to"))
+	addr := .BytesToAddress([]byte("to"))
 	cla := tx.NewClause(&addr).WithValue(big.NewInt(10000))
 	transaction = new(tx.Builder).
 		ChainTag(c.Tag()).
