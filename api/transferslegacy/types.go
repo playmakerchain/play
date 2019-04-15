@@ -8,14 +8,14 @@ package transferslegacy
 
 import (
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/playmakerchain/play/api/transactions"
-	"github.com/playmakerchain/play/logdb"
-	"github.com/playmakerchain/play/play"
+	"github.com/playmakerchain//api/transactions"
+	"github.com/playmakerchain//logdb"
+	"github.com/playmakerchain//"
 )
 
 type FilteredTransfer struct {
-	Sender    play.Address          `json:"sender"`
-	Recipient play.Address          `json:"recipient"`
+	Sender    .Address          `json:"sender"`
+	Recipient .Address          `json:"recipient"`
 	Amount    *math.HexOrDecimal256 `json:"amount"`
 	Meta      transactions.LogMeta  `json:"meta"`
 }
@@ -37,13 +37,13 @@ func convertTransfer(transfer *logdb.Transfer) *FilteredTransfer {
 }
 
 type AddressSet struct {
-	TxOrigin  *play.Address //who send transaction
-	Sender    *play.Address //who transferred tokens
-	Recipient *play.Address //who recieved tokens
+	TxOrigin  *.Address //who send transaction
+	Sender    *.Address //who transferred tokens
+	Recipient *.Address //who recieved tokens
 }
 
 type TransferFilter struct {
-	TxID        *play.Bytes32
+	TxID        *.Bytes32
 	AddressSets []*AddressSet
 	Range       *logdb.Range
 	Options     *logdb.Options
