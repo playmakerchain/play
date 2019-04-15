@@ -190,8 +190,8 @@ type TxMeta struct {
 
 type LogMeta struct {
 	BlockID        powerplay.Bytes32 `json:"blockID"`
-	BlockNumber    uint32       `json:"blockNumber"`
-	BlockTimestamp uint64       `json:"blockTimestamp"`
+	BlockNumber    uint32       	 `json:"blockNumber"`
+	BlockTimestamp uint64       	 `json:"blockTimestamp"`
 	TxID           powerplay.Bytes32 `json:"txID"`
 	TxOrigin       powerplay.Address `json:"txOrigin"`
 }
