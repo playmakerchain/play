@@ -15,14 +15,14 @@ import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain/play/block"
-	"github.com/playmakerchain/play/play"
-	"github.com/playmakerchain/play/tx"
+	"github.com/playmakerchain//block"
+	"github.com/playmakerchain//"
+	"github.com/playmakerchain//tx"
 )
 
 // Clause for json marshal
 type Clause struct {
-	To    *play.Address        `json:"to"`
+	To    *.Address        `json:"to"`
 	Value math.HexOrDecimal256 `json:"value"`
 	Data  string               `json:"data"`
 }
@@ -60,16 +60,16 @@ func hasKey(m map[string]interface{}, key string) bool {
 
 //Transaction transaction
 type Transaction struct {
-	ID           play.Bytes32        `json:"id"`
+	ID           .Bytes32        `json:"id"`
 	ChainTag     byte                `json:"chainTag"`
 	BlockRef     string              `json:"blockRef"`
 	Expiration   uint32              `json:"expiration"`
 	Clauses      Clauses             `json:"clauses"`
 	GasPriceCoef uint8               `json:"gasPriceCoef"`
 	Gas          uint64              `json:"gas"`
-	Origin       play.Address        `json:"origin"`
+	Origin       .Address        `json:"origin"`
 	Nonce        math.HexOrDecimal64 `json:"nonce"`
-	DependsOn    *play.Bytes32       `json:"dependsOn"`
+	DependsOn    *.Bytes32       `json:"dependsOn"`
 	Size         uint32              `json:"size"`
 	Meta         TxMeta              `json:"meta"`
 }
@@ -80,7 +80,7 @@ type UnSignedTx struct {
 	Clauses      Clauses             `json:"clauses"`
 	GasPriceCoef uint8               `json:"gasPriceCoef"`
 	Gas          uint64              `json:"gas"`
-	DependsOn    *play.Bytes32       `json:"dependsOn"`
+	DependsOn    *.Bytes32       `json:"dependsOn"`
 	Nonce        math.HexOrDecimal64 `json:"nonce"`
 }
 
@@ -183,23 +183,23 @@ func convertTransaction(tx *tx.Transaction, header *block.Header, txIndex uint64
 }
 
 type TxMeta struct {
-	BlockID        play.Bytes32 `json:"blockID"`
+	BlockID        .Bytes32 `json:"blockID"`
 	BlockNumber    uint32       `json:"blockNumber"`
 	BlockTimestamp uint64       `json:"blockTimestamp"`
 }
 
 type LogMeta struct {
-	BlockID        play.Bytes32 `json:"blockID"`
+	BlockID        .Bytes32 `json:"blockID"`
 	BlockNumber    uint32       `json:"blockNumber"`
 	BlockTimestamp uint64       `json:"blockTimestamp"`
-	TxID           play.Bytes32 `json:"txID"`
-	TxOrigin       play.Address `json:"txOrigin"`
+	TxID           .Bytes32 `json:"txID"`
+	TxOrigin       .Address `json:"txOrigin"`
 }
 
 //Receipt for json marshal
 type Receipt struct {
 	GasUsed  uint64                `json:"gasUsed"`
-	GasPayer play.Address          `json:"gasPayer"`
+	GasPayer .Address          `json:"gasPayer"`
 	Paid     *math.HexOrDecimal256 `json:"paid"`
 	Reward   *math.HexOrDecimal256 `json:"reward"`
 	Reverted bool                  `json:"reverted"`
@@ -209,22 +209,22 @@ type Receipt struct {
 
 // Output output of clause execution.
 type Output struct {
-	ContractAddress *play.Address `json:"contractAddress"`
+	ContractAddress *.Address `json:"contractAddress"`
 	Events          []*Event      `json:"events"`
 	Transfers       []*Transfer   `json:"transfers"`
 }
 
 // Event event.
 type Event struct {
-	Address play.Address   `json:"address"`
-	Topics  []play.Bytes32 `json:"topics"`
+	Address .Address   `json:"address"`
+	Topics  [].Bytes32 `json:"topics"`
 	Data    string         `json:"data"`
 }
 
 // Transfer transfer log.
 type Transfer struct {
-	Sender    play.Address          `json:"sender"`
-	Recipient play.Address          `json:"recipient"`
+	Sender    .Address          `json:"sender"`
+	Recipient .Address          `json:"recipient"`
 	Amount    *math.HexOrDecimal256 `json:"amount"`
 }
 
@@ -253,9 +253,9 @@ func convertReceipt(txReceipt *tx.Receipt, header *block.Header, tx *tx.Transact
 	receipt.Outputs = make([]*Output, len(txReceipt.Outputs))
 	for i, output := range txReceipt.Outputs {
 		clause := tx.Clauses()[i]
-		var contractAddr *play.Address
+		var contractAddr *.Address
 		if clause.To() == nil {
-			cAddr := play.CreateContractAddress(tx.ID(), uint32(i), 0)
+			cAddr := .CreateContractAddress(tx.ID(), uint32(i), 0)
 			contractAddr = &cAddr
 		}
 		otp := &Output{contractAddr,
@@ -267,7 +267,7 @@ func convertReceipt(txReceipt *tx.Receipt, header *block.Header, tx *tx.Transact
 				Address: txEvent.Address,
 				Data:    hexutil.Encode(txEvent.Data),
 			}
-			event.Topics = make([]play.Bytes32, len(txEvent.Topics))
+			event.Topics = make([].Bytes32, len(txEvent.Topics))
 			for k, topic := range txEvent.Topics {
 				event.Topics[k] = topic
 			}
