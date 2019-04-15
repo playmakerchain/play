@@ -12,8 +12,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/playmakerchain//api/utils"
-	"github.com/playmakerchain//logdb"
+	"github.com/playmakerchain/powerplay/api/utils"
+	"github.com/playmakerchain/powerplay/logdb"
 )
 
 type Transfers struct {
