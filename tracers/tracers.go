@@ -21,7 +21,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/vechain//tracers/internal/tracers"
+	"github.com/vechain/powerplay/tracers/internal/tracers"
 )
 
 // all contains all the built in JavaScript tracers by name.
