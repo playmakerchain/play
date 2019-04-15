@@ -60,16 +60,16 @@ func hasKey(m map[string]interface{}, key string) bool {
 
 //Transaction transaction
 type Transaction struct {
-	ID           powerplay.Bytes32        `json:"id"`
+	ID           powerplay.Bytes32   `json:"id"`
 	ChainTag     byte                `json:"chainTag"`
 	BlockRef     string              `json:"blockRef"`
 	Expiration   uint32              `json:"expiration"`
 	Clauses      Clauses             `json:"clauses"`
 	GasPriceCoef uint8               `json:"gasPriceCoef"`
 	Gas          uint64              `json:"gas"`
-	Origin       powerplay.Address        `json:"origin"`
+	Origin       powerplay.Address   `json:"origin"`
 	Nonce        math.HexOrDecimal64 `json:"nonce"`
-	DependsOn    *powerplay.Bytes32       `json:"dependsOn"`
+	DependsOn    *powerplay.Bytes32  `json:"dependsOn"`
 	Size         uint32              `json:"size"`
 	Meta         TxMeta              `json:"meta"`
 }
@@ -80,7 +80,7 @@ type UnSignedTx struct {
 	Clauses      Clauses             `json:"clauses"`
 	GasPriceCoef uint8               `json:"gasPriceCoef"`
 	Gas          uint64              `json:"gas"`
-	DependsOn    *powerplay.Bytes32       `json:"dependsOn"`
+	DependsOn    *powerplay.Bytes32  `json:"dependsOn"`
 	Nonce        math.HexOrDecimal64 `json:"nonce"`
 }
 
