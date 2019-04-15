@@ -199,7 +199,7 @@ type LogMeta struct {
 //Receipt for json marshal
 type Receipt struct {
 	GasUsed  uint64                `json:"gasUsed"`
-	GasPayer powerplay.Address          `json:"gasPayer"`
+	GasPayer powerplay.Address     `json:"gasPayer"`
 	Paid     *math.HexOrDecimal256 `json:"paid"`
 	Reward   *math.HexOrDecimal256 `json:"reward"`
 	Reverted bool                  `json:"reverted"`
