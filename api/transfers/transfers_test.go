@@ -17,11 +17,11 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
-	"github.com/playmakerchain//api/transfers"
-	"github.com/playmakerchain//block"
-	"github.com/playmakerchain//logdb"
-	"github.com/playmakerchain//"
-	"github.com/playmakerchain//tx"
+	"github.com/playmakerchain/powerplay/api/transfers"
+	"github.com/playmakerchain/powerplay/block"
+	"github.com/playmakerchain/powerplay/logdb"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
 )
 
 var ts *httptest.Server
@@ -34,8 +34,8 @@ func TestTransfers(t *testing.T) {
 
 func getTransfers(t *testing.T) {
 	limit := 5
-	from := .BytesToAddress([]byte("from"))
-	to := .BytesToAddress([]byte("to"))
+	from := powerplay.BytesToAddress([]byte("from"))
+	to := powerplay.BytesToAddress([]byte("to"))
 	tf := &logdb.TransferFilter{
 		CriteriaSet: []*logdb.TransferCriteria{
 			&logdb.TransferCriteria{
@@ -68,8 +68,8 @@ func initLogServer(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	from := .BytesToAddress([]byte("from"))
-	to := .BytesToAddress([]byte("to"))
+	from := powerplay.BytesToAddress([]byte("from"))
+	to := powerplay.BytesToAddress([]byte("to"))
 	value := big.NewInt(10)
 	header := new(block.Builder).Build().Header()
 	count := 100
@@ -80,7 +80,7 @@ func initLogServer(t *testing.T) {
 			Amount:    value,
 		}
 		header = new(block.Builder).ParentID(header.ID()).Build().Header()
-		if err := db.Prepare(header).ForTransaction(.Bytes32{}, from).Insert(nil, tx.Transfers{transLog}).
+		if err := db.Prepare(header).ForTransaction(powerplay.Bytes32{}, from).Insert(nil, tx.Transfers{transLog}).
 			Commit(); err != nil {
 			t.Fatal(err)
 		}
