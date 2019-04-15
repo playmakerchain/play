@@ -210,21 +210,21 @@ type Receipt struct {
 // Output output of clause execution.
 type Output struct {
 	ContractAddress *powerplay.Address `json:"contractAddress"`
-	Events          []*Event      `json:"events"`
-	Transfers       []*Transfer   `json:"transfers"`
+	Events          []*Event           `json:"events"`
+	Transfers       []*Transfer   	   `json:"transfers"`
 }
 
 // Event event.
 type Event struct {
 	Address powerplay.Address   `json:"address"`
 	Topics  []powerplay.Bytes32 `json:"topics"`
-	Data    string         `json:"data"`
+	Data    string         		`json:"data"`
 }
 
 // Transfer transfer log.
 type Transfer struct {
-	Sender    powerplay.Address          `json:"sender"`
-	Recipient powerplay.Address          `json:"recipient"`
+	Sender    powerplay.Address     `json:"sender"`
+	Recipient powerplay.Address     `json:"recipient"`
 	Amount    *math.HexOrDecimal256 `json:"amount"`
 }
 
