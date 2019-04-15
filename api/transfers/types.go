@@ -14,8 +14,8 @@ import (
 )
 
 type FilteredTransfer struct {
-	Sender    powerplay.Address          `json:"sender"`
-	Recipient powerplay.Address          `json:"recipient"`
+	Sender    powerplay.Address     `json:"sender"`
+	Recipient powerplay.Address     `json:"recipient"`
 	Amount    *math.HexOrDecimal256 `json:"amount"`
 	Meta      transactions.LogMeta  `json:"meta"`
 }
