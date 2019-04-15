@@ -184,8 +184,8 @@ func convertTransaction(tx *tx.Transaction, header *block.Header, txIndex uint64
 
 type TxMeta struct {
 	BlockID        powerplay.Bytes32 `json:"blockID"`
-	BlockNumber    uint32       `json:"blockNumber"`
-	BlockTimestamp uint64       `json:"blockTimestamp"`
+	BlockNumber    uint32       	 `json:"blockNumber"`
+	BlockTimestamp uint64       	 `json:"blockTimestamp"`
 }
 
 type LogMeta struct {
