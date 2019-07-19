@@ -12,18 +12,18 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	ethparams "github.com/ethereum/go-ethereum/params"
 	"github.com/pkg/errors"
-	"github.com/vechain/thor/abi"
-	"github.com/vechain/thor/chain"
-	"github.com/vechain/thor/state"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/tx"
-	"github.com/vechain/thor/vm"
+	"github.com/playmakerchain/powerplay/abi"
+	"github.com/playmakerchain/powerplay/chain"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/vm"
 )
 
 // BlockContext block context.
 type BlockContext struct {
-	Beneficiary thor.Address
-	Signer      thor.Address
+	Beneficiary powerplay.Address
+	Signer      powerplay.Address
 	Number      uint32
 	Time        uint64
 	GasLimit    uint64
@@ -32,8 +32,8 @@ type BlockContext struct {
 
 // TransactionContext transaction context.
 type TransactionContext struct {
-	ID         thor.Bytes32
-	Origin     thor.Address
+	ID         powerplay.Bytes32
+	Origin     powerplay.Address
 	GasPrice   *big.Int
 	ProvedWork *big.Int
 	BlockRef   tx.BlockRef
@@ -76,8 +76,8 @@ func (env *Environment) Seeker() *chain.Seeker                   { return env.se
 func (env *Environment) State() *state.State                     { return env.state }
 func (env *Environment) TransactionContext() *TransactionContext { return env.txCtx }
 func (env *Environment) BlockContext() *BlockContext             { return env.blockCtx }
-func (env *Environment) Caller() thor.Address                    { return thor.Address(env.contract.Caller()) }
-func (env *Environment) To() thor.Address                        { return thor.Address(env.contract.Address()) }
+func (env *Environment) Caller() powerplay.Address                    { return powerplay.Address(env.contract.Caller()) }
+func (env *Environment) To() powerplay.Address                        { return powerplay.Address(env.contract.Address()) }
 
 func (env *Environment) UseGas(gas uint64) {
 	if !env.contract.UseGas(gas) {
@@ -92,7 +92,7 @@ func (env *Environment) ParseArgs(val interface{}) {
 	}
 }
 
-func (env *Environment) Log(abi *abi.Event, address thor.Address, topics []thor.Bytes32, args ...interface{}) {
+func (env *Environment) Log(abi *abi.Event, address powerplay.Address, topics []powerplay.Bytes32, args ...interface{}) {
 	data, err := abi.Encode(args...)
 	if err != nil {
 		panic(errors.WithMessage(err, "encode native event"))

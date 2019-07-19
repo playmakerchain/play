@@ -10,9 +10,9 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/vechain/thor/abi"
-	"github.com/vechain/thor/thor"
-	"github.com/vechain/thor/xenv"
+	"github.com/playmakerchain/powerplay/abi"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/xenv"
 )
 
 func init() {
@@ -39,8 +39,8 @@ func init() {
 			var self common.Address
 			env.ParseArgs(&self)
 
-			env.UseGas(thor.GetBalanceGas)
-			master := env.State().GetMaster(thor.Address(self))
+			env.UseGas(powerplay.GetBalanceGas)
+			master := env.State().GetMaster(powerplay.Address(self))
 
 			return []interface{}{master}
 		}},
@@ -51,10 +51,10 @@ func init() {
 			}
 			env.ParseArgs(&args)
 
-			env.UseGas(thor.SstoreResetGas)
-			env.State().SetMaster(thor.Address(args.Self), thor.Address(args.NewMaster))
+			env.UseGas(powerplay.SstoreResetGas)
+			env.State().SetMaster(powerplay.Address(args.Self), powerplay.Address(args.NewMaster))
 
-			env.Log(masterEvent, thor.Address(args.Self), nil, args.NewMaster)
+			env.Log(masterEvent, powerplay.Address(args.Self), nil, args.NewMaster)
 			return nil
 		}},
 		{"native_balanceAtBlock", func(env *xenv.Environment) []interface{} {
@@ -69,27 +69,27 @@ func init() {
 				return []interface{}{&big.Int{}}
 			}
 
-			if ctx.Number-args.BlockNumber > thor.MaxBackTrackingBlockNumber {
+			if ctx.Number-args.BlockNumber > powerplay.MaxBackTrackingBlockNumber {
 				return []interface{}{&big.Int{}}
 			}
 
 			if args.BlockNumber == ctx.Number {
-				env.UseGas(thor.GetBalanceGas)
-				val := env.State().GetBalance(thor.Address(args.Self))
+				env.UseGas(powerplay.GetBalanceGas)
+				val := env.State().GetBalance(powerplay.Address(args.Self))
 				return []interface{}{val}
 			}
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			blockID := env.Seeker().GetID(args.BlockNumber)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			header := env.Seeker().GetHeader(blockID)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			state := env.State().Spawn(header.StateRoot())
 
-			env.UseGas(thor.GetBalanceGas)
-			val := state.GetBalance(thor.Address(args.Self))
+			env.UseGas(powerplay.GetBalanceGas)
+			val := state.GetBalance(powerplay.Address(args.Self))
 
 			return []interface{}{val}
 		}},
@@ -104,27 +104,27 @@ func init() {
 				return []interface{}{&big.Int{}}
 			}
 
-			if ctx.Number-args.BlockNumber > thor.MaxBackTrackingBlockNumber {
+			if ctx.Number-args.BlockNumber > powerplay.MaxBackTrackingBlockNumber {
 				return []interface{}{&big.Int{}}
 			}
 
 			if args.BlockNumber == ctx.Number {
-				env.UseGas(thor.GetBalanceGas)
-				val := env.State().GetEnergy(thor.Address(args.Self), ctx.Time)
+				env.UseGas(powerplay.GetBalanceGas)
+				val := env.State().GetEnergy(powerplay.Address(args.Self), ctx.Time)
 				return []interface{}{val}
 			}
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			blockID := env.Seeker().GetID(args.BlockNumber)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			header := env.Seeker().GetHeader(blockID)
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			state := env.State().Spawn(header.StateRoot())
 
-			env.UseGas(thor.GetBalanceGas)
-			val := state.GetEnergy(thor.Address(args.Self), header.Timestamp())
+			env.UseGas(powerplay.GetBalanceGas)
+			val := state.GetEnergy(powerplay.Address(args.Self), header.Timestamp())
 
 			return []interface{}{val}
 		}},
@@ -132,28 +132,28 @@ func init() {
 			var self common.Address
 			env.ParseArgs(&self)
 
-			env.UseGas(thor.GetBalanceGas)
-			hasCode := !env.State().GetCodeHash(thor.Address(self)).IsZero()
+			env.UseGas(powerplay.GetBalanceGas)
+			hasCode := !env.State().GetCodeHash(powerplay.Address(self)).IsZero()
 
 			return []interface{}{hasCode}
 		}},
 		{"native_storageFor", func(env *xenv.Environment) []interface{} {
 			var args struct {
 				Self common.Address
-				Key  thor.Bytes32
+				Key  powerplay.Bytes32
 			}
 			env.ParseArgs(&args)
 
-			env.UseGas(thor.SloadGas)
-			storage := env.State().GetStorage(thor.Address(args.Self), args.Key)
+			env.UseGas(powerplay.SloadGas)
+			storage := env.State().GetStorage(powerplay.Address(args.Self), args.Key)
 			return []interface{}{storage}
 		}},
 		{"native_creditPlan", func(env *xenv.Environment) []interface{} {
 			var self common.Address
 			env.ParseArgs(&self)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(self))
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			credit, rate := binding.CreditPlan()
 
 			return []interface{}{credit, rate}
@@ -165,11 +165,11 @@ func init() {
 				RecoveryRate *big.Int
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SstoreSetGas)
+			env.UseGas(powerplay.SstoreSetGas)
 			binding.SetCreditPlan(args.Credit, args.RecoveryRate)
-			env.Log(creditPlanEvent, thor.Address(args.Self), nil, args.Credit, args.RecoveryRate)
+			env.Log(creditPlanEvent, powerplay.Address(args.Self), nil, args.Credit, args.RecoveryRate)
 			return nil
 		}},
 		{"native_isUser", func(env *xenv.Environment) []interface{} {
@@ -178,10 +178,10 @@ func init() {
 				User common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SloadGas)
-			isUser := binding.IsUser(thor.Address(args.User))
+			env.UseGas(powerplay.SloadGas)
+			isUser := binding.IsUser(powerplay.Address(args.User))
 
 			return []interface{}{isUser}
 		}},
@@ -191,10 +191,10 @@ func init() {
 				User common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(2 * thor.SloadGas)
-			credit := binding.UserCredit(thor.Address(args.User), env.BlockContext().Time)
+			env.UseGas(2 * powerplay.SloadGas)
+			credit := binding.UserCredit(powerplay.Address(args.User), env.BlockContext().Time)
 
 			return []interface{}{credit}
 		}},
@@ -204,19 +204,19 @@ func init() {
 				User common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SloadGas)
-			if binding.IsUser(thor.Address(args.User)) {
+			env.UseGas(powerplay.SloadGas)
+			if binding.IsUser(powerplay.Address(args.User)) {
 				return []interface{}{false}
 			}
 
-			env.UseGas(thor.SstoreSetGas)
-			binding.AddUser(thor.Address(args.User), env.BlockContext().Time)
+			env.UseGas(powerplay.SstoreSetGas)
+			binding.AddUser(powerplay.Address(args.User), env.BlockContext().Time)
 
-			var action thor.Bytes32
+			var action powerplay.Bytes32
 			copy(action[:], "added")
-			env.Log(userEvent, thor.Address(args.Self), []thor.Bytes32{thor.BytesToBytes32(args.User[:])}, action)
+			env.Log(userEvent, powerplay.Address(args.Self), []powerplay.Bytes32{powerplay.BytesToBytes32(args.User[:])}, action)
 			return []interface{}{true}
 		}},
 		{"native_removeUser", func(env *xenv.Environment) []interface{} {
@@ -225,19 +225,19 @@ func init() {
 				User common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SloadGas)
-			if !binding.IsUser(thor.Address(args.User)) {
+			env.UseGas(powerplay.SloadGas)
+			if !binding.IsUser(powerplay.Address(args.User)) {
 				return []interface{}{false}
 			}
 
-			env.UseGas(thor.SstoreResetGas)
-			binding.RemoveUser(thor.Address(args.User))
+			env.UseGas(powerplay.SstoreResetGas)
+			binding.RemoveUser(powerplay.Address(args.User))
 
-			var action thor.Bytes32
+			var action powerplay.Bytes32
 			copy(action[:], "removed")
-			env.Log(userEvent, thor.Address(args.Self), []thor.Bytes32{thor.BytesToBytes32(args.User[:])}, action)
+			env.Log(userEvent, powerplay.Address(args.Self), []powerplay.Bytes32{powerplay.BytesToBytes32(args.User[:])}, action)
 			return []interface{}{true}
 		}},
 		{"native_sponsor", func(env *xenv.Environment) []interface{} {
@@ -246,19 +246,19 @@ func init() {
 				Sponsor common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SloadGas)
-			if binding.IsSponsor(thor.Address(args.Sponsor)) {
+			env.UseGas(powerplay.SloadGas)
+			if binding.IsSponsor(powerplay.Address(args.Sponsor)) {
 				return []interface{}{false}
 			}
 
-			env.UseGas(thor.SstoreSetGas)
-			binding.Sponsor(thor.Address(args.Sponsor), true)
+			env.UseGas(powerplay.SstoreSetGas)
+			binding.Sponsor(powerplay.Address(args.Sponsor), true)
 
-			var action thor.Bytes32
+			var action powerplay.Bytes32
 			copy(action[:], "sponsored")
-			env.Log(sponsorEvent, thor.Address(args.Self), []thor.Bytes32{thor.BytesToBytes32(args.Sponsor.Bytes())}, action)
+			env.Log(sponsorEvent, powerplay.Address(args.Self), []powerplay.Bytes32{powerplay.BytesToBytes32(args.Sponsor.Bytes())}, action)
 			return []interface{}{true}
 		}},
 		{"native_unsponsor", func(env *xenv.Environment) []interface{} {
@@ -267,19 +267,19 @@ func init() {
 				Sponsor common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SloadGas)
-			if !binding.IsSponsor(thor.Address(args.Sponsor)) {
+			env.UseGas(powerplay.SloadGas)
+			if !binding.IsSponsor(powerplay.Address(args.Sponsor)) {
 				return []interface{}{false}
 			}
 
-			env.UseGas(thor.SstoreResetGas)
-			binding.Sponsor(thor.Address(args.Sponsor), false)
+			env.UseGas(powerplay.SstoreResetGas)
+			binding.Sponsor(powerplay.Address(args.Sponsor), false)
 
-			var action thor.Bytes32
+			var action powerplay.Bytes32
 			copy(action[:], "unsponsored")
-			env.Log(sponsorEvent, thor.Address(args.Self), []thor.Bytes32{thor.BytesToBytes32(args.Sponsor.Bytes())}, action)
+			env.Log(sponsorEvent, powerplay.Address(args.Self), []powerplay.Bytes32{powerplay.BytesToBytes32(args.Sponsor.Bytes())}, action)
 			return []interface{}{true}
 		}},
 		{"native_isSponsor", func(env *xenv.Environment) []interface{} {
@@ -288,10 +288,10 @@ func init() {
 				Sponsor common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SloadGas)
-			isSponsor := binding.IsSponsor(thor.Address(args.Sponsor))
+			env.UseGas(powerplay.SloadGas)
+			isSponsor := binding.IsSponsor(powerplay.Address(args.Sponsor))
 
 			return []interface{}{isSponsor}
 		}},
@@ -301,28 +301,28 @@ func init() {
 				Sponsor common.Address
 			}
 			env.ParseArgs(&args)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(args.Self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(args.Self))
 
-			env.UseGas(thor.SloadGas)
-			if !binding.IsSponsor(thor.Address(args.Sponsor)) {
+			env.UseGas(powerplay.SloadGas)
+			if !binding.IsSponsor(powerplay.Address(args.Sponsor)) {
 				return []interface{}{false}
 			}
 
-			env.UseGas(thor.SstoreResetGas)
-			binding.SelectSponsor(thor.Address(args.Sponsor))
+			env.UseGas(powerplay.SstoreResetGas)
+			binding.SelectSponsor(powerplay.Address(args.Sponsor))
 
-			var action thor.Bytes32
+			var action powerplay.Bytes32
 			copy(action[:], "selected")
-			env.Log(sponsorEvent, thor.Address(args.Self), []thor.Bytes32{thor.BytesToBytes32(args.Sponsor.Bytes())}, action)
+			env.Log(sponsorEvent, powerplay.Address(args.Self), []powerplay.Bytes32{powerplay.BytesToBytes32(args.Sponsor.Bytes())}, action)
 
 			return []interface{}{true}
 		}},
 		{"native_currentSponsor", func(env *xenv.Environment) []interface{} {
 			var self common.Address
 			env.ParseArgs(&self)
-			binding := Prototype.Native(env.State()).Bind(thor.Address(self))
+			binding := Prototype.Native(env.State()).Bind(powerplay.Address(self))
 
-			env.UseGas(thor.SloadGas)
+			env.UseGas(powerplay.SloadGas)
 			addr := binding.CurrentSponsor()
 
 			return []interface{}{addr}
