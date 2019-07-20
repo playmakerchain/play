@@ -15,5 +15,5 @@ FROM alpine:latest
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /go/thor/bin/powerplay /usr/local/bin/
 
-EXPOSE 8669 11235 11235/udp
+EXPOSE 2843 11235 11235/udp
 ENTRYPOINT ["powerplay"]
