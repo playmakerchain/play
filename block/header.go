@@ -31,23 +31,23 @@ type Header struct {
 
 // headerBody body of header
 type headerBody struct {
-	ParentID    play.Bytes32
+	ParentID    powerplay.Bytes32
 	Timestamp   uint64
 	GasLimit    uint64
-	Beneficiary play.Address
+	Beneficiary powerplay.Address
 
 	GasUsed    uint64
 	TotalScore uint64
 
-	TxsRoot      play.Bytes32
-	StateRoot    play.Bytes32
-	ReceiptsRoot play.Bytes32
+	TxsRoot      powerplay.Bytes32
+	StateRoot    powerplay.Bytes32
+	ReceiptsRoot powerplay.Bytes32
 
 	Signature []byte
 }
 
 // ParentID returns id of parent block.
-func (h *Header) ParentID() play.Bytes32 {
+func (h *Header) ParentID() powerplay.Bytes32 {
 	return h.body.ParentID
 }
 
@@ -78,30 +78,30 @@ func (h *Header) GasUsed() uint64 {
 }
 
 // Beneficiary returns reward recipient.
-func (h *Header) Beneficiary() play.Address {
+func (h *Header) Beneficiary() powerplay.Address {
 	return h.body.Beneficiary
 }
 
 // TxsRoot returns merkle root of txs contained in this block.
-func (h *Header) TxsRoot() play.Bytes32 {
+func (h *Header) TxsRoot() powerplay.Bytes32 {
 	return h.body.TxsRoot
 }
 
 // StateRoot returns account state merkle root just afert this block being applied.
-func (h *Header) StateRoot() play.Bytes32 {
+func (h *Header) StateRoot() powerplay.Bytes32 {
 	return h.body.StateRoot
 }
 
 // ReceiptsRoot returns merkle root of tx receipts.
-func (h *Header) ReceiptsRoot() play.Bytes32 {
+func (h *Header) ReceiptsRoot() powerplay.Bytes32 {
 	return h.body.ReceiptsRoot
 }
 
 // ID computes id of block.
 // The block ID is defined as: blockNumber + hash(signingHash, signer)[4:].
-func (h *Header) ID() (id play.Bytes32) {
+func (h *Header) ID() (id powerplay.Bytes32) {
 	if cached := h.cache.id.Load(); cached != nil {
-		return cached.(play.Bytes32)
+		return cached.(powerplay.Bytes32)
 	}
 	defer func() {
 		// overwrite first 4 bytes of block hash to block number.
@@ -114,7 +114,7 @@ func (h *Header) ID() (id play.Bytes32) {
 		return
 	}
 
-	hw := play.NewBlake2b()
+	hw := powerplay.NewBlake2b()
 	hw.Write(h.SigningHash().Bytes())
 	hw.Write(signer.Bytes())
 	hw.Sum(id[:0])
@@ -123,9 +123,9 @@ func (h *Header) ID() (id play.Bytes32) {
 }
 
 // SigningHash computes hash of all header fields excluding signature.
-func (h *Header) SigningHash() (hash play.Bytes32) {
+func (h *Header) SigningHash() (hash powerplay.Bytes32) {
 	if cached := h.cache.signingHash.Load(); cached != nil {
-		return cached.(play.Bytes32)
+		return cached.(powerplay.Bytes32)
 	}
 	defer func() { h.cache.signingHash.Store(hash) }()
 
@@ -160,14 +160,14 @@ func (h *Header) withSignature(sig []byte) *Header {
 }
 
 // Signer extract signer of the block from signature.
-func (h *Header) Signer() (signer play.Address, err error) {
+func (h *Header) Signer() (signer powerplay.Address, err error) {
 	if h.Number() == 0 {
 		// special case for genesis block
-		return play.Address{}, nil
+		return powerplay.Address{}, nil
 	}
 
 	if cached := h.cache.signer.Load(); cached != nil {
-		return cached.(play.Address), nil
+		return cached.(powerplay.Address), nil
 	}
 	defer func() {
 		if err == nil {
@@ -177,10 +177,10 @@ func (h *Header) Signer() (signer play.Address, err error) {
 
 	pub, err := crypto.SigToPub(h.SigningHash().Bytes(), h.body.Signature)
 	if err != nil {
-		return play.Address{}, err
+		return powerplay.Address{}, err
 	}
 
-	signer = play.Address(crypto.PubkeyToAddress(*pub))
+	signer = powerplay.Address(crypto.PubkeyToAddress(*pub))
 	return
 }
 
@@ -226,7 +226,7 @@ func (h *Header) String() string {
 }
 
 // Number extract block number from block id.
-func Number(blockID play.Bytes32) uint32 {
+func Number(blockID powerplay.Bytes32) uint32 {
 	// first 4 bytes are over written by block number (big endian).
 	return binary.BigEndian.Uint32(blockID[:])
 }

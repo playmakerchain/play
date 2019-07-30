@@ -12,11 +12,11 @@ import (
 	"sync/atomic"
 
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/powerplay/powerplay/builtin"
-	"github.com/powerplay/powerplay/state"
-	"github.com/powerplay/powerplay/powerplay"
-	"github.com/powerplay/powerplay/tx"
-	"github.com/powerplay/powerplay/vm"
+	"github.com/playmakerchain/powerplay/builtin"
+	"github.com/playmakerchain/powerplay/powerplay"
+	"github.com/playmakerchain/powerplay/state"
+	"github.com/playmakerchain/powerplay/tx"
+	"github.com/playmakerchain/powerplay/vm"
 )
 
 // DevAccount account for development.

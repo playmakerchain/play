@@ -1026,7 +1026,7 @@ var scriptClassTests = []struct {
 			"21f11844136f6673af7cc5a4a05cd29380 " +
 			"DATA_33 " +
 			"0x02c08f3de8ee2de9be7bd770f4c10eb0" +
-			"d6ff1dd81ee96eedd3a9d4aeaf28435e80 " +
+			"d6ff1dd81ee96eedd3a9d4aeaf86695e80 " +
 			"3 CHECKMULTISIG",
 		class: NonStandardTy,
 	},

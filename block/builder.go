@@ -18,7 +18,7 @@ type Builder struct {
 }
 
 // ParentID set parent id.
-func (b *Builder) ParentID(id play.Bytes32) *Builder {
+func (b *Builder) ParentID(id powerplay.Bytes32) *Builder {
 	b.headerBody.ParentID = id
 	return b
 }
@@ -48,19 +48,19 @@ func (b *Builder) GasUsed(used uint64) *Builder {
 }
 
 // Beneficiary set recipient of reward.
-func (b *Builder) Beneficiary(addr play.Address) *Builder {
+func (b *Builder) Beneficiary(addr powerplay.Address) *Builder {
 	b.headerBody.Beneficiary = addr
 	return b
 }
 
 // StateRoot set state root.
-func (b *Builder) StateRoot(hash play.Bytes32) *Builder {
+func (b *Builder) StateRoot(hash powerplay.Bytes32) *Builder {
 	b.headerBody.StateRoot = hash
 	return b
 }
 
 // ReceiptsRoot set receipts root.
-func (b *Builder) ReceiptsRoot(hash play.Bytes32) *Builder {
+func (b *Builder) ReceiptsRoot(hash powerplay.Bytes32) *Builder {
 	b.headerBody.ReceiptsRoot = hash
 	return b
 }
