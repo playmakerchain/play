@@ -18,7 +18,7 @@ import (
 
 // NewTestnet create genesis for testnet.
 func NewTestnet() *Genesis {
-	launchTime := uint64(1530014400) // 'Tue Jun 26 2018 20:00:00 GMT+0800 (CST)'
+	launchTime := uint64(1565869157) // 'Tue Jun 26 2018 20:00:00 GMT+0800 (CST)'
 
 	// use this address as executor instead of builtin one, for test purpose
 	executor, _ := powerplay.ParseAddress("0xB5A34b62b63A6f1EE99DFD30b133B657859f8d79")
