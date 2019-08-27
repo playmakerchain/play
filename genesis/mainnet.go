@@ -18,7 +18,7 @@ import (
 
 // NewMainnet create mainnet genesis.
 func NewMainnet() *Genesis {
-	launchTime := uint64(1530316800) // '2018-06-30T00:00:00.000Z'
+	launchTime := uint64(1565187286) // '2019-08-30T00:00:00.000Z'
 
 	initialAuthorityNodes := loadAuthorityNodes()
 
